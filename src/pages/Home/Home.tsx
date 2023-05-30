@@ -6,6 +6,7 @@ import {
   userNavigation,
   navigation,
   NavigationType,
+  UserNavigationType,
 } from "./constant/home.constant.ts";
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -18,6 +19,11 @@ export default function Home() {
   const [navigationBar, setNavigationBar] = useState(navigation);
   const navigate = useNavigate();
 
+  const handleSignOut = (nav: UserNavigationType) => {
+    if (nav.name === "Sign out") {
+      navigate("/login");
+    }
+  };
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {
       if (navItem.name === item.name) {
@@ -108,6 +114,9 @@ export default function Home() {
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
                                   )}
+                                  onClick={() => {
+                                    handleSignOut(item);
+                                  }}
                                 >
                                   {item.name}
                                 </a>
@@ -188,6 +197,9 @@ export default function Home() {
                         key={item.name}
                         as="a"
                         className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                        onClick={() => {
+                          handleSignOut(item);
+                        }}
                       >
                         {item.name}
                       </Disclosure.Button>
@@ -202,14 +214,14 @@ export default function Home() {
         <div className="py-10">
           <header>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-                Dashboard
-              </h1>
+              <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900"></h1>
             </div>
           </header>
           <main>
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-              <Outlet />
+              <div className="px-4">
+                <Outlet />
+              </div>
             </div>
           </main>
         </div>

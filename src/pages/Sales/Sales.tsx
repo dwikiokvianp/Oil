@@ -1,13 +1,13 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { statuses, projects } from "./constant/sales.constant.ts";
+import { statuses, sales } from "./constant/sales.constant.ts";
 import { classNames } from "../../utils/class.mapper.utils.ts";
 
 export default function Example() {
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {projects.map((project) => (
+      {sales.map((project) => (
         <li
           key={project.id}
           className="flex items-center justify-between gap-x-6 py-5"
@@ -19,31 +19,28 @@ export default function Example() {
               </p>
               <p
                 className={classNames(
-                  statuses[project.status],
+                  statuses[project.id],
                   "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
                 )}
               >
-                {project.status}
+                {project.id}
               </p>
             </div>
             <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
               <p className="whitespace-nowrap">
                 Due on{" "}
-                <time dateTime={project.dueDateTime}>{project.dueDate}</time>
+                <time dateTime={project.created_at}>{project.created_at}</time>
               </p>
               <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
                 <circle cx={1} cy={1} r={1} />
               </svg>
-              <p className="truncate">Created by {project.createdBy}</p>
+              <p className="truncate">Created by {project.name}</p>
             </div>
           </div>
           <div className="flex flex-none items-center gap-x-4">
-            <a
-              href={project.href}
-              className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-            >
+            <p className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">
               View project<span className="sr-only">, {project.name}</span>
-            </a>
+            </p>
             <Menu as="div" className="relative flex-none">
               <Menu.Button className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
                 <span className="sr-only">Open options</span>

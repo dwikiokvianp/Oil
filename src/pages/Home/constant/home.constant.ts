@@ -3,6 +3,12 @@ export interface NavigationType {
   href: string;
   current: boolean;
 }
+
+export interface UserNavigationType {
+  id: number;
+  name: string;
+  href: string;
+}
 const user = {
   name: "Tom Cook",
   email: "tom@example.com",
@@ -13,12 +19,12 @@ const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Sales", href: "#", current: false },
   { name: "Scan", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Order", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
+  { id: 1, name: "Your Profile", href: "#" },
+  { id: 2, name: "Settings", href: "#" },
+  { id: 3, name: "Sign out", href: "#" },
 ];
 
 export { user, navigation, userNavigation };
