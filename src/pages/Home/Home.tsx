@@ -8,6 +8,7 @@ import {
   NavigationType,
 } from "./constant/home.constant.ts";
 import { useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -15,10 +16,12 @@ function classNames(...classes: any) {
 
 export default function Home() {
   const [navigationBar, setNavigationBar] = useState(navigation);
+  const navigate = useNavigate();
 
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {
       if (navItem.name === item.name) {
+        navigate("/" + item.name.toLowerCase());
         return { ...navItem, current: true };
       } else {
         return { ...navItem, current: false };
@@ -52,7 +55,6 @@ export default function Home() {
                       {navigationBar.map((item) => (
                         <a
                           key={item.name}
-                          href={item.href}
                           onClick={() => handleOnChangeNavigation(item)}
                           className={classNames(
                             item.current
@@ -102,7 +104,6 @@ export default function Home() {
                             <Menu.Item key={item.name}>
                               {({ active }) => (
                                 <a
-                                  href={item.href}
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
@@ -144,7 +145,6 @@ export default function Home() {
                       key={item.name}
                       as="a"
                       onClick={() => handleOnChangeNavigation(item)}
-                      href={item.href}
                       className={classNames(
                         item.current
                           ? "border-indigo-500 bg-indigo-50 text-indigo-700"
@@ -187,7 +187,6 @@ export default function Home() {
                       <Disclosure.Button
                         key={item.name}
                         as="a"
-                        href={item.href}
                         className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                       >
                         {item.name}
@@ -210,7 +209,7 @@ export default function Home() {
           </header>
           <main>
             <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-              this is my item
+              <Outlet />
             </div>
           </main>
         </div>
