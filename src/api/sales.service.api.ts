@@ -6,7 +6,7 @@ import type {
 } from "../type/sales.d.type.ts";
 
 const salesService = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.SALES_SERVICE_URL,
 });
 
 export const postSales = async (

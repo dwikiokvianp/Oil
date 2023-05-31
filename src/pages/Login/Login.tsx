@@ -4,10 +4,10 @@ import { useMutation } from "react-query";
 import { submitLogin } from "../../api/login.service.api.ts";
 export default function Login() {
   const [loginData, setLogin] = useState<LoginInput>({
-    email: "",
+    username: "",
     password: "",
   });
-
+  const [loginState, setLoginState] = useState("Admin Login");
   const mutation = useMutation({
     mutationFn: submitLogin,
     onMutate: (data) => {
@@ -29,6 +29,7 @@ export default function Login() {
     e.preventDefault();
     const { name, value } = e.target;
     setLogin({ ...loginData, [name]: value });
+    console.log(loginData);
   };
 
   const handleSubmitLogin = (loginData: LoginInput) => {
@@ -44,8 +45,8 @@ export default function Login() {
             src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
             alt="Your Company"
           />
-          <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+          <h2 className="mt-6 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
+            {loginState}
           </h2>
         </div>
 
@@ -61,10 +62,10 @@ export default function Login() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
+                    id="username"
+                    name="username"
+                    type="username"
+                    autoComplete="username"
                     onChange={(e) => handleOnChangeLogin(e)}
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -109,10 +110,7 @@ export default function Login() {
                 </div>
 
                 <div className="text-sm leading-6">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
+                  <a className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
                   </a>
                 </div>
@@ -130,6 +128,22 @@ export default function Login() {
                 </button>
               </div>
             </form>
+            <div className="text-sm leading-6 mt-4">
+              <button
+                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                onClick={() => {
+                  if (loginState === "Admin Login") {
+                    setLoginState("Employee Login");
+                  } else {
+                    setLoginState("Admin Login");
+                  }
+                }}
+              >
+                {loginState === "Admin Login"
+                  ? "Go To Employee Login"
+                  : "Go To Admin Login"}
+              </button>
+            </div>
 
             <div></div>
           </div>

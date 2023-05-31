@@ -1,8 +1,8 @@
 export interface LoginInput {
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface LoginResponse {
-  access_token: string;
+  token: string;
 }
