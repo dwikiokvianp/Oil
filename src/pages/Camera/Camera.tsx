@@ -15,13 +15,10 @@ export function CameraReact() {
 
     const formData = new FormData();
     formData.append("images", blobData);
-    const { data } = await axios.post(
-      "http://localhost:1921/upload",
-      formData,
-      {
-        headers: "multipart/form-data",
-      }
-    );
+    // try latter
+    const { data } = await axios.post(import.meta.env.SERVER, formData, {
+      headers: "multipart/form-data",
+    });
     console.log(data);
   }, [webcamRef]);
   return (
