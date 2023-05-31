@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { LoginInput } from "./login.type";
 import { useMutation } from "react-query";
 import { submitLogin } from "../../api/login.service.api.ts";
+import * as React from "react";
 export default function Login() {
   const [loginData, setLogin] = useState<LoginInput>({
-    username: "",
+    name: "",
     password: "",
   });
   const [loginState, setLoginState] = useState("Admin Login");
@@ -32,7 +33,12 @@ export default function Login() {
     console.log(loginData);
   };
 
-  const handleSubmitLogin = (loginData: LoginInput) => {
+  const handleSubmitLogin = (
+    e: FormEvent<HTMLFormElement>,
+    loginData: LoginInput
+  ) => {
+    console.log(loginData);
+    e.preventDefault();
     mutation.mutate(loginData);
   };
 
@@ -52,7 +58,12 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form className="space-y-6" method="POST">
+            <form
+              onSubmit={(e: FormEvent<HTMLFormElement>) => {
+                handleSubmitLogin(e, loginData);
+              }}
+              className="space-y-6"
+            >
               <div>
                 <label
                   htmlFor="email"
@@ -62,10 +73,10 @@ export default function Login() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="username"
-                    name="username"
-                    type="username"
-                    autoComplete="username"
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
                     onChange={(e) => handleOnChangeLogin(e)}
                     required
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -120,9 +131,6 @@ export default function Login() {
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  onClick={() => {
-                    handleSubmitLogin(loginData);
-                  }}
                 >
                   Sign in
                 </button>
