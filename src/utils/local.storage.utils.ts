@@ -1,6 +1,7 @@
 enum LocalStorageKeys {
-  access_token = "access_token",
+  token = "token",
 }
+
 const setLocalStorage = (key: LocalStorageKeys, value: string) => {
   localStorage.setItem(key, value);
 };

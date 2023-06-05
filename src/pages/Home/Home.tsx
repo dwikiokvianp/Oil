@@ -27,7 +27,11 @@ export default function Home() {
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {
       if (navItem.name === item.name) {
-        navigate("/" + item.name.toLowerCase());
+        if (item.name === "Dashboard") {
+          navigate("/");
+        } else {
+          navigate("/" + item.name.toLowerCase());
+        }
         return { ...navItem, current: true };
       } else {
         return { ...navItem, current: false };

@@ -1,17 +1,50 @@
-import { orderInput, OrderInputState } from "./constant/order.constant.ts";
+import { orderInput } from "./constant/order.constant.ts";
 import { useState } from "react";
+import type { SalesInput } from "../Sales/sales.d.type.ts";
+import { useMutation } from "react-query";
+import { postOrder } from "../../api/order.service.api.ts";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Order() {
-  const [orderLogin, setOrderLogin] = useState<OrderInputState>({});
+  const [orderData, setOrderData] = useState<SalesInput>({
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    liter: 0,
+  });
+
+  const mutation = useMutation({
+    mutationFn: postOrder,
+    onMutate: () => {
+      toast.loading("Posting your order...", {
+        id: "save",
+      });
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      toast.error("An error occurred");
+    },
+    onSettled: () => {
+      toast.dismiss("save");
+    },
+  });
 
   const handleOnChangeOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const { name, value } = e.target;
-    setOrderLogin({ ...orderLogin, [name]: value });
+    setOrderData({ ...orderData, [name]: value });
   };
 
   return (
-    <form>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        mutation.mutate(orderData);
+      }}
+    >
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -59,6 +92,7 @@ export default function Order() {
         >
           Save
         </button>
+        <Toaster />
       </div>
     </form>
   );

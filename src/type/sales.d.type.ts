@@ -33,3 +33,17 @@ export interface GetSales {
   price: number;
   created_at: string;
 }
+
+export interface Sales {
+  id: number;
+  user_id: number;
+  customer: string;
+  liter: number;
+  price: number;
+  created_at: string;
+  confirmed: boolean;
+}
+
+export interface SalesResponseUpdated {
+  orders: Sales[];
+}

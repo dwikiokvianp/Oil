@@ -1,36 +1,23 @@
 import axios from "axios";
-import type {
-  GetSales,
-  SalesInput,
-  SalesResponse,
-} from "../type/sales.d.type.ts";
+import type { SalesResponseUpdated } from "../type/sales.d.type.ts";
 
 const salesService = axios.create({
-  baseURL: import.meta.env.SALES_SERVICE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL_ORDER,
 });
 
-export const postSales = async (
-  salesData: Omit<SalesInput, "id">
-): Promise<SalesResponse> => {
-  const { data }: { data: SalesResponse } = await salesService.post("/sales", {
-    ...salesData,
-  });
+export const getSales = async (): Promise<SalesResponseUpdated> => {
+  const { data } = await salesService.get("/orders");
   return data;
 };
 
-export const getSales = async () => {
-  const { data }: { data: GetSales[] } = await salesService.get("/sales");
-  return data;
-};
+interface UpdatedStatusResponse {
+  message: string;
+  otp: string;
+}
 
-export const getSalesById = async (id: number) => {
-  const { data }: { data: GetSales } = await salesService.get(`/sales/${id}`);
-  return data;
-};
-
-export const updateSales = async (id: number) => {
-  const { data }: { data: SalesResponse } = await salesService.put(
-    `/admin/config/${id}`
-  );
+export const confirmOrder = async (
+  id: number
+): Promise<UpdatedStatusResponse> => {
+  const { data } = await salesService.post(`/confirm/${id}`);
   return data;
 };

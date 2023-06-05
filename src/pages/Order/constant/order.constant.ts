@@ -39,7 +39,7 @@ export const orderInput = [
   {
     id: 4,
     name: "Street Address",
-    state: "street",
+    state: "address",
     type: "text",
     placeholder: "Enter your street address",
   },
