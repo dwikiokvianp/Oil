@@ -29,7 +29,7 @@ export default function Example() {
         toast.success(data.message);
       });
     },
-    onError: (error) => {
+    onError: (error: any) => {
       const message = error.response.data.error;
       toast.error(message);
     },
@@ -52,7 +52,7 @@ export default function Example() {
               </p>
               <p
                 className={classNames(
-                  statuses[project.id],
+                  statuses[project.confirmed ? "confirmed" : "pending"],
                   "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
                 )}
               >

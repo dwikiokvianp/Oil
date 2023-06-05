@@ -24,7 +24,7 @@ export default function Order() {
     onSuccess: (data) => {
       toast.success(data.message);
     },
-    onError: (error) => {
+    onError: () => {
       toast.error("An error occurred");
     },
     onSettled: () => {

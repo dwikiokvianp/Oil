@@ -29,6 +29,8 @@ export default function Scan() {
               const scanData = result.getText();
               setData(scanData);
               setOpen(true);
+            } else {
+              console.log(err);
             }
           }}
         />

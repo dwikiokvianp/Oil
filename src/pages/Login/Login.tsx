@@ -33,7 +33,7 @@ export default function Login() {
   const [loginState, setLoginState] = useState("Admin Login");
   const mutation = useMutation({
     mutationFn: submitLogin,
-    onMutate: (data) => {
+    onMutate: () => {
       toast.loading("Logging in...", {
         id: "login",
       });
@@ -43,7 +43,7 @@ export default function Login() {
       toast.success("Login successful!");
       navigate("/");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       const message = error.response.data.message;
       toast.error(message);
     },

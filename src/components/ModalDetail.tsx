@@ -1,21 +1,14 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useEffect } from "react";
-import axios from "axios";
 
 export default function ModalDetail({
   open,
   setOpen,
-  id,
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  id: number;
 }) {
   const cancelButtonRef = useRef(null);
-  //hao
-
-  useEffect(() => {}, []);
 
   return (
     <Transition.Root show={open} as={Fragment}>
