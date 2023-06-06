@@ -1,5 +1,5 @@
-import { classNames } from "../utils/class.mapper.utils.ts";
-import { NavigationType } from "../pages/Home/constant/home.constant.ts";
+import { classNames } from "../../utils/class.mapper.utils.ts";
+import { NavigationType } from "../../pages/Home/constant/home.constant.ts";
 
 export function NavigationTop({
   navigationBar,

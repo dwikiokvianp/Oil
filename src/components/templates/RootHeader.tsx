@@ -1,12 +1,12 @@
-import { ImageTop } from "./ImageTop.tsx";
-import { NavigationTop } from "./NavigationTop.tsx";
-import { NotificationIcon } from "./NotificationIcon.tsx";
-import { ProfileDropdown } from "./ProfileDropdown.tsx";
-import { MobileMenuIcon } from "./MobileMenuIcon.tsx";
+import { ImageTop } from "../molecules/ImageTop.tsx";
+import { NavigationTop } from "../organisms/NavigationTop.tsx";
+import { NotificationIcon } from "../atoms/NotificationIcon.tsx";
+import { ProfileDropdown } from "../organisms/ProfileDropdown.tsx";
+import { MobileMenuIcon } from "../molecules/MobileMenuIcon.tsx";
 import {
   NavigationType,
   UserNavigationType,
-} from "../pages/Home/constant/home.constant.ts";
+} from "../../pages/Home/constant/home.constant.ts";
 
 interface RootHeaderProps {
   navigationBar: NavigationType[];

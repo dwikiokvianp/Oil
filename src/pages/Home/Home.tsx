@@ -8,9 +8,9 @@ import {
   LocalStorageKeys,
   removeLocalStorage,
 } from "../../utils/local.storage.utils.ts";
-import { Container } from "../../components/Container.tsx";
-import { NavigationDrawerMobile } from "../../components/NavigationDrawerMobile.tsx";
-import { RootHeader } from "../../components/RootHeader.tsx";
+import { Container } from "../../components/templates/Container.tsx";
+import { NavigationDrawerMobile } from "../../components/organisms/NavigationDrawerMobile.tsx";
+import { RootHeader } from "../../components/templates/RootHeader.tsx";
 
 export default function Home() {
   const isLogin = useLoginStore((state) => state.isAdmin);
