@@ -121,6 +121,7 @@ export default function Register() {
                 </button>
               </section>
             </form>
+
             <Toaster />
           </div>
         </section>
