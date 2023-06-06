@@ -2,17 +2,15 @@ import * as React from "react";
 import { FormEvent, useState } from "react";
 import { LoginInput } from "./login.type";
 import { useMutation } from "react-query";
-import { submitLogin } from "../../api/login.service.api.ts";
+import { submitRegister } from "../../api/login.service.api.ts";
 import {
   LocalStorageKeys,
   setLocalStorage,
 } from "../../utils/local.storage.utils.ts";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useLoginStore } from "../../store/login.slice.ts";
 
-export default function Login() {
-  const switchUser = useLoginStore((state) => state.setReverse);
+export default function Register() {
   const LoginForm = [
     {
       id: 1,
@@ -32,9 +30,8 @@ export default function Login() {
     name: "",
     password: "",
   });
-  const [loginState, setLoginState] = useState("Admin Login");
   const mutation = useMutation({
-    mutationFn: submitLogin,
+    mutationFn: submitRegister,
     onMutate: () => {
       toast.loading("Logging in...", {
         id: "login",
@@ -43,7 +40,9 @@ export default function Login() {
     onSuccess: (data) => {
       setLocalStorage(LocalStorageKeys.token, data.token);
       toast.success("Register successful!");
-      navigate("/");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     },
     onError: (error: any) => {
       const message = error.response.data.error;
@@ -60,12 +59,12 @@ export default function Login() {
     setLogin({ ...loginData, [name]: value });
   };
 
-  const handleSubmitLogin = (
+  const handleSubmitRegister = (
     e: FormEvent<HTMLFormElement>,
-    loginData: LoginInput
+    registerData: LoginInput
   ) => {
     e.preventDefault();
-    mutation.mutate(loginData);
+    mutation.mutate(registerData);
   };
 
   return (
@@ -78,7 +77,7 @@ export default function Login() {
             alt="Your Company"
           />
           <h2 className="mt-6 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">
-            {loginState}
+            Register New Account
           </h2>
         </section>
 
@@ -86,7 +85,7 @@ export default function Login() {
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             <form
               onSubmit={(e: FormEvent<HTMLFormElement>) => {
-                handleSubmitLogin(e, loginData);
+                handleSubmitRegister(e, loginData);
               }}
               className="space-y-6"
             >
@@ -118,37 +117,10 @@ export default function Login() {
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Register
                 </button>
               </section>
             </form>
-            <div className="text-sm leading-6 mt-4">
-              <button
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
-                onClick={() => {
-                  if (loginState === "Admin Login") {
-                    setLoginState("Employee Login");
-                  } else {
-                    setLoginState("Admin Login");
-                  }
-                  switchUser();
-                }}
-              >
-                {loginState === "Admin Login"
-                  ? "Go To Employee Login"
-                  : "Go To Admin Login"}
-              </button>
-            </div>
-            <div className="text-sm leading-6 mt-4">
-              <button
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
-                onClick={() => {
-                  navigate("/register");
-                }}
-              >
-                Don't have an account? Register here
-              </button>
-            </div>
             <Toaster />
           </div>
         </section>

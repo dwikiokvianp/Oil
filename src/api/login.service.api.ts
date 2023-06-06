@@ -14,3 +14,14 @@ export const submitLogin = async (
   const { data } = await userService.post("/login", userLogin);
   return data;
 };
+
+interface RegisterOutput {
+  id: number;
+  email: string;
+  name: string;
+}
+
+export const submitRegister = async (userRegister: LoginInput) => {
+  const { data } = await userService.post("/register", userRegister);
+  return data;
+};

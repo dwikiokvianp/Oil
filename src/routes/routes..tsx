@@ -6,6 +6,7 @@ import Scan from "../pages/Scan/Scan.tsx";
 import Order from "../pages/Order/Order.tsx";
 import { CameraReact } from "../pages/Camera/Camera.tsx";
 import Dashboard from "../pages/Dashboard/Dashboard.tsx";
+import Register from "../pages/Register/Register.tsx";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const BrowserRouter = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 
