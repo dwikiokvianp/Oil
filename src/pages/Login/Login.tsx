@@ -42,6 +42,7 @@ export default function Login() {
     },
     onSuccess: (data) => {
       setLocalStorage(LocalStorageKeys.token, data.token);
+      console.log(data);
       toast.success("Register successful!");
       navigate("/");
     },
@@ -146,7 +147,7 @@ export default function Login() {
                   navigate("/register");
                 }}
               >
-                Don't have an account? Register here
+                haDon't have an account? Register here
               </button>
             </div>
             <Toaster />
