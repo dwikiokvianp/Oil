@@ -10,7 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 const videoConstraints = {
   width: 400,
   height: 400,
-  facingMode: "user",
+  facingMode: { exact: "environment" },
 };
 
 export function CameraReact() {
