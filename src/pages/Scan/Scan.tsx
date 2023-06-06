@@ -15,25 +15,32 @@ export default function Scan() {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold text-gray-900">Scan</h1>
-      <div className="justify-center flex">
-        <BarcodeScannerComponent
-          width={700}
-          height={500}
-          stopStream={stopStream}
-          onUpdate={(err, result) => {
-            if (result) {
-              toast.dismiss("scan");
-              toast.success("Found your QR Code!");
-              setStopStream(true);
-              const scanData = result.getText();
-              setData(scanData);
-              setOpen(true);
-            } else {
-              console.log(err);
-            }
-          }}
-        />
+      <div className="justify-center flex flex-col h-[80vh] items-center">
+        <h1 className="text-3xl font-semibold text-gray-900 text-center mb-2">
+          Scan
+        </h1>
+        <div className="border-2 border-blue-700 rounded">
+          <div className="p-1">
+            <BarcodeScannerComponent
+              width={600}
+              height={500}
+              stopStream={stopStream}
+              facingMode={"user"}
+              onUpdate={(err, result) => {
+                if (result) {
+                  toast.dismiss("scan");
+                  toast.success("Found your QR Code!");
+                  setStopStream(true);
+                  const scanData = result.getText();
+                  setData(scanData);
+                  setOpen(true);
+                } else {
+                  console.log(err);
+                }
+              }}
+            />
+          </div>
+        </div>
         <Toaster />
         <ModalScan open={open} setOpen={setOpen} data={data} />
       </div>
