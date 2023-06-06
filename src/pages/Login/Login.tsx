@@ -147,7 +147,7 @@ export default function Login() {
                   navigate("/register");
                 }}
               >
-                haDon't have an account? Register here
+                Don't have an account? Register here
               </button>
             </div>
             <Toaster />
