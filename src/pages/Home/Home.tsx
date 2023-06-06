@@ -1,16 +1,20 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import type { UserNavigationType } from "./constant/home.constant.ts";
 import {
-  user,
-  userNavigation,
   navigation,
   NavigationType,
+  user,
+  userNavigation,
 } from "./constant/home.constant.ts";
-import type { UserNavigationType } from "./constant/home.constant.ts";
-import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/login.slice.ts";
+import {
+  getLocalStorage,
+  LocalStorageKeys,
+  removeLocalStorage,
+} from "../../utils/local.storage.utils.ts";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -30,6 +34,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const handleSignOut = (nav: UserNavigationType) => {
+    removeLocalStorage(LocalStorageKeys.token);
     if (nav.name === "Sign out") {
       navigate("/login");
     }
@@ -191,7 +196,7 @@ export default function Home() {
                     </div>
                     <div className="ml-3">
                       <div className="text-base font-medium text-gray-800">
-                        {user.name}
+                        {getLocalStorage(LocalStorageKeys.name)}
                       </div>
                       <div className="text-sm font-medium text-gray-500">
                         {user.email}

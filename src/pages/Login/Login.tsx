@@ -42,7 +42,7 @@ export default function Login() {
     },
     onSuccess: (data) => {
       setLocalStorage(LocalStorageKeys.token, data.token);
-      console.log(data);
+      setLocalStorage(LocalStorageKeys.name, data.name);
       toast.success("Register successful!");
       navigate("/");
     },
