@@ -25,7 +25,7 @@ export default function Scan() {
               width={600}
               height={500}
               stopStream={stopStream}
-              facingMode={"user"}
+              facingMode={"environment"}
               onUpdate={(err, result) => {
                 if (result) {
                   toast.dismiss("scan");
