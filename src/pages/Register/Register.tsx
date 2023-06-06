@@ -1,5 +1,4 @@
-import * as React from "react";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { LoginInput } from "./login.type";
 import { useMutation } from "react-query";
 import { submitRegister } from "../../api/login.service.api.ts";
@@ -11,24 +10,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import type { CustomErrorType } from "../../type/axios.type";
+import { InputForm } from "./register.constant.ts";
+import { ButtonAuth } from "../../components/ButtonAuth.tsx";
 
 export default function Register() {
-  const LoginForm = [
-    {
-      id: 1,
-      label: "Username",
-      name: "name",
-      type: "text",
-    },
-    {
-      id: 2,
-      label: "Password",
-      name: "password",
-      type: "password",
-    },
-  ];
   const navigate = useNavigate();
-  const [loginData, setLogin] = useState<LoginInput>({
+  const [registerData, setRegisterData] = useState<LoginInput>({
     name: "",
     password: "",
   });
@@ -42,9 +29,7 @@ export default function Register() {
     onSuccess: (data) => {
       setLocalStorage(LocalStorageKeys.token, data.token);
       toast.success("Register successful!");
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      navigate("/login");
     },
     onError: (error: AxiosError<CustomErrorType>) => {
       const message = error.response?.data.error;
@@ -54,20 +39,6 @@ export default function Register() {
       toast.dismiss("login");
     },
   });
-
-  const handleOnChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setLogin({ ...loginData, [name]: value });
-  };
-
-  const handleSubmitRegister = (
-    e: FormEvent<HTMLFormElement>,
-    registerData: LoginInput
-  ) => {
-    e.preventDefault();
-    mutation.mutate(registerData);
-  };
 
   return (
     <>
@@ -86,12 +57,13 @@ export default function Register() {
         <section className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
             <form
-              onSubmit={(e: FormEvent<HTMLFormElement>) => {
-                handleSubmitRegister(e, loginData);
+              onSubmit={(e) => {
+                e.preventDefault();
+                mutation.mutate(registerData);
               }}
               className="space-y-6"
             >
-              {LoginForm.map((item) => {
+              {InputForm.map((item) => {
                 return (
                   <div key={item.id}>
                     <label
@@ -106,7 +78,11 @@ export default function Register() {
                         name={item.name}
                         type={item.type}
                         autoComplete={item.name}
-                        onChange={(e) => handleOnChangeLogin(e)}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          const { name, value } = e.target;
+                          setRegisterData({ ...registerData, [name]: value });
+                        }}
                         required
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
@@ -114,14 +90,7 @@ export default function Register() {
                   </div>
                 );
               })}
-              <section>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Register
-                </button>
-              </section>
+              <ButtonAuth name={"register"} />
             </form>
 
             <Toaster />

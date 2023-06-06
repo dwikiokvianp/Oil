@@ -13,6 +13,7 @@ import { useLoginStore } from "../../store/login.slice.ts";
 import { AxiosError } from "axios";
 import { CustomErrorType } from "../../type/axios.type";
 import { LoginForm } from "./login.constant.ts";
+import { ButtonAuth } from "../../components/ButtonAuth.tsx";
 
 export default function Login() {
   const switchUser = useLoginStore((state) => state.setReverse);
@@ -104,24 +105,17 @@ export default function Login() {
                   </div>
                 );
               })}
-              <section>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Sign in
-                </button>
-              </section>
+              <ButtonAuth name={"Login"} />
             </form>
             <div className="text-sm leading-6 mt-4">
               <button
                 className="font-semibold text-indigo-600 hover:text-indigo-500"
                 onClick={() => {
-                  if (loginState === "Admin Login") {
-                    setLoginState("Employee Login");
-                  } else {
-                    setLoginState("Admin Login");
-                  }
+                  setLoginState(
+                    loginState === "Admin Login"
+                      ? "Employee Login"
+                      : "Admin Login"
+                  );
                   switchUser();
                 }}
               >
