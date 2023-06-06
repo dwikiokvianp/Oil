@@ -15,10 +15,7 @@ import {
   LocalStorageKeys,
   removeLocalStorage,
 } from "../../utils/local.storage.utils.ts";
-
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../utils/class.mapper.utils.ts";
 
 export default function Home() {
   const isLogin = useLoginStore((state) => state.isAdmin);
