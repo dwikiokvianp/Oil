@@ -15,12 +15,6 @@ export const submitLogin = async (
   return data;
 };
 
-interface RegisterOutput {
-  id: number;
-  email: string;
-  name: string;
-}
-
 export const submitRegister = async (userRegister: LoginInput) => {
   const { data } = await userService.post("/register", userRegister);
   return data;
