@@ -6,17 +6,27 @@ import {
   userNavigation,
   navigation,
   NavigationType,
-  UserNavigationType,
 } from "./constant/home.constant.ts";
+import type { UserNavigationType } from "./constant/home.constant.ts";
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useLoginStore } from "../../store/login.slice.ts";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Home() {
-  const [navigationBar, setNavigationBar] = useState(navigation);
+  const isLogin = useLoginStore((state) => state.isAdmin);
+  console.log("isLogin", isLogin);
+  let my_navigation = navigation;
+  if (isLogin) {
+    my_navigation = navigation.slice(0, 3);
+  } else {
+    my_navigation = navigation.slice(3);
+    my_navigation.push(navigation[0]);
+  }
+  const [navigationBar, setNavigationBar] = useState(my_navigation);
   const navigate = useNavigate();
 
   const handleSignOut = (nav: UserNavigationType) => {

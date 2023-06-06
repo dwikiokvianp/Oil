@@ -9,8 +9,10 @@ import {
 } from "../../utils/local.storage.utils.ts";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useLoginStore } from "../../store/login.slice.ts";
 
 export default function Login() {
+  const switchUser = useLoginStore((state) => state.setReverse);
   const LoginForm = [
     {
       id: 1,
@@ -129,6 +131,7 @@ export default function Login() {
                   } else {
                     setLoginState("Admin Login");
                   }
+                  switchUser();
                 }}
               >
                 {loginState === "Admin Login"

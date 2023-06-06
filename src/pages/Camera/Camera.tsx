@@ -1,15 +1,18 @@
 import Webcam from "react-webcam";
 import { useCallback, useState, useRef } from "react";
 import { AiFillAlert, AiFillCamera } from "react-icons/ai";
-import { useEffect } from "react";
 import Modal from "../../components/Modal.tsx";
+import { dataURLtoFile } from "../../utils/camera.utils.ts";
+import axios from "axios";
 import { useMutation } from "react-query";
+import toast, { Toaster } from "react-hot-toast";
 
 const videoConstraints = {
   width: 400,
   height: 400,
   facingMode: "user",
 };
+
 export function CameraReact() {
   const [open, setOpen] = useState(false);
   const [picture, setPicture] = useState([
@@ -17,89 +20,66 @@ export function CameraReact() {
       id: 1,
       name: "photo_ktp",
       photo: "",
+      convert: "",
     },
     {
       id: 2,
       name: "photo_orang",
       photo: "",
+      convert: "",
     },
     {
       id: 3,
       name: "photo_tangki",
       photo: "",
+      convert: "",
     },
   ]);
   const [id, setId] = useState(1);
   const webcamRef: any = useRef(null);
-  const capture = useCallback(
-    (id: number) => {
-      const pictureSrc = webcamRef.current.getScreenshot();
-      setPicture((prevPicture) =>
-        prevPicture.map((item) =>
-          item.id === id ? { ...item, photo: pictureSrc } : item
-        )
+  const mutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      const { data } = await axios.post(
+        import.meta.env.VITE_BASE_URL_REPORT,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      console.log(picture);
+      return data;
     },
-    [picture]
-  );
-  useEffect(() => {
-    console.log(id);
-  }, [id]);
-
-  const uploadPhotosMutation = useMutation(
-    (photos: Blob[]) => {
-      const formData = new FormData();
-      photos.forEach((photo) => {
-        formData.append("files", photo, "photo.jpg");
-      });
-
-      return fetch("http://13.250.44.129:8081/api/trans", {
-        method: "POST",
-        body: formData,
+    onMutate: () => {
+      toast.loading("Posting your photos...", {
+        id: "save",
       });
     },
-    {
-      onMutate: () => {
-        console.log("onMutate");
-      },
-      onSuccess: (data) => {
-        console.log("onSuccess");
-        console.log(data);
-      },
-      onError: (error) => {
-        console.log("onError");
-        console.log(error);
-      },
-    }
-  );
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onSettled: () => {
+      toast.dismiss("save");
+    },
+  });
+  const capture = useCallback((id: number) => {
+    const pictureSrc = webcamRef.current.getScreenshot();
+    setPicture((prevPicture) =>
+      prevPicture.map((item) =>
+        item.id === id ? { ...item, photo: pictureSrc } : item
+      )
+    );
+  }, []);
 
-  const handleUpload = () => {
-    const photosToUpload = picture
-      .map((item) => item.photo)
-      .filter((photo) => photo !== null);
+  const uploadFile = () => {
+    const formData = new FormData();
+    const random = Math.floor(Math.random() * 1000000);
+    picture.map((item) => {
+      const file = dataURLtoFile(item.photo, item.name);
+      formData.append(item.name, file, `${item.name}-${random}.jpg`);
+    });
 
-    if (photosToUpload.length === 3) {
-      const blobPhotos = photosToUpload.map((photo) => {
-        const base64Data = photo.replace(/^data:image\/jpeg;base64,/, "");
-        return base64ToBlob(base64Data, "image/jpeg");
-      });
-
-      uploadPhotosMutation.mutate(blobPhotos);
-    } else {
-      console.log("Please capture all three photos before uploading.");
-    }
-  };
-
-  const base64ToBlob = (base64Data: string, contentType: string) => {
-    const byteCharacters = atob(base64Data);
-    const byteArrays = new Uint8Array(byteCharacters.length);
-
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteArrays[i] = byteCharacters.charCodeAt(i);
-    }
-
-    return new Blob([byteArrays], { type: contentType });
+    mutation.mutate(formData);
   };
 
   return (
@@ -118,39 +98,32 @@ export function CameraReact() {
           className="border-2 border-blue-700 rounded-xl"
         />
       </div>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          capture(id);
-          setId(id + 1);
-        }}
-      >
-        <div className="w-screen flex flex-col justify-center items-center">
-          <div className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2">
-            Capture photo
-            <AiFillCamera />
-          </div>
-          {id > 3 ? (
-            <div
-              onClick={() => {
-                setOpen(!open);
-              }}
-              className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
-            >
-              Preview Photo
-              <AiFillAlert />
-            </div>
-          ) : null}
-        </div>
-        <button
-          onClick={() => {
-            handleUpload();
+      <div className="w-screen flex flex-col justify-center items-center">
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            capture(id);
+            setId(id + 1);
           }}
+          className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
         >
-          Upload
-        </button>
-        <Modal data={picture} open={open} setOpen={setOpen} />
-      </button>
+          Capture photo
+          <AiFillCamera />
+        </div>
+        {id > 3 ? (
+          <div
+            onClick={() => {
+              setOpen(!open);
+            }}
+            className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
+          >
+            Preview And Upload Photo
+            <AiFillAlert />
+          </div>
+        ) : null}
+      </div>
+      <Modal upload={uploadFile} data={picture} open={open} setOpen={setOpen} />
+      <Toaster />
     </div>
   );
 }
