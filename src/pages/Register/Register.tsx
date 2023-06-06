@@ -9,6 +9,8 @@ import {
 } from "../../utils/local.storage.utils.ts";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import type { CustomErrorType } from "../../type/axios.type";
 
 export default function Register() {
   const LoginForm = [
@@ -44,9 +46,9 @@ export default function Register() {
         navigate("/login");
       }, 2000);
     },
-    onError: (error: any) => {
-      const message = error.response.data.error;
-      toast.error(message);
+    onError: (error: AxiosError<CustomErrorType>) => {
+      const message = error.response?.data.error;
+      toast.error(message as string);
     },
     onSettled: () => {
       toast.dismiss("login");

@@ -10,23 +10,12 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/login.slice.ts";
+import { AxiosError } from "axios";
+import { CustomErrorType } from "../../type/axios.type";
+import { LoginForm } from "./login.constant.ts";
 
 export default function Login() {
   const switchUser = useLoginStore((state) => state.setReverse);
-  const LoginForm = [
-    {
-      id: 1,
-      label: "Username",
-      name: "name",
-      type: "text",
-    },
-    {
-      id: 2,
-      label: "Password",
-      name: "password",
-      type: "password",
-    },
-  ];
   const navigate = useNavigate();
   const [loginData, setLogin] = useState<LoginInput>({
     name: "",
@@ -41,14 +30,15 @@ export default function Login() {
       });
     },
     onSuccess: (data) => {
-      setLocalStorage(LocalStorageKeys.token, data.token);
-      setLocalStorage(LocalStorageKeys.name, data.name);
+      const { token, name } = data;
+      setLocalStorage(LocalStorageKeys.token, token);
+      setLocalStorage(LocalStorageKeys.name, name);
       toast.success("Register successful!");
       navigate("/");
     },
-    onError: (error: any) => {
-      const message = error.response.data.error;
-      toast.error(message);
+    onError: (error: AxiosError<CustomErrorType>) => {
+      const message = error.response?.data.error;
+      toast.error(message as string);
     },
     onSettled: () => {
       toast.dismiss("login");

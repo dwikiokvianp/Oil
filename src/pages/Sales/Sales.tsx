@@ -9,8 +9,9 @@ import { getTime } from "../../utils/day.converter.ts";
 import toast, { Toaster } from "react-hot-toast";
 import ModalDetail from "../../components/ModalDetail.tsx";
 import { useState } from "react";
+import { AxiosError } from "axios";
 
-export default function Example() {
+export default function Sales() {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const { data } = useQuery("sales", {
@@ -29,8 +30,8 @@ export default function Example() {
         toast.success(data.message);
       });
     },
-    onError: (error: any) => {
-      const message = error.response.data.error;
+    onError: (error: AxiosError) => {
+      const message = (error.response?.data as { error: string })?.error;
       toast.error(message);
     },
     onSettled: () => {

@@ -1,42 +1,18 @@
 import Webcam from "react-webcam";
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState, useRef, RefObject } from "react";
 import { AiFillAlert, AiFillCamera } from "react-icons/ai";
 import Modal from "../../components/Modal.tsx";
 import { dataURLtoFile } from "../../utils/camera.utils.ts";
 import axios from "axios";
 import { useMutation } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
-
-const videoConstraints = {
-  width: 400,
-  height: 400,
-  facingMode: { exact: "environment" },
-};
+import { CameraForm, videoConstraints } from "./camera.constant.ts";
 
 export function CameraReact() {
   const [open, setOpen] = useState(false);
-  const [picture, setPicture] = useState([
-    {
-      id: 1,
-      name: "photo_ktp",
-      photo: "",
-      convert: "",
-    },
-    {
-      id: 2,
-      name: "photo_orang",
-      photo: "",
-      convert: "",
-    },
-    {
-      id: 3,
-      name: "photo_tangki",
-      photo: "",
-      convert: "",
-    },
-  ]);
+  const [picture, setPicture] = useState(CameraForm);
   const [id, setId] = useState(1);
-  const webcamRef: any = useRef(null);
+  const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       const { data } = await axios.post(
@@ -63,10 +39,10 @@ export function CameraReact() {
     },
   });
   const capture = useCallback((id: number) => {
-    const pictureSrc = webcamRef.current.getScreenshot();
+    const pictureSrc = webcamRef.current?.getScreenshot();
     setPicture((prevPicture) =>
       prevPicture.map((item) =>
-        item.id === id ? { ...item, photo: pictureSrc } : item
+        item.id === id ? { ...item, photo: pictureSrc || "" } : item
       )
     );
   }, []);

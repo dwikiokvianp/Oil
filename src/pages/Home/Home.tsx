@@ -22,14 +22,9 @@ function classNames(...classes: any) {
 
 export default function Home() {
   const isLogin = useLoginStore((state) => state.isAdmin);
-  console.log("isLogin", isLogin);
-  let my_navigation = navigation;
-  if (isLogin) {
-    my_navigation = navigation.slice(0, 3);
-  } else {
-    my_navigation = navigation.slice(3);
-    my_navigation.push(navigation[0]);
-  }
+  const my_navigation = isLogin
+    ? navigation.slice(0, 3)
+    : navigation.slice(3).concat(navigation[0]);
   const [navigationBar, setNavigationBar] = useState(my_navigation);
   const navigate = useNavigate();
 
@@ -41,17 +36,16 @@ export default function Home() {
   };
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {
-      if (navItem.name === item.name) {
-        if (item.name === "Dashboard") {
-          navigate("/");
-        } else {
-          navigate("/" + item.name.toLowerCase());
-        }
-        return { ...navItem, current: true };
-      } else {
-        return { ...navItem, current: false };
+      const isDashboard = item.name === "Dashboard";
+      const current = navItem.name === item.name;
+
+      if (current) {
+        navigate(isDashboard ? "/" : `/${item.name.toLowerCase()}`);
       }
+
+      return { ...navItem, current };
     });
+
     setNavigationBar(updatedNavigation);
   };
 
