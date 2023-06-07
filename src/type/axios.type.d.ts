@@ -1,3 +1,3 @@
 export interface CustomErrorType {
-  error: string;
+  message: string;
 }

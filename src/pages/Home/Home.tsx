@@ -21,8 +21,9 @@ export default function Home() {
   const navigate = useNavigate();
 
   const handleSignOut = (nav: UserNavigationType) => {
+    if (nav.name !== "Sign out") return;
     removeLocalStorage(LocalStorageKeys.token);
-    if (nav.name === "Sign out") navigate("/login");
+    navigate("/login");
   };
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {

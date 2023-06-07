@@ -21,12 +21,14 @@ export function CameraReact() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       return data;
     },
     onMutate: () => {
+      console.log("onMutate");
       toast.loading("Posting your photos...", {
         id: "save",
       });
@@ -63,40 +65,44 @@ export function CameraReact() {
       <h2 className="mb-5 text-center font-bold">
         {id === 1 ? "Photo KTP" : id === 2 ? "Photo Orang" : "Photo Tangki"}
       </h2>
-      <div className=" flex justify-center items-center">
-        <Webcam
-          audio={false}
-          height={400}
-          ref={webcamRef}
-          width={400}
-          screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
-          className="border-2 border-blue-700 rounded-xl"
-        />
-      </div>
-      <div className="w-screen flex flex-col justify-center items-center">
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            capture(id);
-            setId(id + 1);
-          }}
-          className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
-        >
-          Capture photo
-          <AiFillCamera />
+      <div className="">
+        <div className=" flex justify-center items-center">
+          <Webcam
+            audio={false}
+            height={400}
+            ref={webcamRef}
+            width={400}
+            screenshotFormat="image/jpeg"
+            videoConstraints={videoConstraints}
+            className="border-2 border-blue-700 rounded-xl"
+          />
         </div>
-        {id > 3 ? (
-          <div
-            onClick={() => {
-              setOpen(!open);
-            }}
-            className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
-          >
-            Preview And Upload Photo
-            <AiFillAlert />
+        <div className="w-full flex justify-center p-2">
+          <div className="w-[30vh] flex flex-col">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                capture(id);
+                setId(id + 1);
+              }}
+              className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
+            >
+              Capture photo
+              <AiFillCamera />
+            </button>
+            {id > 3 ? (
+              <button
+                onClick={() => {
+                  setOpen(!open);
+                }}
+                className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
+              >
+                Preview And Upload Photo
+                <AiFillAlert />
+              </button>
+            ) : null}
           </div>
-        ) : null}
+        </div>
       </div>
       <Modal upload={uploadFile} data={picture} open={open} setOpen={setOpen} />
       <Toaster />

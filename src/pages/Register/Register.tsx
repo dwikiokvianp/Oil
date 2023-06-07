@@ -8,27 +8,30 @@ import { AxiosError } from "axios";
 import type { CustomErrorType } from "../../type/axios.type";
 import { FormLogin } from "../../components/organisms/FormLogin.tsx";
 import { AuthHeader } from "../../components/molecules/LoginHeader.tsx";
+import { useLoginStore } from "../../store/login.slice.ts";
 
 export default function Register() {
   const navigate = useNavigate();
+  const isAdmin = useLoginStore((state) => state.isAdmin);
   const [registerData, setRegisterData] = useState<LoginInput>({
     name: "",
     password: "",
+    role: isAdmin ? "PETUGAS" : "ADMIN",
   });
   const mutation = useMutation({
     mutationFn: submitRegister,
-    onMutate: () => {
+    onMutate: (ctx) => {
+      console.log(ctx);
       toast.loading("Register your account", {
         id: "register",
       });
     },
     onSuccess: (data) => {
       toast.success(data.user.name + " registered!");
-      console.log("success", data.user);
       navigate("/login");
     },
     onError: (error: AxiosError<CustomErrorType>) => {
-      const message = error.response?.data.error;
+      const message = error.response?.data.message;
       console.log("error", message);
       toast.error(message as string);
     },
@@ -40,7 +43,7 @@ export default function Register() {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <AuthHeader loginState={"Register New Account"} />
+        <AuthHeader loginState={`Register ${isAdmin ? "Admin" : "Petugas"}`} />
 
         <section className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">

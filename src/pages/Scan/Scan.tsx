@@ -32,7 +32,13 @@ export default function Scan() {
                   toast.success("Found your QR Code!");
                   setStopStream(true);
                   const scanData = result.getText();
-                  setData(scanData);
+                  const regex = /\d+/; // Matches one or more digits
+
+                  const matches = scanData.match(regex);
+                  const number = matches ? parseInt(matches[0]) : null;
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  setData(number);
                   setOpen(true);
                 } else {
                   console.log(err);

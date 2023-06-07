@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginInput } from "./login.type";
 import { useMutation } from "react-query";
 import { submitLogin } from "../../api/login.service.api.ts";
@@ -6,44 +6,49 @@ import {
   LocalStorageKeys,
   setLocalStorage,
 } from "../../utils/local.storage.utils.ts";
-import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/login.slice.ts";
 import { AxiosError } from "axios";
 import { CustomErrorType } from "../../type/axios.type";
 import { AuthHeader } from "../../components/molecules/LoginHeader.tsx";
 import { FormLogin } from "../../components/organisms/FormLogin.tsx";
+import { addNotification } from "../../utils/notification.utils.ts";
 
 export default function Login() {
   const switchUser = useLoginStore((state) => state.setReverse);
+  const isAdmin = useLoginStore((state) => state.isAdmin);
   const navigate = useNavigate();
   const [loginData, setLogin] = useState<LoginInput>({
     name: "",
     password: "",
+    role: isAdmin ? "ADMIN" : "PETUGAS",
   });
+
   const [loginState, setLoginState] = useState("Admin Login");
   const mutation = useMutation({
     mutationFn: submitLogin,
     onMutate: () => {
-      toast.loading("Logging in...", {
-        id: "login",
-      });
+      addNotification("info", "Please wait...");
     },
-    onSuccess: (data) => {
-      const { token, name } = data;
+    onSuccess: ({ token, name }) => {
       setLocalStorage(LocalStorageKeys.token, token);
       setLocalStorage(LocalStorageKeys.name, name);
-      toast.success("Login Success!");
+      addNotification("success", "Login success");
       navigate("/");
     },
     onError: (error: AxiosError<CustomErrorType>) => {
-      const message = error.response?.data.error;
-      toast.error(message as string);
-    },
-    onSettled: () => {
-      toast.dismiss("login");
+      const message = error.response?.data.message;
+      addNotification("error", message as string);
     },
   });
+
+  useEffect(() => {
+    if (loginState === "Admin Login") {
+      setLogin((prev) => ({ ...prev, role: "ADMIN" }));
+    } else {
+      setLogin((prev) => ({ ...prev, role: "PETUGAS" }));
+    }
+  }, [loginState]);
 
   return (
     <>
@@ -90,7 +95,6 @@ export default function Login() {
                 Don't have an account? Register here
               </button>
             </div>
-            <Toaster />
           </div>
         </section>
       </div>

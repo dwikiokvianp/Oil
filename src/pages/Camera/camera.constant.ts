@@ -22,5 +22,5 @@ export const CameraForm = [
 export const videoConstraints = {
   width: 400,
   height: 400,
-  facingMode: { exact: "environment" },
+  facingMode: "user",
 };

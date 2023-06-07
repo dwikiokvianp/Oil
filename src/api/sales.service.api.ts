@@ -3,20 +3,16 @@ import type {
   SalesResponseUpdated,
   UpdatedStatusResponse,
 } from "../type/sales.d.type.ts";
-import {
-  getLocalStorage,
-  LocalStorageKeys,
-} from "../utils/local.storage.utils.ts";
+import { checkLocalStorage } from "../utils/api.interceptor.utils.ts";
 
 const salesService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL_ORDER,
-  headers: {
-    Authorization: `Bearer ${getLocalStorage(LocalStorageKeys.token)}`,
-  },
 });
 
+salesService.interceptors.request.use(checkLocalStorage);
+
 export const getSales = async (): Promise<SalesResponseUpdated> => {
-  const { data } = await salesService.get("/orders", {});
+  const { data } = await salesService.get("/orders");
   return data;
 };
 
