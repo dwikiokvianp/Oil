@@ -4,11 +4,7 @@ import Scan from "../pages/Scan/Scan.tsx";
 import Sales from "../pages/Sales/Sales.tsx";
 import Order from "../pages/Order/Order.tsx";
 import { CameraReact } from "../pages/Camera/Camera.tsx";
-import {
-  getLocalStorage,
-  LocalStorageKeys,
-} from "../utils/local.storage.utils.ts";
-import { redirect } from "react-router-dom";
+import { redirectLogin } from "../utils/redirect.utils.ts";
 
 const homeRoutes = [
   {
@@ -21,14 +17,7 @@ const homeRoutes = [
       { path: "/order", element: <Order /> },
       { path: "/camera", element: <CameraReact /> },
     ],
-    loader: () => {
-      const token = getLocalStorage(LocalStorageKeys.token);
-      if (!token) {
-        return redirect("login");
-      } else {
-        return null;
-      }
-    },
+    loader: redirectLogin,
   },
 ];
 

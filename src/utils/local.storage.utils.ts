@@ -1,6 +1,7 @@
 enum LocalStorageKeys {
   token = "token",
   name = "name",
+  role = "role",
 }
 
 const setLocalStorage = (key: LocalStorageKeys, value: string) => {

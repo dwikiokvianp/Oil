@@ -1,14 +1,22 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useQuery } from "react-query";
+import { getSalesById } from "../api/sales.service.api.ts";
 
 export default function ModalDetail({
   open,
   setOpen,
+  id,
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  id: number;
 }) {
   const cancelButtonRef = useRef(null);
+  const { data } = useQuery({
+    queryKey: ["sales", id],
+    queryFn: () => getSalesById(id),
+  });
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -53,6 +61,7 @@ export default function ModalDetail({
                     <div className="mt-2"></div>
                   </div>
                 </div>
+                <main>{data?.orders.created_at}</main>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                   <button
                     type="button"

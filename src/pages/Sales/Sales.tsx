@@ -17,6 +17,7 @@ export default function Sales() {
   const { data } = useQuery("sales", {
     queryFn: getSales,
   });
+  const [id, setId] = useState(0);
 
   const mutation = useMutation({
     mutationFn: confirmOrder,
@@ -77,6 +78,7 @@ export default function Sales() {
             <p
               onClick={() => {
                 setOpen(true);
+                setId(project.id);
               }}
               className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
             >
@@ -115,7 +117,9 @@ export default function Sales() {
                   </Menu.Item>
                 </Menu.Items>
               </Transition>
-              <ModalDetail open={open} setOpen={setOpen} />
+              {id ? (
+                <ModalDetail id={id} open={open} setOpen={setOpen} />
+              ) : null}
             </Menu>
             <Toaster />
           </div>

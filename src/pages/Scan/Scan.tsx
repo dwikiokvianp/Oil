@@ -6,6 +6,8 @@ export default function Scan() {
   const [stopStream, setStopStream] = useState(false);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState("");
+  const BAR_CODE_HEIGHT = 500;
+  const BAR_CODE_WIDTH = 600;
 
   useEffect(() => {
     toast.loading("Scanning...", {
@@ -22,8 +24,8 @@ export default function Scan() {
         <div className="border-2 border-blue-700 rounded">
           <div className="p-1">
             <BarcodeScannerComponent
-              width={600}
-              height={500}
+              width={BAR_CODE_WIDTH}
+              height={BAR_CODE_HEIGHT}
               stopStream={stopStream}
               facingMode={"environment"}
               onUpdate={(err, result) => {
@@ -32,7 +34,7 @@ export default function Scan() {
                   toast.success("Found your QR Code!");
                   setStopStream(true);
                   const scanData = result.getText();
-                  const regex = /\d+/; // Matches one or more digits
+                  const regex = /\d+/;
 
                   const matches = scanData.match(regex);
                   const number = matches ? parseInt(matches[0]) : null;

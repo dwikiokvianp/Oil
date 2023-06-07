@@ -5,25 +5,32 @@ import { navigation, NavigationType } from "./constant/home.constant.ts";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/login.slice.ts";
 import {
+  getLocalStorage,
   LocalStorageKeys,
   removeLocalStorage,
 } from "../../utils/local.storage.utils.ts";
 import { Container } from "../../components/templates/Container.tsx";
 import { NavigationDrawerMobile } from "../../components/organisms/NavigationDrawerMobile.tsx";
 import { RootHeader } from "../../components/templates/RootHeader.tsx";
+import { addNotification } from "../../utils/notification.utils.ts";
 
 export default function Home() {
   const isLogin = useLoginStore((state) => state.isAdmin);
-  const my_navigation = isLogin
-    ? navigation.slice(0, 3)
-    : navigation.slice(3).concat(navigation[0]);
+  const role = getLocalStorage(LocalStorageKeys.role);
+  const my_navigation =
+    isLogin && role === "ADMIN"
+      ? navigation.slice(0, 3)
+      : navigation.slice(3).concat(navigation[0]);
   const [navigationBar, setNavigationBar] = useState(my_navigation);
   const navigate = useNavigate();
 
   const handleSignOut = (nav: UserNavigationType) => {
-    if (nav.name !== "Sign out") return;
-    removeLocalStorage(LocalStorageKeys.token);
-    navigate("/login");
+    if (nav.name !== "Sign out") {
+      addNotification("info", `Coming soon ${nav.name} feature`);
+    } else {
+      removeLocalStorage(LocalStorageKeys.token);
+      navigate("/login");
+    }
   };
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {

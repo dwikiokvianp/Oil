@@ -50,13 +50,13 @@ export function CameraReact() {
   }, []);
 
   const uploadFile = () => {
+    const RANDOM = 1_000;
     const formData = new FormData();
-    const random = Math.floor(Math.random() * 1000000);
+    const random = Math.floor(Math.random() * RANDOM);
     picture.map((item) => {
       const file = dataURLtoFile(item.photo, item.name);
       formData.append(item.name, file, `${item.name}-${random}.jpg`);
     });
-
     mutation.mutate(formData);
   };
 

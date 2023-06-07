@@ -18,6 +18,10 @@ export interface Sales {
   confirmed: boolean;
 }
 
+export interface SalesResponse {
+  orders: Sales;
+}
+
 export interface SalesResponseUpdated {
   orders: Sales[];
 }

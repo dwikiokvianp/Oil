@@ -33,6 +33,7 @@ export default function Login() {
     onSuccess: ({ token, name }) => {
       setLocalStorage(LocalStorageKeys.token, token);
       setLocalStorage(LocalStorageKeys.name, name);
+      setLocalStorage(LocalStorageKeys.role, isAdmin ? "ADMIN" : "PETUGAS");
       addNotification("success", "Login success");
       navigate("/");
     },

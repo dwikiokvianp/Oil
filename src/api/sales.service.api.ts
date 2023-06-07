@@ -1,5 +1,6 @@
 import axios from "axios";
 import type {
+  SalesResponse,
   SalesResponseUpdated,
   UpdatedStatusResponse,
 } from "../type/sales.d.type.ts";
@@ -13,6 +14,11 @@ salesService.interceptors.request.use(checkLocalStorage);
 
 export const getSales = async (): Promise<SalesResponseUpdated> => {
   const { data } = await salesService.get("/orders");
+  return data;
+};
+
+export const getSalesById = async (id: number): Promise<SalesResponse> => {
+  const { data } = await salesService.get(`/orders/${id}`);
   return data;
 };
 
