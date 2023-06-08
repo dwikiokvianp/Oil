@@ -7,17 +7,13 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { confirmOrder, getSales } from "../../api/sales.service.api.ts";
 import { getTime } from "../../utils/day.converter.ts";
 import toast, { Toaster } from "react-hot-toast";
-import ModalDetail from "../../components/ModalDetail.tsx";
-import { useState } from "react";
 import { AxiosError } from "axios";
 
 export default function Sales() {
-  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   const { data } = useQuery("sales", {
     queryFn: getSales,
   });
-  const [id, setId] = useState(0);
 
   const mutation = useMutation({
     mutationFn: confirmOrder,
@@ -75,13 +71,7 @@ export default function Sales() {
             </div>
           </div>
           <div className="flex flex-none items-center gap-x-4">
-            <p
-              onClick={() => {
-                setOpen(true);
-                setId(project.id);
-              }}
-              className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
-            >
+            <p className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">
               View project<span className="sr-only">, {project.customer}</span>
             </p>
             <Menu as="div" className="relative flex-none">
@@ -117,9 +107,6 @@ export default function Sales() {
                   </Menu.Item>
                 </Menu.Items>
               </Transition>
-              {id ? (
-                <ModalDetail id={id} open={open} setOpen={setOpen} />
-              ) : null}
             </Menu>
             <Toaster />
           </div>

@@ -5,6 +5,10 @@ import type {
   UpdatedStatusResponse,
 } from "../type/sales.d.type.ts";
 import { checkLocalStorage } from "../utils/api.interceptor.utils.ts";
+import {
+  getLocalStorage,
+  LocalStorageKeys,
+} from "../utils/local.storage.utils.ts";
 
 const salesService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL_ORDER,
@@ -18,7 +22,12 @@ export const getSales = async (): Promise<SalesResponseUpdated> => {
 };
 
 export const getSalesById = async (id: number): Promise<SalesResponse> => {
-  const { data } = await salesService.get(`/orders/${id}`);
+  const token = getLocalStorage(LocalStorageKeys.token);
+  const { data } = await axios.get(`http://localhost:8080/api/orders/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return data;
 };
 

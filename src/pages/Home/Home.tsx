@@ -17,10 +17,11 @@ import { addNotification } from "../../utils/notification.utils.ts";
 export default function Home() {
   const isLogin = useLoginStore((state) => state.isAdmin);
   const role = getLocalStorage(LocalStorageKeys.role);
+  const reset = useLoginStore((state) => state.reset);
   const my_navigation =
     isLogin && role === "ADMIN"
-      ? navigation.slice(0, 3)
-      : navigation.slice(3).concat(navigation[0]);
+      ? navigation.slice(0, 4)
+      : navigation.slice(4).concat(navigation[0]);
   const [navigationBar, setNavigationBar] = useState(my_navigation);
   const navigate = useNavigate();
 
@@ -29,6 +30,9 @@ export default function Home() {
       addNotification("info", `Coming soon ${nav.name} feature`);
     } else {
       removeLocalStorage(LocalStorageKeys.token);
+      removeLocalStorage(LocalStorageKeys.role);
+      removeLocalStorage(LocalStorageKeys.name);
+      reset();
       navigate("/login");
     }
   };

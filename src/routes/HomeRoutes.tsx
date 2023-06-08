@@ -5,6 +5,7 @@ import Sales from "../pages/Sales/Sales.tsx";
 import Order from "../pages/Order/Order.tsx";
 import { CameraReact } from "../pages/Camera/Camera.tsx";
 import { redirectLogin } from "../utils/redirect.utils.ts";
+import { OrderList } from "../pages/Order List/OrderList.tsx";
 
 const homeRoutes = [
   {
@@ -16,6 +17,7 @@ const homeRoutes = [
       { path: "/scan", element: <Scan /> },
       { path: "/order", element: <Order /> },
       { path: "/camera", element: <CameraReact /> },
+      { path: "/orderlist", element: <OrderList /> },
     ],
     loader: redirectLogin,
   },

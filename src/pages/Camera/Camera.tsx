@@ -7,10 +7,13 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { CameraForm, videoConstraints } from "./camera.constant.ts";
+import { useIdStore } from "../../store/id.slice.ts";
+import ModalDetail from "../../components/ModalDetail.tsx";
 
 export function CameraReact() {
   const [open, setOpen] = useState(false);
   const [picture, setPicture] = useState(CameraForm);
+  const [openDetail, setOpenDetail] = useState(false);
   const [id, setId] = useState(1);
   const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
   const mutation = useMutation({
@@ -40,6 +43,9 @@ export function CameraReact() {
       toast.dismiss("save");
     },
   });
+
+  const orderId = useIdStore((state) => state.id);
+
   const capture = useCallback((id: number) => {
     const pictureSrc = webcamRef.current?.getScreenshot();
     setPicture((prevPicture) =>
@@ -80,6 +86,13 @@ export function CameraReact() {
         <div className="w-full flex justify-center p-2">
           <div className="w-[30vh] flex flex-col">
             <button
+              onClick={() => {
+                setOpenDetail(true);
+              }}
+            >
+              Preview Data
+            </button>
+            <button
               onClick={(e) => {
                 e.preventDefault();
                 capture(id);
@@ -105,6 +118,11 @@ export function CameraReact() {
         </div>
       </div>
       <Modal upload={uploadFile} data={picture} open={open} setOpen={setOpen} />
+      <ModalDetail
+        open={openDetail}
+        setOpen={setOpenDetail}
+        id={orderId as number}
+      />
       <Toaster />
     </div>
   );

@@ -2,12 +2,13 @@ import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import ModalScan from "../../components/ModalScan.tsx";
+import { useIdStore } from "../../store/id.slice.ts";
 export default function Scan() {
   const [stopStream, setStopStream] = useState(false);
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState("");
   const BAR_CODE_HEIGHT = 500;
   const BAR_CODE_WIDTH = 600;
+  const makeIdTo = useIdStore((state) => state.makeIdTo);
 
   useEffect(() => {
     toast.loading("Scanning...", {
@@ -38,10 +39,11 @@ export default function Scan() {
 
                   const matches = scanData.match(regex);
                   const number = matches ? parseInt(matches[0]) : null;
+                  makeIdTo(number as number);
+                  setOpen(true);
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
                   setData(number);
-                  setOpen(true);
                 } else {
                   console.log(err);
                 }
@@ -50,7 +52,11 @@ export default function Scan() {
           </div>
         </div>
         <Toaster />
-        <ModalScan open={open} setOpen={setOpen} data={data} />
+        <ModalScan
+          open={open}
+          setOpen={setOpen}
+          data={"Data berhasil ditemukan"}
+        />
       </div>
     </div>
   );

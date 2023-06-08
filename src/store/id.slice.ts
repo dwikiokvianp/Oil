@@ -2,6 +2,8 @@ import { create } from "zustand";
 
 interface IdStore {
   id: number | null;
+  makeIdTo: (id: number) => void;
+  nullId: () => void;
 }
 
 export const useIdStore = create<IdStore>((set) => ({
