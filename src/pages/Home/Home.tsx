@@ -12,7 +12,10 @@ import {
 import { Container } from "../../components/templates/Container.tsx";
 import { NavigationDrawerMobile } from "../../components/organisms/NavigationDrawerMobile.tsx";
 import { RootHeader } from "../../components/templates/RootHeader.tsx";
-import { addNotification } from "../../utils/notification.utils.ts";
+import {
+  addNotification,
+  addNotificationWithConfirm,
+} from "../../utils/notification.utils.ts";
 
 export default function Home() {
   const isLogin = useLoginStore((state) => state.isAdmin);
@@ -29,11 +32,17 @@ export default function Home() {
     if (nav.name !== "Sign out") {
       addNotification("info", `Coming soon ${nav.name} feature`);
     } else {
-      removeLocalStorage(LocalStorageKeys.token);
-      removeLocalStorage(LocalStorageKeys.role);
-      removeLocalStorage(LocalStorageKeys.name);
-      reset();
-      navigate("/login");
+      addNotificationWithConfirm().then((result) => {
+        if (result.isConfirmed) {
+          removeLocalStorage(LocalStorageKeys.token);
+          removeLocalStorage(LocalStorageKeys.role);
+          removeLocalStorage(LocalStorageKeys.name);
+          reset();
+          navigate("/login");
+        } else {
+          addNotification("info", "Sign out canceled");
+        }
+      });
     }
   };
   const handleOnChangeNavigation = (item: NavigationType) => {

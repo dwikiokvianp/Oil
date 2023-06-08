@@ -1,7 +1,7 @@
 const stats = [
-  { name: "Total Subscribers", stat: "71,897" },
-  { name: "Avg. Open Rate", stat: "58.16%" },
-  { name: "Avg. Click Rate", stat: "24.57%" },
+  { name: "Total Pending Order", stat: "20" },
+  { name: "Total Approved Order", stat: "10" },
+  { name: "Total Finished Order", stat: "2" },
 ];
 
 export default function Dashboard() {
@@ -10,11 +10,11 @@ export default function Dashboard() {
       <h3 className="text-base font-semibold leading-6 text-gray-900">
         Last 30 days
       </h3>
-      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3 ">
         {stats.map((item) => (
           <div
             key={item.name}
-            className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+            className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 hover:scale-105 duration-100"
           >
             <dt className="truncate text-sm font-medium text-gray-500">
               {item.name}
