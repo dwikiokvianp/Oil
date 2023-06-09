@@ -16,10 +16,10 @@ export default function Order() {
     mutationFn: postOrder,
     onMutate: () => {
       addNotification("info", "Processing your data...");
-      navigate("/orderlist");
     },
     onSuccess: ({ message }) => {
       addNotification("success", message);
+      navigate("/orderlist");
     },
     onError: (error: AxiosError<CustomErrorType>) => {
       addNotification("error", error.message);
