@@ -51,3 +51,11 @@ export const orderInput = [
     placeholder: "Enter your quantity",
   },
 ];
+
+export const initOrder = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  liter: 0,
+};

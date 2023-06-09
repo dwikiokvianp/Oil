@@ -1,34 +1,28 @@
-import { orderInput } from "./constant/order.constant.ts";
+import { initOrder, orderInput } from "./constant/order.constant.ts";
 import { useState } from "react";
 import type { SalesInput } from "../Sales/sales.d.type.ts";
 import { useMutation } from "react-query";
 import { postOrder } from "../../api/order.service.api.ts";
-import toast, { Toaster } from "react-hot-toast";
+import { addNotification } from "../../utils/notification.utils.ts";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import { CustomErrorType } from "../../type/axios.type";
 
 export default function Order() {
-  const [orderData, setOrderData] = useState<SalesInput>({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    liter: 0,
-  });
+  const [orderData, setOrderData] = useState<SalesInput>(initOrder);
+  const navigate = useNavigate();
 
   const mutation = useMutation({
     mutationFn: postOrder,
     onMutate: () => {
-      toast.loading("Posting your order...", {
-        id: "save",
-      });
+      addNotification("info", "Processing your data...");
+      navigate("/orderlist");
     },
-    onSuccess: (data) => {
-      toast.success(data.message);
+    onSuccess: ({ message }) => {
+      addNotification("success", message);
     },
-    onError: () => {
-      toast.error("An error occurred");
-    },
-    onSettled: () => {
-      toast.dismiss("save");
+    onError: (error: AxiosError<CustomErrorType>) => {
+      addNotification("error", error.message);
     },
   });
 
@@ -92,7 +86,6 @@ export default function Order() {
         >
           Save
         </button>
-        <Toaster />
       </div>
     </form>
   );
