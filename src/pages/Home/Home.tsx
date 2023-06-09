@@ -39,6 +39,7 @@ export default function Home() {
           removeLocalStorage(LocalStorageKeys.name);
           reset();
           navigate("/login");
+          addNotification("success", "Sign out success");
         } else {
           addNotification("info", "Sign out canceled");
         }
