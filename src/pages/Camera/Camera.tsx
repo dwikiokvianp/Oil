@@ -86,6 +86,7 @@ export function CameraReact() {
         <div className="w-full flex justify-center p-2">
           <div className="w-[30vh] flex flex-col">
             <button
+              className="mt-2 hover:bg-blue-800  flex justify-center items-center bg-blue-400 text-white px-2 py-1 rounded gap-2"
               onClick={() => {
                 setOpenDetail(true);
               }}
