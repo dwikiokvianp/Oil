@@ -6,6 +6,7 @@ import Order from "../pages/Order/Order.tsx";
 import { CameraReact } from "../pages/Camera/Camera.tsx";
 import { redirectLogin } from "../utils/redirect.utils.ts";
 import { OrderList } from "../pages/Order List/OrderList.tsx";
+import { Try } from "../pages/Try/Try.tsx";
 
 const homeRoutes = [
   {
@@ -20,6 +21,10 @@ const homeRoutes = [
       { path: "/orderlist", element: <OrderList /> },
     ],
     loader: redirectLogin,
+  },
+  {
+    path: "try",
+    element: <Try />,
   },
 ];
 
