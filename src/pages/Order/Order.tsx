@@ -1,92 +1,69 @@
-import { initOrder, orderInput } from "./constant/order.constant.ts";
-import { useState } from "react";
-import type { SalesInput } from "../Sales/sales.d.type.ts";
-import { useMutation } from "react-query";
-import { postOrder } from "../../api/order.service.api.ts";
-import { addNotification } from "../../utils/notification.utils.ts";
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { useQuery } from "react-query";
+import { getUser } from "../../api/users.service.api.ts";
+import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
-import { CustomErrorType } from "../../type/axios.type";
 
 export default function Order() {
-  const [orderData, setOrderData] = useState<SalesInput>(initOrder);
+  const { data: Users } = useQuery({
+    queryKey: "users",
+    queryFn: getUser,
+  });
   const navigate = useNavigate();
 
-  const mutation = useMutation({
-    mutationFn: postOrder,
-    onMutate: () => {
-      addNotification("info", "Processing your data...");
-    },
-    onSuccess: ({ message }) => {
-      addNotification("success", message);
-      navigate("/orderlist");
-    },
-    onError: (error: AxiosError<CustomErrorType>) => {
-      addNotification("error", error.message);
-    },
-  });
-
-  const handleOnChangeOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const { name, value } = e.target;
-    setOrderData({ ...orderData, [name]: value });
-  };
-
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        mutation.mutate(orderData);
-      }}
-    >
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Order Information
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
-            This is where you'll provide your order information.
-          </p>
-
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            {orderInput.map((item) => (
-              <div className="sm:col-span-3" key={item.id}>
-                <label
-                  htmlFor={item.state}
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  {item.name}
-                </label>
-                <div className="mt-2">
-                  <input
-                    id={item.state}
-                    name={item.state}
-                    type={item.type}
-                    autoComplete={item.state}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(e) => handleOnChangeOrder(e)}
-                    placeholder={item.placeholder}
-                  />
-                </div>
-              </div>
-            ))}
+    <ul role="list" className="divide-y divide-gray-100">
+      {Users?.data.map((person) => (
+        <li
+          key={person.id}
+          className="relative flex justify-between gap-x-6 py-5"
+          onClick={() => {
+            navigate(`/order/${person.id}`);
+          }}
+        >
+          <div className="flex gap-x-4">
+            <img
+              className="h-12 w-12 flex-none rounded-full bg-gray-50"
+              src="https://img.freepik.com/free-icon/user_318-563642.jpg"
+              alt=""
+            />
+            <div className="min-w-0 flex-auto">
+              <p className="text-sm font-semibold leading-6 text-gray-900">
+                <a>
+                  <span className="absolute inset-x-0 -top-px bottom-0" />
+                  {person.username}
+                </a>
+              </p>
+              <p className="mt-1 flex text-xs leading-5 text-gray-500">
+                <a className="relative truncate hover:underline">
+                  {person.email}
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="mt-6 flex items-center justify-end gap-x-6">
-        <button
-          type="button"
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Save
-        </button>
-      </div>
-    </form>
+          <div className="flex items-center gap-x-4">
+            <div className="hidden sm:flex sm:flex-col sm:items-end">
+              {person.id ? (
+                <p className="mt-1 text-xs leading-5 text-gray-500">
+                  Member since{" "}
+                  <time>{formatUnixTimestamp(person.created_at)}</time>
+                </p>
+              ) : (
+                <div className="mt-1 flex items-center gap-x-1.5">
+                  <div className="flex-none rounded-full bg-emerald-500/20 p-1">
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  </div>
+                  <p className="text-xs leading-5 text-gray-500">Online</p>
+                </div>
+              )}
+            </div>
+            <ChevronRightIcon
+              className="h-5 w-5 flex-none text-gray-400"
+              aria-hidden="true"
+            />
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }

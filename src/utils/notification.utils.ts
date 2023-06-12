@@ -21,10 +21,13 @@ export const addNotification = async (
   });
 };
 
-export const addNotificationWithConfirm = async () => {
+export const addNotificationWithConfirm = async (
+  title?: string,
+  message?: string
+) => {
   return await Swal.fire({
-    title: "Are you sure you want to logout?",
-    text: "You will be logged out of the system!",
+    title: title || "Are you sure you want to logout?",
+    text: message || "You will be logged out of the system!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",

@@ -1,61 +1,26 @@
-export interface OrderInputType {
+export interface Role {
   id: number;
-  name: string;
-  state: string;
-  type: string;
-  placeholder?: string;
+  role: string;
 }
 
-export interface OrderInputState {
-  name: string;
+export interface UserDetail {
+  id: number;
+  balance: number;
+  credit: number;
+}
+export interface User {
+  id: number;
+  username: string;
   email: string;
-  phone: string;
-  street: string;
-  liter: string;
+  role: Role;
+  detail: UserDetail;
+  created_at: number;
 }
 
-export const orderInput = [
-  {
-    id: 1,
-    name: "Name",
-    state: "name",
-    type: "text",
-    placeholder: "Enter your name",
-  },
-  {
-    id: 2,
-    name: "Email Address",
-    state: "email",
-    type: "email",
-    placeholder: "Enter your email",
-  },
-  {
-    id: 3,
-    name: "Phone Number",
-    state: "phone",
-    type: "number",
-    placeholder: "Enter your phone number",
-  },
-  {
-    id: 4,
-    name: "Street Address",
-    state: "address",
-    type: "text",
-    placeholder: "Enter your street address",
-  },
-  {
-    id: 5,
-    name: "Quantity",
-    state: "liter",
-    type: "number",
-    placeholder: "Enter your quantity",
-  },
-];
+export interface GetUser {
+  data: User[];
+}
 
-export const initOrder = {
-  name: "",
-  email: "",
-  phone: "",
-  address: "",
-  liter: 0,
-};
+export interface GetUserById {
+  data: User;
+}
