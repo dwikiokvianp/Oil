@@ -6,6 +6,8 @@ import Order from "../pages/Order/Order.tsx";
 import { CameraReact } from "../pages/Camera/Camera.tsx";
 import { OrderList } from "../pages/Order List/OrderList.tsx";
 import { OrderForm } from "../pages/Order/OrderForm.tsx";
+import { OrderTransaction } from "../pages/Order/OrderTransaction.tsx";
+import { Vehicle } from "../pages/Vehicle/Vehicle.tsx";
 
 const homeRoutes = [
   {
@@ -20,8 +22,10 @@ const homeRoutes = [
         element: <Order />,
       },
       { path: "/order/:id", element: <OrderForm /> },
+      { path: "/order/:id/transaction", element: <OrderTransaction /> },
       { path: "/camera", element: <CameraReact /> },
       { path: "/orderlist", element: <OrderList /> },
+      { path: "/vehicle", element: <Vehicle /> },
     ],
   },
 ];

@@ -1,11 +1,11 @@
 import axios from "axios";
-import type { SalesInput, SalesResponse } from "../pages/Sales/sales.d.type.ts";
 import { checkLocalStorage } from "../utils/api.interceptor.utils.ts";
 import {
   OrderData,
   OrderResponse,
   OrderTwoResponse,
 } from "../pages/Order List/order.constant.ts";
+import { OrderInput } from "../pages/Order/constant/order.constant.ts";
 
 const orderService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -14,12 +14,9 @@ const orderService = axios.create({
 orderService.interceptors.request.use(checkLocalStorage);
 
 export const postOrder = async (
-  salesInput: SalesInput
-): Promise<SalesResponse> => {
-  salesInput.liter = Number(salesInput.liter);
-  const { data } = await orderService.post("/sales/input", {
-    ...salesInput,
-  });
+  order: OrderInput
+): Promise<{ message: string }> => {
+  const { data } = await orderService.post(`/transaction/${order.id}`, order);
   return data;
 };
 

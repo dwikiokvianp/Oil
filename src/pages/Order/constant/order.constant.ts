@@ -24,3 +24,33 @@ export interface GetUser {
 export interface GetUserById {
   data: User;
 }
+
+export interface VehicleType {
+  id: number;
+  name: string;
+}
+export interface Vehicle {
+  id: number;
+  name: string;
+  vehicle_type_id: number;
+  VehicleType: VehicleType;
+}
+
+export interface GetVehicle {
+  data: Vehicle[];
+}
+
+export interface Oil {
+  id: number;
+  name: string;
+}
+
+export interface GetOil {
+  data: Oil[];
+}
+
+export interface OrderInput {
+  id: number;
+  vehicle_id: number;
+  oil_id: number;
+}
