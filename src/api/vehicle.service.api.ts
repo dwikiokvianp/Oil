@@ -9,3 +9,11 @@ export const getVehicle = async (): Promise<GetVehicle> => {
   const { data } = await vehicleService.get("/vehicle/");
   return data;
 };
+
+export const createVehicle = async (vehicle: {
+  name: string;
+  vehicle_type_id: number;
+}): Promise<{ message: string }> => {
+  const { data } = await vehicleService.post(`/vehicle/`, vehicle);
+  return data;
+};

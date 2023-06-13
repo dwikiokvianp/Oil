@@ -5,7 +5,6 @@ import { navigation, NavigationType } from "./constant/home.constant.ts";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/login.slice.ts";
 import {
-  getLocalStorage,
   LocalStorageKeys,
   removeLocalStorage,
 } from "../../utils/local.storage.utils.ts";
@@ -18,14 +17,8 @@ import {
 } from "../../utils/notification.utils.ts";
 
 export default function Home() {
-  const isLogin = useLoginStore((state) => state.isAdmin);
-  const role = getLocalStorage(LocalStorageKeys.role);
   const reset = useLoginStore((state) => state.reset);
-  const my_navigation =
-    isLogin && role === "ADMIN"
-      ? navigation.slice(0, 4)
-      : navigation.slice(4).concat(navigation[0]);
-  const [navigationBar, setNavigationBar] = useState(my_navigation);
+  const [navigationBar, setNavigationBar] = useState(navigation);
   const navigate = useNavigate();
 
   const handleSignOut = (nav: UserNavigationType) => {

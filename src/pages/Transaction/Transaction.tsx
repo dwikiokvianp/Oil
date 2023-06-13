@@ -1,32 +1,30 @@
 import { useQuery } from "react-query";
-import { getVehicle } from "../../api/vehicle.service.api.ts";
-import ModalAddVehicle from "../../components/ModalAddVehicle.tsx";
-import { useState } from "react";
+import { getTransaction } from "../../api/transaction.service.api.ts";
+import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 
-export function Vehicle() {
-  const { data: Vehicle } = useQuery({
-    queryKey: ["vehicle"],
-    queryFn: getVehicle,
+export function Transaction() {
+  const { data: Transactions } = useQuery({
+    queryKey: "transaction",
+    queryFn: getTransaction,
+    onSuccess: (data) => {
+      console.log(data);
+    },
   });
-
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
-            Vehicle
+            Transaction
           </h1>
-          <p className="mt-2 text-sm text-gray-700">Vehicle list</p>
+          <p className="mt-2 text-sm text-gray-700">Get transaction list</p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => setOpen(true)}
           >
-            Add Vehicle
+            Add user
           </button>
         </div>
       </div>
@@ -41,19 +39,31 @@ export function Vehicle() {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                     >
-                      Nomor
+                      No
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Vehicle Name
+                      Username
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Vehicle Type
+                      Product
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Ship Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
+                      Created At
                     </th>
                     <th
                       scope="col"
@@ -64,24 +74,30 @@ export function Vehicle() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {Vehicle?.data.map((vehicle, index) => (
-                    <tr key={vehicle.id}>
+                  {Transactions?.map((transaction, index) => (
+                    <tr key={transaction.id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                         {index + 1}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {vehicle.name}
+                        {transaction.User.username}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {vehicle.VehicleType.name}
+                        {transaction.Oil.name}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {transaction.Vehicle.name}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        {formatUnixTimestamp(transaction.created_at)}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <button
-                          type="button"
-                          className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                        <a
+                          href="#"
+                          className="text-indigo-600 hover:text-indigo-900"
                         >
-                          Details
-                        </button>
+                          Transaction Detail
+                        </a>
                       </td>
                     </tr>
                   ))}
@@ -91,7 +107,6 @@ export function Vehicle() {
           </div>
         </div>
       </div>
-      <ModalAddVehicle open={open} setOpen={setOpen} />
     </div>
   );
 }

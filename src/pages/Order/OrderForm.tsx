@@ -8,6 +8,9 @@ export function OrderForm() {
   const { data: User } = useQuery({
     queryKey: ["users", params.id],
     queryFn: () => getUserById(Number(params.id)),
+    onSuccess: (data) => {
+      console.log(data);
+    },
   });
   return (
     <div className="space-y-10 divide-y divide-gray-900/10">

@@ -5,6 +5,8 @@ import { useState } from "react";
 import { getOil } from "../../api/oil.service.api.ts";
 import { postOrder } from "../../api/order.service.api.ts";
 import { addNotification } from "../../utils/notification.utils.ts";
+import { getOfficer, getUserById } from "../../api/users.service.api.ts";
+import { quantity } from "./constant/order.constant.ts";
 
 export function OrderTransaction() {
   const { id } = useParams();
@@ -17,24 +19,35 @@ export function OrderTransaction() {
     queryKey: ["oil"],
     queryFn: getOil,
   });
-  const [selectedShip, setSelectedShip] = useState("");
-  const [selectedOil, setSelectedOil] = useState("");
+
+  const { data: Officer } = useQuery({
+    queryKey: ["officer"],
+    queryFn: getOfficer,
+  });
+
+  const { data: User } = useQuery({
+    queryKey: ["users", id],
+    queryFn: () => getUserById(Number(id)),
+  });
+
+  const [selectedShip, setSelectedShip] = useState(1);
+  const [selectedOil, setSelectedOil] = useState(2);
+  const [selectedQuantity, setSelectedQuantity] = useState(8000);
+  const [selectedOfficer, setSelectedOfficer] = useState(1);
   const mutation = useMutation({
     mutationFn: postOrder,
     onMutate: () => {
       addNotification("info", "Please wait...");
     },
-    onError: (err) => {
-      console.log(err);
-    },
     onSuccess: (data) => {
       addNotification("success", data.message);
-      navigate("/order");
+      navigate("/transaction");
     },
     onSettled: (data, error, variables, context) => {
       console.log(data, error, variables, context);
     },
   });
+
   return (
     <div className="space-y-10 divide-y divide-gray-900/10">
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
@@ -54,6 +67,7 @@ export function OrderTransaction() {
               oil_id: Number(selectedOil),
               vehicle_id: Number(selectedShip),
               id: Number(id),
+              email: User?.data.email as string,
             });
           }}
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
@@ -74,8 +88,9 @@ export function OrderTransaction() {
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                     value={selectedShip}
+                    defaultValue={1}
                     onChange={(e) => {
-                      setSelectedShip(e.target.value);
+                      setSelectedShip(Number(e.target.value));
                     }}
                   >
                     {Ships?.data.map((ship) => (
@@ -100,13 +115,68 @@ export function OrderTransaction() {
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                     value={selectedOil}
+                    defaultValue={1}
                     onChange={(e) => {
-                      setSelectedOil(e.target.value);
+                      setSelectedOil(Number(e.target.value));
                     }}
                   >
                     {Oil?.data.map((ship) => (
                       <option key={ship.id} value={ship.id}>
                         {ship.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Quantity
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    name="country"
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    value={selectedQuantity}
+                    defaultValue={1}
+                    onChange={(e) => {
+                      setSelectedQuantity(Number(e.target.value));
+                    }}
+                  >
+                    {quantity.map((ship) => (
+                      <option key={ship.id} value={ship.id}>
+                        {ship.value}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Officer
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    name="country"
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    value={selectedOfficer}
+                    defaultValue={1}
+                    onChange={(e) => {
+                      setSelectedOfficer(Number(e.target.value));
+                    }}
+                  >
+                    {Officer?.data.map((ship) => (
+                      <option key={ship.id} value={ship.id}>
+                        {ship.username}
                       </option>
                     ))}
                   </select>

@@ -30,8 +30,7 @@ export const getTime = (timestamp: string): string => {
 export function formatUnixTimestamp(unixTimestamp: number): string {
   const date = new Date(unixTimestamp * 1000);
   const formattedDate = date.toISOString().slice(0, 10);
-  const formattedTime = date.toTimeString().slice(0, 8);
-  return `${formattedDate} ${formattedTime}`;
+  return `${formattedDate}`;
 }
 
 const unixTimestamp = 1686593838;

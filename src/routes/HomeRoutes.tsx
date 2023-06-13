@@ -8,6 +8,7 @@ import { OrderList } from "../pages/Order List/OrderList.tsx";
 import { OrderForm } from "../pages/Order/OrderForm.tsx";
 import { OrderTransaction } from "../pages/Order/OrderTransaction.tsx";
 import { Vehicle } from "../pages/Vehicle/Vehicle.tsx";
+import { Transaction } from "../pages/Transaction/Transaction.tsx";
 
 const homeRoutes = [
   {
@@ -26,6 +27,7 @@ const homeRoutes = [
       { path: "/camera", element: <CameraReact /> },
       { path: "/orderlist", element: <OrderList /> },
       { path: "/vehicle", element: <Vehicle /> },
+      { path: "/transaction", element: <Transaction /> },
     ],
   },
 ];
