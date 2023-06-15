@@ -1,29 +1,16 @@
-import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
-import { getUserById } from "../../api/users.service.api.ts";
-import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 import { TransactionUser } from "../Transaction/TransactionUser.tsx";
 
 export function OrderForm() {
-  const params = useParams();
-  const navigate = useNavigate();
-  const { data: User } = useQuery({
-    queryKey: ["users", params.id],
-    queryFn: () => getUserById(Number(params.id)),
-    onSuccess: (data) => {
-      console.log(data);
-    },
-  });
   return (
     <div className="divide-y divide-gray-900/10 sm:block lg:flex">
       <div className="gap-x-8 gap-y-4 md:grid-cols-3">
         <div className="px-4 sm:px-3">
-          <h1 className="text-base font-semibold text-gray-900" style={{fontSize: "25px"}}>
+          <h1
+            className="text-base font-semibold text-gray-900"
+            style={{ fontSize: "25px" }}
+          >
             Personal Information
           </h1>
-          {/* <p className="mt-1 text-sm leading-6 text-gray-600">
-            Use a permanent address where you can receive mail.
-          </p> */}
         </div>
 
         <form className="mt-5 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
@@ -37,7 +24,12 @@ export function OrderForm() {
                   Username
                 </label>
                 <div className="mt-2">
-                  <label className="block text-medium font-medium leading-10 text-black-900" style={{fontSize: "25px"}}>Davis</label>
+                  <label
+                    className="block text-medium font-medium leading-10 text-black-900"
+                    style={{ fontSize: "25px" }}
+                  >
+                    Davis
+                  </label>
                 </div>
               </div>
 
@@ -49,7 +41,12 @@ export function OrderForm() {
                   Company Name
                 </label>
                 <div className="mt-2">
-                 <label className="block text-medium font-medium leading-10 text-black-900" style={{fontSize: "23px"}}>Aptaworks</label>
+                  <label
+                    className="block text-medium font-medium leading-10 text-black-900"
+                    style={{ fontSize: "23px" }}
+                  >
+                    Aptaworks
+                  </label>
                 </div>
               </div>
 
@@ -61,7 +58,12 @@ export function OrderForm() {
                   Email Address
                 </label>
                 <div className="mt-2">
-                  <label className="block text-medium font-medium leading-10 text-black-900" style={{fontSize: "23px"}}>test@apta.id</label>
+                  <label
+                    className="block text-medium font-medium leading-10 text-black-900"
+                    style={{ fontSize: "23px" }}
+                  >
+                    test@apta.id
+                  </label>
                 </div>
               </div>
 
@@ -73,7 +75,12 @@ export function OrderForm() {
                   Phone Number
                 </label>
                 <div className="mt-2">
-                 <label className="block text-medium font-medium leading-10 text-black-900" style={{fontSize: "22px"}}>0812812818</label>
+                  <label
+                    className="block text-medium font-medium leading-10 text-black-900"
+                    style={{ fontSize: "22px" }}
+                  >
+                    0812812818
+                  </label>
                 </div>
               </div>
 
@@ -85,7 +92,12 @@ export function OrderForm() {
                   Balance
                 </label>
                 <div className="mt-2">
-                  <label className="block text-medium font-medium leading-6 text-black-900" style={{fontSize: "22px"}}>0</label>
+                  <label
+                    className="block text-medium font-medium leading-6 text-black-900"
+                    style={{ fontSize: "22px" }}
+                  >
+                    0
+                  </label>
                 </div>
               </div>
 
@@ -97,7 +109,12 @@ export function OrderForm() {
                   Credit
                 </label>
                 <div className="mt-2">
-                  <label className="block text-medium font-medium leading-6 text-black-900" style={{fontSize: "22px"}}>0</label>
+                  <label
+                    className="block text-medium font-medium leading-6 text-black-900"
+                    style={{ fontSize: "22px" }}
+                  >
+                    0
+                  </label>
                 </div>
               </div>
 
@@ -109,7 +126,12 @@ export function OrderForm() {
                   Member Since
                 </label>
                 <div className="mt-2">
-                  <label className="block text-medium font-medium leading-6 text-black-900" style={{fontSize: "22px"}}>04 Juni 2023</label>
+                  <label
+                    className="block text-medium font-medium leading-6 text-black-900"
+                    style={{ fontSize: "22px" }}
+                  >
+                    04 Juni 2023
+                  </label>
                 </div>
               </div>
             </div>

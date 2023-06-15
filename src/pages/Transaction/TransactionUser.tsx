@@ -19,7 +19,7 @@ export function TransactionUser() {
       console.log(error, "ini error");
     },
   });
- const params = useParams();
+  const params = useParams();
   const { data: User } = useQuery({
     queryKey: ["users", params.id],
     queryFn: () => getUserById(Number(params.id)),
@@ -31,24 +31,24 @@ export function TransactionUser() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center justify-between">
-    <div className="sm:flex-auto">
-      <h1 className="text-base font-semibold leading-6 text-gray-900">
-        Transaction
-      </h1>
-      <p className="mt-2 text-sm text-gray-700">Get transaction list</p>
-    </div>
-    <div className="mt-4 sm:ml-2 sm:mt-0 sm:flex-none">
-      <button
-        type="button"
-        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        onClick={() => {
-          navigate(`/order/${User?.data.id}/transaction`);
-        }}
-      >
-        Add Transaction
-      </button>
-    </div>
-  </div>
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold leading-6 text-gray-900">
+            Transaction
+          </h1>
+          <p className="mt-2 text-sm text-gray-700">Get transaction list</p>
+        </div>
+        <div className="mt-4 sm:ml-2 sm:mt-0 sm:flex-none">
+          <button
+            type="button"
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={() => {
+              navigate(`/order/${User?.data.id}/transaction`);
+            }}
+          >
+            Add Transaction
+          </button>
+        </div>
+      </div>
       <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -141,16 +141,6 @@ export function TransactionUser() {
         containerClassName="flex justify-center gap-x-2 mt-4"
         pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
       />
-    </div>
-  );
-}
-
-function NoTransactionFound() {
-  return (
-    <div>
-      <h1 className="text-2xl font-semibold text-gray-900">
-        No Transaction Found
-      </h1>
     </div>
   );
 }
