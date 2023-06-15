@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsFillSendFill, BsFillPlusCircleFill } from 'react-icons/bs';
 import { MdPersonSearch } from 'react-icons/md';
+import axios from 'axios';
 
 interface User {
   id: number;
@@ -20,11 +21,24 @@ export function UserList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddUser = () => {
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/posts');
+      setUsers(response.data);
+    } catch (error) {
+      console.log('Error fetching users:', error);
+    }
+  };
+
+  const addUser = () => {
     setIsModalOpen(true);
   };
 
-  const handleSaveUser = () => {
+  const saveUser = async () => {
     const newUser: User = {
       id: users.length + 1,
       name,
@@ -33,12 +47,17 @@ export function UserList() {
       credit,
       memberSince: new Date().toISOString(),
     };
-    setUsers([...users, newUser]);
-    setName('');
-    setEmail('');
-    setBalance(0);
-    setCredit(0);
-    setIsModalOpen(false);
+    try {
+      await axios.post('http://localhost:3000/posts', newUser);
+      setUsers([...users, newUser]);
+      setName('');
+      setEmail('');
+      setBalance(0);
+      setCredit(0);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log('Error saving user:', error);
+    }
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -55,7 +74,7 @@ export function UserList() {
       <h1 className="text-center">User Management</h1>
       <button
         type="button"
-        onClick={handleAddUser}
+        onClick={addUser}
         className="px-4 py-2 bg-green-500 text-white border-none rounded-md cursor-pointer absolute top-8 right-0 mt-20 mr-60"
       >
         <BsFillSendFill /> Add User
@@ -103,7 +122,7 @@ export function UserList() {
               </label>
               <button
                 type="button"
-                onClick={handleSaveUser}
+                onClick={saveUser}
                 className="px-4 py-2 bg-green-500 text-white border-none rounded-md cursor-pointer"
               >
                 <BsFillPlusCircleFill /> Add
@@ -114,15 +133,13 @@ export function UserList() {
       )}
 
       <form onSubmit={handleSearch}>
-
         <input
           type="text"
           value={searchTerm}
-          placeholder='Search Name ... '
+          placeholder="Search Name ..."
           onChange={(e) => setSearchTerm(e.target.value)}
           className="border border-gray-300 rounded-md px-2 py-1 mr-1"
         />
-
         <button
           type="submit"
           className="px-4 py-2 bg-blue-500 text-white border-none rounded-md cursor-pointer"

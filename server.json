@@ -1,0 +1,30 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "name": "ucup",
+      "email": "ucup@gmail.com",
+      "balance": 3,
+      "credit": 3,
+      "memberSince": "2023-06-15T09:49:21.137Z"
+    },
+    {
+      "id": 2,
+      "name": "lina",
+      "email": "lina@gmail.com",
+      "balance": 3,
+      "credit": 7,
+      "memberSince": "2023-06-15T09:50:20.511Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
