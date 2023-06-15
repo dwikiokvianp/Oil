@@ -13,6 +13,9 @@ export interface TransactionData {
   officer_id: number;
   Officer: Officer;
   issued_at: string;
+  company: Company;
+  qr_code_url;
+  status: string;
 }
 
 interface User {

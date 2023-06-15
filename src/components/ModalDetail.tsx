@@ -1,8 +1,8 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useQuery } from "react-query";
-import { getOrderById } from "../api/order.service.api.ts";
 import InputGroup from "./atoms/InputGroup.tsx";
+import { getTransactionById } from "../api/transaction.service.api.ts";
 
 export default function ModalDetail({
   open,
@@ -16,13 +16,11 @@ export default function ModalDetail({
   const cancelButtonRef = useRef(null);
   const { data, isLoading } = useQuery({
     queryKey: ["orderDetail", id],
-    queryFn: () => getOrderById(id),
+    queryFn: () => getTransactionById(id),
     onSuccess: (data) => {
-      console.log(data.order, "ini data dari detail");
+      console.log(data.data.email, "ini data dari detail");
     },
   });
-
-  console.log(!isLoading ? data : "loading");
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -67,19 +65,19 @@ export default function ModalDetail({
                       <div className="mt-4">
                         <InputGroup
                           name={"Customer Name"}
-                          value={data?.order.name as string}
+                          value={data?.data.User.username as string}
                         />
                         <InputGroup
                           name={"Email"}
-                          value={data?.order.email as string}
+                          value={data?.data.User.email as string}
                         />
                         <InputGroup
-                          name={"Address"}
-                          value={data?.order.address as string}
+                          name={"Company Name"}
+                          value={data?.data.User.company.username as string}
                         />
                         <InputGroup
                           name={"Quantity"}
-                          value={data?.order.liter as number}
+                          value={data?.data.quantity as number}
                         />
                       </div>
                     ) : (

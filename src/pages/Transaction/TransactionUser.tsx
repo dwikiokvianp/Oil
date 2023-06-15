@@ -1,18 +1,21 @@
 import { useQuery } from "react-query";
-import { getTransaction } from "../../api/transaction.service.api.ts";
+import { getTransactionByUserId } from "../../api/transaction.service.api.ts";
 import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import { useState } from "react";
+import { useParams } from "react-router-dom";
 
-export function Transaction() {
+export function TransactionUser() {
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
+  const { id } = useParams();
   const { data: Transactions, isLoading } = useQuery({
-    queryKey: ["transactions", page],
-    queryFn: () => getTransaction(page),
+    queryKey: ["transactions", id],
+    queryFn: () => getTransactionByUserId(Number(id)),
     onSuccess: (data) => {
-      console.log(data);
+      console.log(data, "ini data");
+    },
+    onError: (error) => {
+      console.log(error, "ini error");
     },
   });
   return (
@@ -23,14 +26,6 @@ export function Transaction() {
             Transaction
           </h1>
           <p className="mt-2 text-sm text-gray-700">Get transaction list</p>
-        </div>
-        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
-            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Add user
-          </button>
         </div>
       </div>
       <div className="mt-8 flow-root">
@@ -125,6 +120,16 @@ export function Transaction() {
         containerClassName="flex justify-center gap-x-2 mt-4"
         pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
       />
+    </div>
+  );
+}
+
+function NoTransactionFound() {
+  return (
+    <div>
+      <h1 className="text-2xl font-semibold text-gray-900">
+        No Transaction Found
+      </h1>
     </div>
   );
 }

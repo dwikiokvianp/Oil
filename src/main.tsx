@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
-import BrowserRouter from "./routes/routes..tsx";
+import { BrowserRouter } from "./routes/routes..tsx";
 
 const queryClient = new QueryClient();
 

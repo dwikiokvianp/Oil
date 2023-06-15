@@ -1,6 +1,8 @@
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserById } from "../../api/users.service.api.ts";
+import { formatUnixTimestamp } from "../../utils/day.converter.ts";
+import { TransactionUser } from "../Transaction/TransactionUser.tsx";
 
 export function OrderForm() {
   const params = useParams();
@@ -13,8 +15,9 @@ export function OrderForm() {
     },
   });
   return (
-    <div className="space-y-10 divide-y divide-gray-900/10">
-      <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
+    <div className="divide-y divide-gray-900/10 sm:block lg:flex">
+      <TransactionUser />
+      <div className="gap-x-8 gap-y-4 pt-10 md:grid-cols-3">
         <div className="px-4 sm:px-0">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Personal Information
@@ -24,7 +27,7 @@ export function OrderForm() {
           </p>
         </div>
 
-        <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+        <form className="mt-5 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
           <div className="px-4 py-6 sm:p-8">
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-3">
@@ -52,7 +55,7 @@ export function OrderForm() {
                   htmlFor="last-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Last name
+                  Company Name
                 </label>
                 <div className="mt-2">
                   <input
@@ -60,6 +63,8 @@ export function OrderForm() {
                     name="last-name"
                     id="last-name"
                     autoComplete="family-name"
+                    disabled={true}
+                    value={User?.data.company.username}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -108,7 +113,7 @@ export function OrderForm() {
                   htmlFor="city"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  City
+                  Phone Number
                 </label>
                 <div className="mt-2">
                   <input
@@ -116,6 +121,7 @@ export function OrderForm() {
                     name="city"
                     id="city"
                     autoComplete="address-level2"
+                    value={User?.data.phone}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -126,7 +132,7 @@ export function OrderForm() {
                   htmlFor="region"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  State / Province
+                  Member Since
                 </label>
                 <div className="mt-2">
                   <input
@@ -134,6 +140,7 @@ export function OrderForm() {
                     name="region"
                     id="region"
                     autoComplete="address-level1"
+                    value={formatUnixTimestamp(User?.data.created_at as number)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -144,7 +151,7 @@ export function OrderForm() {
                   htmlFor="postal-code"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  ZIP / Postal code
+                  Credit
                 </label>
                 <div className="mt-2">
                   <input
@@ -152,6 +159,7 @@ export function OrderForm() {
                     name="postal-code"
                     id="postal-code"
                     autoComplete="postal-code"
+                    value={User?.data.detail.credit}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>

@@ -98,7 +98,7 @@ export default function Order() {
               <div className="hidden sm:flex sm:flex-col sm:items-end">
                 {person.id ? (
                   <p className="mt-1 text-xs leading-5 text-gray-500">
-                    Member since
+                    <div>Member since </div>
                     <time>{formatUnixTimestamp(person.created_at)}</time>
                   </p>
                 ) : (

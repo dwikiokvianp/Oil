@@ -1,9 +1,9 @@
 export const LoginForm = [
   {
     id: 1,
-    label: "Username",
-    name: "name",
-    type: "text",
+    label: "Email",
+    name: "email",
+    type: "email",
   },
   {
     id: 2,

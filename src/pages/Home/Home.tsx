@@ -17,9 +17,17 @@ import {
 } from "../../utils/notification.utils.ts";
 
 export default function Home() {
-  const reset = useLoginStore((state) => state.reset);
-  const [navigationBar, setNavigationBar] = useState(navigation);
   const navigate = useNavigate();
+  const role = useLoginStore((state) => state.role);
+
+  let filteredNavigation = [{}];
+  if (role === "ADMIN") {
+    filteredNavigation = navigation.slice(0, 3);
+  } else if (role === "OFFICER") {
+    filteredNavigation = navigation.slice(4);
+  }
+
+  const [navigationBar, setNavigationBar] = useState(filteredNavigation);
 
   const handleSignOut = (nav: UserNavigationType) => {
     if (nav.name !== "Sign out") {
@@ -30,7 +38,6 @@ export default function Home() {
           removeLocalStorage(LocalStorageKeys.token);
           removeLocalStorage(LocalStorageKeys.role);
           removeLocalStorage(LocalStorageKeys.name);
-          reset();
           navigate("/login");
           addNotification("success", "Sign out success");
         } else {

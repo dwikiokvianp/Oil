@@ -63,11 +63,22 @@ export function OrderTransaction() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            console.log({
+              oil_id: Number(selectedOil),
+              vehicle_id: Number(selectedShip),
+              id: Number(id),
+              email: User?.data.email as string,
+              quantity: selectedQuantity,
+              officer_id: selectedOfficer,
+            });
+
             mutation.mutate({
               oil_id: Number(selectedOil),
               vehicle_id: Number(selectedShip),
               id: Number(id),
               email: User?.data.email as string,
+              quantity: selectedQuantity,
+              officer_id: selectedOfficer,
             });
           }}
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"

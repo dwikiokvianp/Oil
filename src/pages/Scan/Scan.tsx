@@ -31,19 +31,13 @@ export default function Scan() {
               facingMode={"environment"}
               onUpdate={(err, result) => {
                 if (result) {
+                  const scanData = result.getText();
+                  console.log(scanData);
+                  makeIdTo(Number(scanData));
                   toast.dismiss("scan");
                   toast.success("Found your QR Code!");
                   setStopStream(true);
-                  const scanData = result.getText();
-                  const regex = /\d+/;
-
-                  const matches = scanData.match(regex);
-                  const number = matches ? parseInt(matches[0]) : null;
-                  makeIdTo(number as number);
                   setOpen(true);
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  setData(number);
                 } else {
                   console.log(err);
                 }

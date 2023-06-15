@@ -19,7 +19,7 @@ export function CameraReact() {
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       const { data } = await axios.post(
-        import.meta.env.VITE_BASE_URL_REPORT,
+        `http://localhost:8080/proof/${orderId}`,
         formData,
         {
           headers: {

@@ -17,12 +17,10 @@ const user = {
 };
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
-  { name: "Sales", href: "#", current: false },
   { name: "Order", href: "#", current: false },
-  { name: "Orderlist", href: "#", current: false },
-  { name: "Scan", href: "#", current: false },
-  { name: "Vehicle", href: "#", current: false },
   { name: "Transaction", current: false, href: "#" },
+  { name: "Vehicle", href: "#", current: false },
+  { name: "Scan", href: "#", current: false },
 ];
 
 const userNavigation = [

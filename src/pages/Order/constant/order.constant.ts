@@ -57,6 +57,8 @@ export interface OrderInput {
   vehicle_id: number;
   oil_id: number;
   email: string;
+  quantity: number;
+  officer_id: number;
 }
 
 export const quantity = [
