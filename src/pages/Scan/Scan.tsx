@@ -12,6 +12,7 @@ export default function Scan() {
   const BAR_CODE_WIDTH = 600;
   const [isValidData, setIsValidData] = useState(false);
   const [id, setId] = useState(0);
+  const [isScanReady, setIsScanReady] = useState(false);
 
   return (
     <div>
@@ -27,6 +28,7 @@ export default function Scan() {
                 stopStream={stopStream}
                 facingMode={"environment"}
                 onUpdate={(err, result) => {
+                  setIsScanReady(true);
                   if (result) {
                     const scanData = result.getText();
                     setId(Number(scanData));

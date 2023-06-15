@@ -10,9 +10,9 @@ export function NavigationTop({
 }) {
   return (
     <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-      {navigationBar.map((item) => (
+      {navigationBar.map((item, index) => (
         <a
-          key={item.name}
+          key={index}
           onClick={() => handleOnChangeNavigation(item)}
           className={classNames(
             item.current

@@ -19,9 +19,9 @@ export function NavigationDrawerMobile({
   return (
     <Disclosure.Panel className="sm:hidden">
       <div className="space-y-1 pb-3 pt-2">
-        {navigationBar.map((item) => (
+        {navigationBar.map((item, index) => (
           <Disclosure.Button
-            key={item.name}
+            key={index}
             as="a"
             onClick={() => handleOnChangeNavigation(item)}
             className={classNames(
