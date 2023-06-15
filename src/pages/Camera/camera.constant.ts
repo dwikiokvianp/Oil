@@ -1,3 +1,9 @@
+export interface CameraDetail {
+  id: number;
+  name: string;
+  photo: string;
+  convert: string;
+}
 export const CameraForm = [
   {
     id: 1,

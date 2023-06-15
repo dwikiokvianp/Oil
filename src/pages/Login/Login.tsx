@@ -37,7 +37,7 @@ export default function Login() {
         navigate("/");
       } else if (data.token.role === "OFFICER") {
         loginState("OFFICER");
-        navigate("/scan");
+        navigate("/today-transaction");
       } else {
         loginState("USER");
         console.log("selamat kamu user");

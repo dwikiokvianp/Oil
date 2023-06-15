@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import { CameraDetail } from "../pages/Camera/camera.constant.ts";
 
 interface PhotoData {
   id: number;
@@ -15,11 +16,13 @@ export default function Modal({
   setOpen,
   data,
   upload,
+  picture,
 }: {
   open: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
   data: PhotoData[];
-  upload: () => void;
+  upload: (picture: CameraDetail[]) => void;
+  picture: CameraDetail[];
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -77,7 +80,7 @@ export default function Modal({
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
                     onClick={() => {
-                      upload();
+                      upload(picture);
                     }}
                   >
                     Confirm Upload
