@@ -22,6 +22,7 @@ const homeRoutes = [
       },
       { path: "/order/:id", element: <OrderForm /> },
       { path: "/order/:id/transaction", element: <OrderTransaction /> },
+      { path: "/userlist", element: <UserList /> },
       { path: "/vehicle", element: <Vehicle /> },
       { path: "/transaction", element: <Transaction /> },
       { path: "/transaction/:id", element: <DetailTransaction /> },
