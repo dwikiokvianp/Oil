@@ -1,3 +1,4 @@
+
 export interface NavigationType {
   name: string;
   href: string;
@@ -22,6 +23,7 @@ const navigation = [
   { name: "Vehicle", href: "#", current: false },
   { name: "Today-transaction", href: "#", current: false },
   { name: "Scan", href: "#", current: false },
+  {name: "userlist", href: "#", current: false },
 ];
 
 const userNavigation = [

@@ -8,7 +8,7 @@ import { OrderTransaction } from "../pages/Order/OrderTransaction.tsx";
 import { Vehicle } from "../pages/Vehicle/Vehicle.tsx";
 import { Transaction } from "../pages/Transaction/Transaction.tsx";
 import { DetailTransaction } from "../pages/Transaction/DetailTransaction.tsx";
-import { TodayTransaction } from "../pages/TodaysTransaction/TodayTransaction.tsx";
+import { UserList } from "../pages/UserList/UserList.tsx";
 
 const homeRoutes = [
   {
@@ -28,7 +28,6 @@ const homeRoutes = [
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/camera", element: <CameraReact /> },
       { path: "/scan", element: <Scan /> },
-      { path: "today-transaction", element: <TodayTransaction /> },
     ],
   },
 ];
