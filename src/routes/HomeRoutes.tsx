@@ -8,6 +8,7 @@ import { OrderTransaction } from "../pages/Order/OrderTransaction.tsx";
 import { Vehicle } from "../pages/Vehicle/Vehicle.tsx";
 import { Transaction } from "../pages/Transaction/Transaction.tsx";
 import { DetailTransaction } from "../pages/Transaction/DetailTransaction.tsx";
+import { UserList } from "../pages/UserList/UserList.tsx";
 
 const homeRoutes = [
   {
@@ -21,6 +22,7 @@ const homeRoutes = [
       },
       { path: "/order/:id", element: <OrderForm /> },
       { path: "/order/:id/transaction", element: <OrderTransaction /> },
+      {path: "/userlist", element: <UserList /> },
       { path: "/vehicle", element: <Vehicle /> },
       { path: "/transaction", element: <Transaction /> },
       { path: "/transaction/:id", element: <DetailTransaction /> },
