@@ -54,3 +54,21 @@ export const getTransactionByUserId = async (
   const { data } = await transactionService.get(`/transactions/user/${id}`);
   return data;
 };
+
+interface TodayTransaction {
+  id: number;
+  name: string;
+  phone: string;
+  date: string;
+  quantity: number;
+  status: "pending" | "done";
+}
+
+const mockService = axios.create({
+  baseURL: "http://localhost:3000",
+});
+
+export const todayTransaction = async (): Promise<TodayTransaction[]> => {
+  const { data } = await mockService.get("/transaction-today");
+  return data;
+};
