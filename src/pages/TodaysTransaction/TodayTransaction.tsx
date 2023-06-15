@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { todayTransaction } from "../../api/transaction.service.api.ts";
 import { TableHead } from "../../components/organisms/TableHead.tsx";
 import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Scan from "../Scan/Scan.tsx";
 
 const tableHeadTransaction = [
@@ -21,6 +21,14 @@ export function TodayTransaction() {
     queryFn: todayTransaction,
   });
   const [open, setOpen] = useState(false);
+
+  const [isValidData, setIsValidData] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setIsValidData(false);
+    }
+  }, [open]);
 
   return (
     <main>
@@ -93,7 +101,11 @@ export function TodayTransaction() {
           </div>
         </div>
       </section>
-      <ModalTemplate open={open} setOpen={setOpen} innerComponent={Scan()} />
+      <ModalTemplate
+        open={open}
+        setOpen={setOpen}
+        innerComponent={Scan({ isValidData, setIsValidData })}
+      />
     </main>
   );
 }

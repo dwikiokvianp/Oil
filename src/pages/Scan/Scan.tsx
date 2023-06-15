@@ -5,12 +5,18 @@ import { getTransactionById } from "../../api/transaction.service.api.ts";
 import { addNotification } from "../../utils/notification.utils.ts";
 import { Checkbox } from "../../components/atoms/Checkbox.tsx";
 import { useNavigate } from "react-router-dom";
+import { LoadingSpinner } from "../../components/molecules/LoadingSpinner.tsx";
 
-export default function Scan() {
+export default function Scan({
+  isValidData,
+  setIsValidData,
+}: {
+  isValidData: boolean;
+  setIsValidData: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [stopStream, setStopStream] = useState(false);
   const BAR_CODE_HEIGHT = 500;
   const BAR_CODE_WIDTH = 600;
-  const [isValidData, setIsValidData] = useState(false);
   const [id, setId] = useState(0);
   const [isScanReady, setIsScanReady] = useState(false);
 
@@ -21,29 +27,34 @@ export default function Scan() {
           {isValidData ? (
             <DetailData id={id} />
           ) : (
-            <div className="p-1">
-              <BarcodeScannerComponent
-                width={BAR_CODE_WIDTH}
-                height={BAR_CODE_HEIGHT}
-                stopStream={stopStream}
-                facingMode={"environment"}
-                onUpdate={(err, result) => {
-                  setIsScanReady(true);
-                  if (result) {
-                    const scanData = result.getText();
-                    setId(Number(scanData));
-                    setStopStream(true);
-                    addNotification(
-                      "success",
-                      "Data found!, Please confirm the data"
-                    );
-                    setIsValidData(true);
-                  } else {
-                    console.log(err);
-                  }
-                }}
-              />
-            </div>
+            <>
+              <div style={{ display: !isScanReady ? "block" : "none" }}>
+                <LoadingSpinner />
+              </div>
+              <div>
+                <BarcodeScannerComponent
+                  width={BAR_CODE_WIDTH}
+                  height={BAR_CODE_HEIGHT}
+                  stopStream={stopStream}
+                  facingMode={"environment"}
+                  onUpdate={(err, result) => {
+                    setIsScanReady(true);
+                    if (result) {
+                      const scanData = result.getText();
+                      setId(Number(scanData));
+                      setStopStream(true);
+                      addNotification(
+                        "success",
+                        "Data found!, Please confirm the data"
+                      );
+                      setIsValidData(true);
+                    } else {
+                      console.log(err);
+                    }
+                  }}
+                />
+              </div>
+            </>
           )}
         </div>
       </div>

@@ -1,7 +1,7 @@
 export function LoadingSpinner() {
   return (
     <div
-      className="absolute top-30 flex flex-col justify-center items-center"
+      className="absolute top-[50%] left-[30%]  flex flex-col justify-center items-center"
       role="status"
     >
       <svg
