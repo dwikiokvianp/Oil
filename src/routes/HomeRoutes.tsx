@@ -29,7 +29,7 @@ const homeRoutes = [
       { path: "/transaction", element: <Transaction /> },
       { path: "/transaction/:id", element: <DetailTransaction /> },
       { path: "/dashboard", element: <Dashboard /> },
-      { path: "/camera", element: <CameraReact /> },
+      { path: "/camera/:orderId", element: <CameraReact /> },
       { path: "/scan", element: <Scan /> },
     ],
   },

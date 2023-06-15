@@ -6,12 +6,6 @@ import { addNotification } from "../../utils/notification.utils.ts";
 import { Checkbox } from "../../components/atoms/Checkbox.tsx";
 import { useNavigate } from "react-router-dom";
 
-const checkBoxData = [
-  "I agree to the terms and conditions",
-  "I have read the privacy policy",
-  "I confirm that the data is correct",
-];
-
 export default function Scan() {
   const [stopStream, setStopStream] = useState(false);
   const BAR_CODE_HEIGHT = 500;
@@ -102,7 +96,7 @@ function DetailData({ id }: { id: number }) {
             onClick={() => {
               if (checkedFour && checkedFive && checkedSix && checkedSeven) {
                 addNotification("success", "Transaction success");
-                navigate("/camera");
+                navigate(`/camera/${id}`);
               } else {
                 addNotification("error", "Please check all checkbox");
               }
