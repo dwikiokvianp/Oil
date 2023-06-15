@@ -3,6 +3,9 @@ import { BsSearch } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { todayTransaction } from "../../api/transaction.service.api.ts";
 import { TableHead } from "../../components/organisms/TableHead.tsx";
+import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
+import { useState } from "react";
+import Scan from "../Scan/Scan.tsx";
 
 const tableHeadTransaction = [
   "ID Order",
@@ -17,6 +20,7 @@ export function TodayTransaction() {
     queryKey: "getTodayTransaction",
     queryFn: todayTransaction,
   });
+  const [open, setOpen] = useState(false);
 
   return (
     <main>
@@ -33,7 +37,12 @@ export function TodayTransaction() {
           />
         </section>
         <section className="font-Montserrat">
-          <button className="bg-[#FFADAD] p-2  rounded px-6 hover:bg-pink-500 py-3">
+          <button
+            onClick={() => {
+              setOpen(true);
+            }}
+            className="bg-[#FFADAD] p-2  rounded px-6 hover:bg-pink-500 py-3"
+          >
             <p className="text-xs">SCAN QR</p>
           </button>
         </section>
@@ -84,6 +93,7 @@ export function TodayTransaction() {
           </div>
         </div>
       </section>
+      <ModalTemplate open={open} setOpen={setOpen} innerComponent={Scan()} />
     </main>
   );
 }
