@@ -83,19 +83,22 @@ function DetailData({ id }: { id: number }) {
   return (
     <>
       {isConfirm ? (
-        <>
+        <div>
+          <div className="my-4 text-2xl font-bold text-center">
+            Procedural Operation Confirmation
+          </div>
           <Checkbox
-            label={"I agree to the terms and conditions"}
+            label={"I already check the product"}
             checked={checkedFour}
             setChecked={setCheckedFour}
           />
           <Checkbox
-            label={"I agree to the terms and conditions"}
+            label={"User already validate the product"}
             checked={checkedFive}
             setChecked={setCheckedFive}
           />
           <Checkbox
-            label={"I agree to the terms and conditions"}
+            label={"I already check and validate the product"}
             checked={checkedSix}
             setChecked={setCheckedSix}
           />
@@ -105,7 +108,7 @@ function DetailData({ id }: { id: number }) {
             setChecked={setCheckedSeven}
           />
           <button
-            className="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            className="w-full px-2 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             onClick={() => {
               if (checkedFour && checkedFive && checkedSix && checkedSeven) {
                 addNotification("success", "Transaction success");
@@ -117,21 +120,16 @@ function DetailData({ id }: { id: number }) {
           >
             Confirm
           </button>
-        </>
+        </div>
       ) : (
-        <>
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500">
-              <thead className="text-xs text-gray-700 uppercase">
-                <tr>
-                  <th scope="col" className="px-6 py-3 bg-gray-50 ">
-                    Data
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Value
-                  </th>
-                </tr>
-              </thead>
+        <div className="m-2">
+          <div className="shadow-md sm:rounded-lg p-8">
+            <h1>
+              <div className="my-4 text-sm sm:text-md font-bold text-center">
+                Transaction Detail
+              </div>
+            </h1>
+            <table className="w-full text-xs text-left text-gray-500">
               <tbody>
                 <tr className="border-b border-gray-200">
                   <th
@@ -210,7 +208,7 @@ function DetailData({ id }: { id: number }) {
             </form>
           </section>
           <button
-            className="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            className="w-full my-4 px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             onClick={() => {
               if (checkedOne && checkedTwo && checkedThree) {
                 addNotification("success", "Data confirmed");
@@ -222,7 +220,7 @@ function DetailData({ id }: { id: number }) {
           >
             Confirm
           </button>
-        </>
+        </div>
       )}
     </>
   );

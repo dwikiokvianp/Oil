@@ -49,17 +49,8 @@ export function OrderTransaction() {
   });
 
   return (
-    <div className="space-y-10 divide-y divide-gray-900/10">
+    <div className="ml-8 space-y-10 divide-y divide-gray-900/10">
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-        <div className="px-4 sm:px-0">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Order Transaction
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
-            Fill in the form below to proceed with the transaction.
-          </p>
-        </div>
-
         <form
           onSubmit={(e) => {
             e.preventDefault();

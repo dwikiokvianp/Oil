@@ -5,7 +5,7 @@ interface LoginStore {
   role: "ADMIN" | "USER" | "OFFICER" | "";
   setReverse: () => void;
   reset: () => void;
-  setRole: (role: "ADMIN" | "OFFICER" | "USER") => void;
+  setRole: (role: "ADMIN" | "OFFICER" | "USER" | "ADMIN_PUSAT") => void;
 }
 export const useLoginStore = create<LoginStore>((set) => ({
   isAdmin: true,

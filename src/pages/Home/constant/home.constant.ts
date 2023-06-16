@@ -1,4 +1,3 @@
-
 export interface NavigationType {
   name: string;
   href: string;
@@ -16,14 +15,19 @@ const user = {
   imageUrl:
     "https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png",
 };
+
+export interface Nav {
+  name: string;
+  href: string;
+  current: boolean;
+}
+
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Order", href: "#", current: false },
   { name: "Transaction", current: false, href: "#" },
   { name: "Vehicle", href: "#", current: false },
   { name: "Today-transaction", href: "#", current: false },
-  { name: "Scan", href: "#", current: false },
-  {name: "userlist", href: "#", current: false },
 ];
 
 const userNavigation = [

@@ -38,7 +38,7 @@ export const getOfficer = async (): Promise<GetOfficer> => {
 
 interface Company {
   id: number;
-  username: string;
+  companyName: string;
   password: string;
   company_detail: string;
   company_zip_code: number;

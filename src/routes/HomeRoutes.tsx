@@ -30,7 +30,6 @@ const homeRoutes = [
       { path: "/transaction/:id", element: <DetailTransaction /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/camera/:orderId", element: <CameraReact /> },
-      { path: "/scan", element: <Scan /> },
     ],
   },
 ];

@@ -38,6 +38,9 @@ export default function Login() {
       } else if (data.token.role === "OFFICER") {
         loginState("OFFICER");
         navigate("/today-transaction");
+      } else if (data.token.role === "ADMIN_PUSAT") {
+        loginState("ADMIN_PUSAT");
+        navigate("/order");
       } else {
         loginState("USER");
         console.log("selamat kamu user");

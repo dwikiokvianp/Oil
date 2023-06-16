@@ -10,7 +10,10 @@ import { dataURLtoFile } from "../../utils/camera.utils.ts";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
 import { addNotification } from "../../utils/notification.utils.ts";
-import { getTransactionById } from "../../api/transaction.service.api.ts";
+import {
+  getProofByTransactionId,
+  getTransactionById,
+} from "../../api/transaction.service.api.ts";
 
 export function CameraReact() {
   const { orderId } = useParams<{ orderId: string }>();
@@ -39,14 +42,35 @@ export function CameraReact() {
     onSuccess: (data) => {
       if (data.data.status === "done") {
         setIsTransactionDone(true);
-        console.log("done");
       } else {
         console.log(data.data.status);
-        console.log("halah");
       }
     },
   });
 
+  const { data: PhotoProof } = useQuery({
+    queryKey: ["proof", orderId],
+    queryFn: () => getProofByTransactionId(Number(orderId)),
+    onSuccess: (data) => {
+      setPicture((prevPicture) => {
+        return prevPicture.map((item) => {
+          if (item.id === 1) {
+            return { ...item, photo: data.data.photo_ktp_url };
+          } else if (item.id === 2) {
+            return { ...item, photo: data.data.photo_orang_url };
+          } else if (item.id === 3) {
+            return { ...item, photo: data.data.photo_tangki_url };
+          } else {
+            return item;
+          }
+        });
+      });
+      console.log(picture, "ini dari setpicture");
+    },
+  });
+
+  console.log(TransactionDetail, "ini dari transaction detail");
+  console.log(PhotoProof, "ini dari photo proof");
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       const { data } = await axios.post(
@@ -88,50 +112,63 @@ export function CameraReact() {
     mutation.mutate(formData);
   };
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-1 lg:grid-cols-2">
       <div>
         <DetailOrder id={Number(orderId)} />
       </div>
       <main>
-        <div className="flex justify-center">
+        <div className="flex justify-center lg:justify-start lg:ml-16">
           <div className="grid grid-cols-3 gap-5">
             {!picture[0].photo ? (
               <AddPhoto setOpen={setOpenPetugas} title={"Foto Petugas"} />
             ) : (
-              <img
-                onClick={() => {
-                  setOpenPetugas(true);
-                }}
-                className="rounded w-40 h-40"
-                src={picture[0].photo}
-                alt={picture[0].name}
-              />
+              <div>
+                <p className="text-center text-xs font-bold  mt-6 lg:mt-0">
+                  Photo Petugas
+                </p>
+                <img
+                  onClick={() => {
+                    setOpenPetugas(true);
+                  }}
+                  className="mt-2 lg:mt-0 rounded object-cover"
+                  src={picture[0].photo}
+                  alt={picture[0].name}
+                />
+              </div>
             )}
             {!picture[1].photo ? (
               <AddPhoto setOpen={setOpenKtp} title={"Foto KTP"} />
             ) : (
-              <img
-                className="rounded w-40 h-40 hover:scale-105 hover:duration-100"
-                onClick={() => {
-                  setOpenKtp(true);
-                }}
-                src={picture[1].photo}
-                alt={picture[1].name}
-              />
+              <div>
+                <p className="text-center text-xs font-bold  mt-6 lg:mt-0">
+                  Photo KTP
+                </p>
+                <img
+                  className="mt-2 lg:mt-0 rounded object-cover"
+                  onClick={() => {
+                    setOpenKtp(true);
+                  }}
+                  src={picture[1].photo}
+                  alt={picture[1].name}
+                />
+              </div>
             )}
             {!picture[2].photo ? (
               <AddPhoto setOpen={setOpenTangki} title={"Foto Tangki"} />
             ) : (
-              <>
+              <div>
+                <p className="text-center text-xs font-bold  mt-6 lg:mt-0">
+                  Photo Tangki
+                </p>
                 <img
                   onClick={() => {
                     setOpenTangki(true);
                   }}
-                  className="rounded w-40 h-40"
+                  className="mt-2 lg:mt-0 rounded object-cover"
                   src={picture[2].photo}
                   alt={picture[2].name}
                 />
-              </>
+              </div>
             )}
           </div>
         </div>
@@ -156,7 +193,7 @@ export function CameraReact() {
                 uploadFile(picture);
               }
             }}
-            className="bg-[#D9D9D9] rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-14 mt-6"
+            className="bg-[#D9D9D9] rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-0 lg:ml-14 mt-6"
           >
             Upload Foto
           </button>

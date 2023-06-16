@@ -29,7 +29,11 @@ export const getTime = (timestamp: string): string => {
 
 export function formatUnixTimestamp(unixTimestamp: number): string {
   const date = new Date(unixTimestamp * 1000);
-  return date.toLocaleString();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  return `${day}-${month}-${year}`;
 }
 
 const unixTimestamp = 1686593838;

@@ -64,11 +64,24 @@ interface TodayTransaction {
   status: "pending" | "done";
 }
 
-const mockService = axios.create({
-  baseURL: "http://localhost:3000",
-});
-
 export const todayTransaction = async (): Promise<TodayTransaction[]> => {
-  const { data } = await mockService.get("/transaction-today");
+  const { data } = await transactionService.get("/transactions/today");
+  return data;
+};
+
+export interface ProofTransaction {
+  id: number;
+  transaction_id: number;
+  photo_ktp_url: string;
+  photo_orang_url: string;
+  photo_tangki_url: string;
+}
+
+export const getProofByTransactionId = async (
+  id: number
+): Promise<{
+  data: ProofTransaction;
+}> => {
+  const { data } = await transactionService.get(`/proof/transaction/${id}`);
   return data;
 };

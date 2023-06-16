@@ -3,8 +3,10 @@ import { useQuery } from "react-query";
 import { getUser } from "../../api/users.service.api.ts";
 import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
+import { FormAddUser } from "../../components/FormAddUser.tsx";
 
 export default function Order() {
   const [selectedPage, setSelectedPage] = useState(0);
@@ -19,52 +21,72 @@ export default function Order() {
       }),
   });
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [isAdminPusat, setIsAdminPusat] = useState(false);
 
+  useEffect(() => {
+    const userRole = localStorage.getItem("role");
+    if (userRole === "ADMIN_PUSAT") {
+      setIsAdminPusat(true);
+    }
+  }, []);
   return (
     <>
-      <form>
-        <label
-          htmlFor="default-search"
-          className="mb-2 text-sm font-medium text-gray-900 sr-only "
-        >
-          Search
-        </label>
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg
-              aria-hidden="true"
-              className="w-5 h-5 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </div>
-          <input
-            type="search"
-            id="default-search"
-            className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
-            placeholder="Search for users"
-            onChange={(e) => {
-              setSelectedPage(1);
-              setQueryName(e.target.value);
-            }}
-          />
-          <button
-            type="submit"
-            className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+      <div className="grid grid-cols-6 gap-2">
+        <form className="col-span-3">
+          <label
+            htmlFor="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only "
           >
             Search
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+              placeholder="Search for users"
+              onChange={(e) => {
+                setSelectedPage(1);
+                setQueryName(e.target.value);
+              }}
+            />
+            <button
+              type="submit"
+              className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+        {!isAdminPusat ? (
+          <button
+            onClick={() => {
+              setOpen(true);
+            }}
+            className="bg-slate-700 rounded-xl text-white"
+          >
+            Add User
           </button>
-        </div>
-      </form>
+        ) : null}
+      </div>
       <ul role="list" className="divide-y divide-gray-100 mt-2">
         {Users?.data.map((person) => (
           <li
@@ -130,6 +152,11 @@ export default function Order() {
           pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
         />
       </ul>
+      <ModalTemplate
+        open={open}
+        setOpen={setOpen}
+        innerComponent={FormAddUser()}
+      />
     </>
   );
 }

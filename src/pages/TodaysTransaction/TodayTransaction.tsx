@@ -19,6 +19,9 @@ export function TodayTransaction() {
   const { data } = useQuery({
     queryKey: "getTodayTransaction",
     queryFn: todayTransaction,
+    onSuccess: (data) => {
+      console.log(data);
+    },
   });
   const [open, setOpen] = useState(false);
 
@@ -35,12 +38,12 @@ export function TodayTransaction() {
       <HeaderBarToday />
       <section className="px-4 sm:px-6 lg:px-8 flex items-center mt-4 justify-between">
         <section className="border-[#B2B2B2] border-[1px] rounded-lg flex items-center overflow-hidden">
-          <div className="p-2">
+          <div className="p-1">
             <BsSearch />
           </div>
           <input
             type="text"
-            className="text-[12px] font-Montserrat text-[#B2B2B2]  border-none w-full outline-none"
+            className="text-[12px]  text-[#B2B2B2]  border-none w-full focus:outline-none hover:cursor-pointer h-[12px]"
             placeholder="Search ...."
           />
         </section>
@@ -51,7 +54,7 @@ export function TodayTransaction() {
             }}
             className="bg-[#FFADAD] p-2  rounded px-6 hover:bg-pink-500 py-3"
           >
-            <p className="text-xs">SCAN QR</p>
+            <p className="text-xs ">SCAN QR</p>
           </button>
         </section>
       </section>
