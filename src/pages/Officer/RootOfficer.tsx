@@ -48,23 +48,18 @@ export function RootOfficer() {
         <img src="../../../public/dotted.svg" alt="" />
       </header>
       <section>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-4 ">
           {officerNavigation.map((item) => (
-            <OfficerNavigation
-              key={item.id}
-              name={item.name}
-              icon={item.icon}
-              navigate={item.navigate}
-            />
+            <div className="flex justify-center">
+              <OfficerNavigation
+                key={item.id}
+                name={item.name}
+                icon={item.icon}
+                navigate={item.navigate}
+              />
+            </div>
           ))}
         </div>
-      </section>
-      <section className="px-4 sm:px-6 lg:px-8 flex items-center mt-4 justify-between">
-        <section className="font-Montserrat">
-          <button className="bg-[#FFADAD] p-2  rounded px-6 hover:bg-pink-500 py-3">
-            <p className="text-xs ">SCAN QR</p>
-          </button>
-        </section>
       </section>
       <section>
         <div className="absolute bottom-5 right-5 bg-[#5243DF] rounded-full w-[75px] flex justify-center items-center">

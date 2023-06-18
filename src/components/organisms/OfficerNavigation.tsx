@@ -17,7 +17,7 @@ export function OfficerNavigation({
         console.log(navigate);
         navigateTo(navigate);
       }}
-      className="border-2 flex justify-center items-center shadow-xl rounded-xl"
+      className="border-2 flex justify-center items-center shadow-xl rounded-xl h-[140px] w-[140px]"
     >
       <img className="p-4" src={icon} alt={name} />
     </div>

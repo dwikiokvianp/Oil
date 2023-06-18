@@ -17,8 +17,8 @@ export function FuelIn() {
       <section className="mt-6">
         <header className="text-[#B2B2B2] font-medium text-sm">History</header>
         <main className="mt-4">
-          <OfficerHistoryBar />
-          <OfficerHistoryBar />
+          <OfficerHistoryBar type={"Fuel In"} />
+          <OfficerHistoryBar type={"Fuel Out"} />
         </main>
       </section>
     </div>
