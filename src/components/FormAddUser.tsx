@@ -1,32 +1,28 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "react-query";
-import axios from "axios";
 import { addNotification } from "../utils/notification.utils.ts";
+import { registerUser } from "../api/users.service.api.ts";
+import { CustomErrorType } from "../type/axios.type";
 export function FormAddUser() {
-  const mutation = useMutation({
-    mutationFn: () => {
-      registerForm.company_id = Number(registerForm.company_id);
-      const { data } = axios.post(
-        "http://localhost:8080/auth/register",
-        registerForm
-      );
-      return data;
-    },
-    onSuccess: (data) => {
-      console.log(data);
-      addNotification("success", "User added successfully");
-    },
-    onError: () => {
-      addNotification("error", "Failed to add user");
-    },
-  });
   const [registerForm, setRegisterForm] = useState({
     email: "",
     username: "",
     password: "",
     company_id: 1,
   });
-  const onChange = (e) => {
+
+  const mutation = useMutation({
+    mutationFn: () => registerUser(registerForm),
+    onSuccess: (data) => {
+      console.log(data);
+      addNotification("success", data.message);
+    },
+    onError: (e: CustomErrorType) => {
+      console.log(e);
+      addNotification("error", e.error);
+    },
+  });
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
   };
   return (
@@ -97,7 +93,12 @@ export function FormAddUser() {
           id="company_id"
           name="company_id"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          onChange={onChange}
+          onChange={(e) => {
+            setRegisterForm({
+              ...registerForm,
+              [e.target.name]: e.target.value,
+            });
+          }}
         >
           <option selected>Choose a compnay</option>
           <option value="1">Donnelly-Donnelly</option>

@@ -1,11 +1,9 @@
-import Home from "../pages/Home/Home.tsx";
-import { CameraReact } from "../pages/Camera/Camera.tsx";
+import { TodayTransaction } from "../pages/TodaysTransaction/TodayTransaction.tsx";
 
 const officerRoutes = [
   {
-    path: "/",
-    element: <Home />,
-    children: [{ path: "/camera", element: <CameraReact /> }],
+    path: "/today-transaction",
+    element: <TodayTransaction />,
   },
 ];
 

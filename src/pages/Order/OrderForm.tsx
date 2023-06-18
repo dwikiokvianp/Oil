@@ -4,12 +4,9 @@ import { useQuery } from "react-query";
 import { getUserById } from "../../api/users.service.api.ts";
 import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 import { OrderTransaction } from "./OrderTransaction.tsx";
-import { useState } from "react";
 
 export function OrderForm() {
   const params = useParams();
-
-  const [isAdminPusat, setIsAdminPusat] = useState(false);
 
   const { data: User } = useQuery({
     queryKey: ["transaction", params.id],

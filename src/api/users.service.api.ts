@@ -70,3 +70,23 @@ interface User {
   created_at: number;
   phone: string;
 }
+
+interface RegisterForm {
+  email: string;
+  username: string;
+  password: string;
+  company_id: number;
+}
+
+interface RegisterResponse {
+  message: string;
+  user: Omit<RegisterForm, "password">;
+}
+
+export async function registerUser(
+  registerForm: RegisterForm
+): Promise<RegisterResponse> {
+  registerForm.company_id = Number(registerForm.company_id);
+  const { data } = await userService.post("/auth/register", registerForm);
+  return data;
+}
