@@ -3,6 +3,29 @@ import { useEffect, useState } from "react";
 import Scan from "../Scan/Scan.tsx";
 import { OfficerNavigation } from "../../components/organisms/OfficerNavigation.tsx";
 
+const officerNavigation = [
+  {
+    id: 1,
+    name: "Fuel In",
+    icon: "../../../public/fuel_in_svg.svg",
+  },
+  {
+    id: 2,
+    name: "Fuel Out",
+    icon: "../../../public/fuel_out.svg",
+  },
+  {
+    id: 3,
+    name: "today order",
+    icon: "../../../public/today_order.svg",
+  },
+  {
+    id: 4,
+    name: "list order",
+    icon: "../../../public/list_order.svg",
+  },
+];
+
 export function TodayTransaction() {
   const [open, setOpen] = useState(false);
 
@@ -15,26 +38,33 @@ export function TodayTransaction() {
   }, [open]);
 
   return (
-    <main>
-      <section className="m-8">
+    <main className="m-8">
+      <header className="mb-10 flex justify-between">
+        <h1 className="font-semibold text-xl">Hello, Aceng</h1>
+        <img src="../../../public/dotted.svg" alt="" />
+      </header>
+      <section>
         <div className="grid grid-cols-2 gap-6">
-          <OfficerNavigation />
-          <OfficerNavigation />
-          <OfficerNavigation />
-          <OfficerNavigation />
+          {officerNavigation.map((item) => (
+            <OfficerNavigation
+              key={item.id}
+              name={item.name}
+              icon={item.icon}
+            />
+          ))}
         </div>
       </section>
-      <section className="px-4 sm:px-6 lg:px-8 flex items-center mt-4 justify-between">
-        <section className="font-Montserrat">
-          <button
+      <section>
+        <div className="absolute bottom-5 right-5 bg-[#5243DF] rounded-full w-[75px] flex justify-center items-center">
+          <img
             onClick={() => {
               setOpen(true);
             }}
-            className="bg-[#FFADAD] p-2  rounded px-6 hover:bg-pink-500 py-3"
-          >
-            <p className="text-xs ">SCAN QR</p>
-          </button>
-        </section>
+            className="p-4"
+            src="../../../public/qr_code_scanner.svg"
+            alt="qr_code_scanner"
+          />
+        </div>
       </section>
       <ModalTemplate
         open={open}
