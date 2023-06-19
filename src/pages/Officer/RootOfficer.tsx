@@ -50,7 +50,7 @@ export function RootOfficer() {
       <section>
         <div className="grid grid-cols-2 gap-4 ">
           {officerNavigation.map((item) => (
-            <div className="flex justify-center">
+            <div key={item.id} className="flex justify-center">
               <OfficerNavigation
                 key={item.id}
                 name={item.name}

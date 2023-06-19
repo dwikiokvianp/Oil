@@ -59,6 +59,7 @@ export interface OrderInput {
   email: string;
   quantity: number;
   officer_id: number;
+  date: string;
 }
 
 export const quantity = [

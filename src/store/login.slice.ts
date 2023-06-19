@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface LoginStore {
   isAdmin: boolean;
-  role: "ADMIN" | "USER" | "OFFICER" | "";
+  role: "ADMIN" | "USER" | "OFFICER" | "ADMIN_PUSAT" | "";
   setReverse: () => void;
   reset: () => void;
   setRole: (role: "ADMIN" | "OFFICER" | "USER" | "ADMIN_PUSAT") => void;

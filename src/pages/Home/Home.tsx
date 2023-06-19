@@ -23,8 +23,6 @@ export default function Home() {
   let filteredNavigation = [{}];
   if (role === "ADMIN") {
     filteredNavigation = navigation.slice(0, 3);
-  } else if (role === "OFFICER") {
-    filteredNavigation = navigation.slice(4);
   } else if (role === "ADMIN_PUSAT") {
     filteredNavigation = navigation.slice(0, 3);
   }

@@ -34,6 +34,7 @@ export function OrderTransaction() {
   const [selectedOil, setSelectedOil] = useState(2);
   const [selectedQuantity, setSelectedQuantity] = useState(8000);
   const [selectedOfficer, setSelectedOfficer] = useState(1);
+  const [selectedDate, setSelectedDate] = useState("");
   const mutation = useMutation({
     mutationFn: postOrder,
     onMutate: () => {
@@ -70,6 +71,7 @@ export function OrderTransaction() {
               email: User?.data.email as string,
               quantity: selectedQuantity,
               officer_id: selectedOfficer,
+              date: new Date(selectedDate).toISOString(),
             });
           }}
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
@@ -155,6 +157,24 @@ export function OrderTransaction() {
                       </option>
                     ))}
                   </select>
+                </div>
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Date of Transaction
+                </label>
+                <div className="mt-2">
+                  <input
+                    onChange={(e) => {
+                      setSelectedDate(e.target.value);
+                    }}
+                    type="date"
+                    id="date"
+                    name="birthday"
+                  />
                 </div>
               </div>
               <div className="sm:col-span-4">

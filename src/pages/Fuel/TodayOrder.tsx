@@ -2,8 +2,18 @@ import { HeaderOfficerTitle } from "../../components/molecules/HeaderOfficerTitl
 import { OfficerInformationBar } from "../../components/molecules/OfficerInformationBar.tsx";
 import { OrderBarInformation } from "../../components/molecules/OrderBarInformation.tsx";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useQuery } from "react-query";
+import { getTodayTransactions } from "../../api/transaction.service.api.ts";
 
 export function TodayOrder() {
+  const { data } = useQuery({
+    queryKey: "todayOrder",
+    queryFn: getTodayTransactions,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
   return (
     <div className="m-6">
       <HeaderOfficerTitle title={"Today Order"} />
@@ -23,20 +33,16 @@ export function TodayOrder() {
         <AiOutlineSearch className="text-[#B2B2B2] bg-white text-xl mr-2" />
       </section>
       <section className="mt-6">
-        <OrderBarInformation
-          date={"14 June 2023"}
-          company_name={"PT XYZ"}
-          quantity={8000}
-          status={"done"}
-          phone_number={"089677166800"}
-        />
-        <OrderBarInformation
-          date={"14 June 2023"}
-          company_name={"PT XYZ"}
-          quantity={8000}
-          status={"pending"}
-          phone_number={"089677166800"}
-        />
+        {data?.map((item) => (
+          <OrderBarInformation
+            key={item.id}
+            date={item.date}
+            company_name={item.name}
+            quantity={item.quantity}
+            status={item.status}
+            phone_number={item.phone}
+          />
+        ))}
       </section>
     </div>
   );

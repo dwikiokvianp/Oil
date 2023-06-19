@@ -37,13 +37,12 @@ export default function Login() {
         navigate("/");
       } else if (data.token.role === "OFFICER") {
         loginState("OFFICER");
-        navigate("/today-transaction");
+        navigate("/officer");
       } else if (data.token.role === "ADMIN_PUSAT") {
-        loginState("ADMIN_PUSAT");
+        loginState("ADMIN");
         navigate("/order");
       } else {
         loginState("USER");
-        console.log("selamat kamu user");
       }
     },
     onError: (error: AxiosError<CustomErrorType>) => {

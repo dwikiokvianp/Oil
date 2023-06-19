@@ -15,14 +15,12 @@ export default function Scan({
   setIsValidData: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [stopStream, setStopStream] = useState(false);
-  const BAR_CODE_HEIGHT = 500;
-  const BAR_CODE_WIDTH = 600;
   const [id, setId] = useState(0);
   const [isScanReady, setIsScanReady] = useState(false);
 
   return (
     <div>
-      <div className="justify-center flex flex-col h-[50vh] items-center">
+      <div className="justify-center flex flex-col h-[23vh] items-center">
         <div className=" rounded">
           {isValidData ? (
             <DetailData id={id} />
@@ -32,27 +30,32 @@ export default function Scan({
                 <LoadingSpinner />
               </div>
               <div>
-                <BarcodeScannerComponent
-                  width={BAR_CODE_WIDTH}
-                  height={BAR_CODE_HEIGHT}
-                  stopStream={stopStream}
-                  facingMode={"environment"}
-                  onUpdate={(err, result) => {
-                    setIsScanReady(true);
-                    if (result) {
-                      const scanData = result.getText();
-                      setId(Number(scanData));
-                      setStopStream(true);
-                      addNotification(
-                        "success",
-                        "Data found!, Please confirm the data"
-                      );
-                      setIsValidData(true);
-                    } else {
-                      console.log(err);
-                    }
-                  }}
-                />
+                <div className="font-semibold text-sm text-center mb-4">
+                  Scan your QR order
+                </div>
+                <div className="rounded-2xl overflow-hidden">
+                  <BarcodeScannerComponent
+                    width={260}
+                    height={260}
+                    stopStream={stopStream}
+                    facingMode={"environment"}
+                    onUpdate={(err, result) => {
+                      setIsScanReady(true);
+                      if (result) {
+                        const scanData = result.getText();
+                        setId(Number(scanData));
+                        setStopStream(true);
+                        addNotification(
+                          "success",
+                          "Data found!, Please confirm the data"
+                        );
+                        setIsValidData(true);
+                      } else {
+                        console.log(err);
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </>
           )}
