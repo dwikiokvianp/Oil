@@ -3,8 +3,8 @@ import { Disclosure } from "@headlessui/react";
 import type { UserNavigationType } from "./constant/home.constant.ts";
 import { navigation, NavigationType } from "./constant/home.constant.ts";
 import { useNavigate } from "react-router-dom";
-import { useLoginStore } from "../../store/login.slice.ts";
 import {
+  getLocalStorage,
   LocalStorageKeys,
   removeLocalStorage,
 } from "../../utils/local.storage.utils.ts";
@@ -18,7 +18,7 @@ import {
 
 export default function Home() {
   const navigate = useNavigate();
-  const role = useLoginStore((state) => state.role);
+  const role = getLocalStorage(LocalStorageKeys.role);
 
   let filteredNavigation = [{}];
   if (role === "ADMIN_SALES") {

@@ -4,7 +4,8 @@ import { redirect } from "react-router-dom";
 
 export const redirectRoot = () => {
   const token = getLocalStorage(LocalStorageKeys.token);
-  if (token) {
+  const role = getLocalStorage(LocalStorageKeys.role);
+  if ((token && role === "ADMIN_PUSAT") || role === "ADMIN_SALES") {
     addNotification("info", "You are already logged in");
     return redirect("/");
   } else {
