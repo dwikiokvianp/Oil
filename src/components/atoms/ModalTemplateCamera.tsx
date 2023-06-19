@@ -1,7 +1,7 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-export default function ModalTemplate({
+export default function ModalTemplateCamera({
   open,
   setOpen,
   innerComponent,
