@@ -3,9 +3,16 @@ import { OfficerInformationBar } from "../../components/molecules/OfficerInforma
 import { OrderBarInformation } from "../../components/molecules/OrderBarInformation.tsx";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useQuery } from "react-query";
-import { getTodayTransactions } from "../../api/transaction.service.api.ts";
+import {
+  getSummaryTransaction,
+  getTodayTransactions,
+} from "../../api/transaction.service.api.ts";
 
 export function TodayOrder() {
+  const { data: Summary } = useQuery({
+    queryKey: "summary",
+    queryFn: getSummaryTransaction,
+  });
   const { data } = useQuery({
     queryKey: "todayOrder",
     queryFn: getTodayTransactions,
@@ -20,7 +27,7 @@ export function TodayOrder() {
       <section className="grid grid-cols-1 gap-4 mt-8">
         <OfficerInformationBar
           title={"Total Order Today"}
-          value={250}
+          value={Summary?.order_today as number}
           type={"order"}
         />
       </section>

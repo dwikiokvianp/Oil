@@ -27,7 +27,9 @@ export default function Home() {
     filteredNavigation = navigation.slice(0, 3);
   }
 
-  const [navigationBar, setNavigationBar] = useState(filteredNavigation);
+  const [navigationBar, setNavigationBar] = useState<NavigationType[]>(
+    filteredNavigation as NavigationType[]
+  );
 
   const handleSignOut = (nav: UserNavigationType) => {
     if (nav.name !== "Sign out") {

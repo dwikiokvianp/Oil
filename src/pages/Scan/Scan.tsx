@@ -111,7 +111,15 @@ function DetailData({ id }: { id: number }) {
             setChecked={setCheckedSeven}
           />
           <button
-            className="w-full px-2 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            className={`w-full px-2 py-2 mt-4 ${
+              checkedFour && checkedFive && checkedSix && checkedSeven
+                ? "bg-blue-500"
+                : "bg-gray-300"
+            } ${
+              checkedFour && checkedFive && checkedSix && checkedSeven
+                ? "hover:bg-blue-600"
+                : "hover:bg-gray-400"
+            } text-sm font-medium text-white rounded-md  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
             onClick={() => {
               if (checkedFour && checkedFive && checkedSix && checkedSeven) {
                 addNotification("success", "Transaction success");
@@ -211,7 +219,15 @@ function DetailData({ id }: { id: number }) {
             </form>
           </section>
           <button
-            className="w-full my-4 px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            className={`w-full my-4 px-4 py-2 mt-4 text-sm font-medium text-white ${
+              checkedOne && checkedTwo && checkedThree
+                ? "bg-blue-500"
+                : "bg-gray-300"
+            } ${
+              checkedOne && checkedTwo && checkedThree
+                ? "hover:bg-blue-600"
+                : "hover:bg-gray-400"
+            }  rounded-md  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
             onClick={() => {
               if (checkedOne && checkedTwo && checkedThree) {
                 addNotification("success", "Data confirmed");

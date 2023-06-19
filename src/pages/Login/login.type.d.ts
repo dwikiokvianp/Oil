@@ -10,5 +10,6 @@ export interface LoginResponse {
     role: string;
     email: string;
     access_token: string;
+    name: string;
   };
 }

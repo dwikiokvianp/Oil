@@ -2,6 +2,10 @@ import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
 import { useEffect, useState } from "react";
 import Scan from "../Scan/Scan.tsx";
 import { OfficerNavigation } from "../../components/organisms/OfficerNavigation.tsx";
+import {
+  getLocalStorage,
+  LocalStorageKeys,
+} from "../../utils/local.storage.utils.ts";
 
 const officerNavigation = [
   {
@@ -44,7 +48,9 @@ export function RootOfficer() {
   return (
     <main className="m-8">
       <header className="mb-10 flex justify-between">
-        <h1 className="font-semibold text-xl">Hello, Aceng</h1>
+        <h1 className="font-semibold text-xl">
+          Hello, {getLocalStorage(LocalStorageKeys.name)?.toUpperCase()}
+        </h1>
         <img src="../../../public/dotted.svg" alt="" />
       </header>
       <section>

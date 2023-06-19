@@ -105,3 +105,13 @@ export const getTomorrowTransactions = async (): Promise<
   const { data } = await transactionService.get("/transactions/tomorrow");
   return data;
 };
+
+export const getSummaryTransaction = async (): Promise<{
+  oil_in: number;
+  oil_out: number;
+  order_done: number;
+  order_today: number;
+}> => {
+  const { data } = await transactionService.get("/transactions/summary");
+  return data;
+};

@@ -31,6 +31,8 @@ export default function Login() {
       setLocalStorage(LocalStorageKeys.access_token, data.token.access_token);
       setLocalStorage(LocalStorageKeys.email, data.token.email);
       setLocalStorage(LocalStorageKeys.role, data.token.role);
+      setLocalStorage(LocalStorageKeys.name, data.token.name);
+      console.log(data.token);
       addNotification("success", "Login success");
       if (data.token.role === "ADMIN_SALES") {
         loginState("ADMIN_SALES");
