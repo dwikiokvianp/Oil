@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { DetailOrder } from "../../components/templates/DetailOrder.tsx";
 import { CameraComponent } from "../../components/organisms/Camera.tsx";
 import { AddPhoto } from "../../components/molecules/AddPhoto.tsx";
-import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
 import { RefObject, useCallback, useRef, useState } from "react";
 import { CameraDetail, CameraForm } from "./camera.constant.ts";
 import Webcam from "react-webcam";
@@ -14,6 +13,7 @@ import {
   getProofByTransactionId,
   getTransactionById,
 } from "../../api/transaction.service.api.ts";
+import ModalTemplateCamera from "../../components/atoms/ModalTemplateCamera.tsx";
 
 export function CameraReact() {
   const { orderId } = useParams<{ orderId: string }>();
@@ -199,7 +199,7 @@ export function CameraReact() {
           </button>
         )}
       </main>
-      <ModalTemplate
+      <ModalTemplateCamera
         open={openPetugas}
         setOpen={setOpenPetugas}
         innerComponent={
@@ -211,7 +211,7 @@ export function CameraReact() {
           />
         }
       />
-      <ModalTemplate
+      <ModalTemplateCamera
         open={openKtp}
         setOpen={setOpenKtp}
         innerComponent={
@@ -223,7 +223,7 @@ export function CameraReact() {
           />
         }
       />
-      <ModalTemplate
+      <ModalTemplateCamera
         open={openTangki}
         setOpen={setOpenTangki}
         innerComponent={

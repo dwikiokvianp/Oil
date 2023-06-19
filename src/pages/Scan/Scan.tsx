@@ -1,7 +1,6 @@
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { useState } from "react";
 import { addNotification } from "../../utils/notification.utils.ts";
-import { LoadingSpinner } from "../../components/molecules/LoadingSpinner.tsx";
 
 export default function Scan({
   setIsValidData,
@@ -11,28 +10,22 @@ export default function Scan({
   setId: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [stopStream, setStopStream] = useState(false);
-  const [isScanReady, setIsScanReady] = useState(false);
-
   return (
     <div>
       <div className="justify-center flex flex-col h-[23vh] items-center">
         <div className=" rounded">
           <>
-            <div style={{ display: !isScanReady ? "block" : "none" }}>
-              <LoadingSpinner />
-            </div>
             <div>
               <div className="font-semibold text-sm text-center mb-4">
                 Scan your QR order
               </div>
-              <div className="rounded-2xl overflow-hidden">
+              <div className="rounded-2xl overflow-hidden bg-slate-100">
                 <BarcodeScannerComponent
                   width={260}
                   height={260}
                   stopStream={stopStream}
                   facingMode={"environment"}
                   onUpdate={(err, result) => {
-                    setIsScanReady(true);
                     if (result) {
                       const scanData = result.getText();
                       setId(Number(scanData));

@@ -3,7 +3,6 @@ import { videoConstraints } from "../../pages/Camera/camera.constant.ts";
 import { AiFillCamera } from "react-icons/ai";
 import { RefObject } from "react";
 import { useState } from "react";
-import { LoadingSpinner } from "../molecules/LoadingSpinner.tsx";
 
 export function CameraComponent({
   capture,
@@ -17,6 +16,7 @@ export function CameraComponent({
   setCloseModal: (value: boolean) => void;
 }) {
   const [isCameraReady, setIsCameraReady] = useState(false);
+  console.log(isCameraReady);
 
   return (
     <div>
@@ -24,8 +24,7 @@ export function CameraComponent({
         {id === 1 ? "Photo Petugas" : id === 2 ? "Photo KTP" : "Photo Tangki"}
       </h2>
       <div className="">
-        <div className=" flex justify-center items-center">
-          {!isCameraReady ? <LoadingSpinner /> : null}
+        <div className=" bg-slate-200 flex justify-center items-center">
           <Webcam
             audio={false}
             height={400}

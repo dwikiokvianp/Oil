@@ -47,6 +47,12 @@ const officerNavigation = [
     icon: "../../../public/list_order.svg",
     navigate: "/list-order",
   },
+  {
+    id: 5,
+    name: "Hand over list",
+    icon: "../../../public/checklist.svg",
+    navigate: "/hand-over-list",
+  },
 ];
 
 export function RootOfficer() {
@@ -135,16 +141,35 @@ export function RootOfficer() {
       </header>
       <section>
         <div className="grid grid-cols-2 gap-4 ">
-          {officerNavigation.map((item) => (
-            <div key={item.id} className="flex justify-center">
-              <OfficerNavigation
-                key={item.id}
-                name={item.name}
-                icon={item.icon}
-                navigate={item.navigate}
-              />
-            </div>
-          ))}
+          {officerNavigation.map((item) => {
+            if (item.id !== 5) {
+              return (
+                <div key={item.id} className="flex justify-center">
+                  <OfficerNavigation
+                    key={item.id}
+                    name={item.name}
+                    icon={item.icon}
+                    navigate={item.navigate}
+                  />
+                </div>
+              );
+            }
+          })}
+        </div>
+        <div className=" mx-auto">
+          <div
+            onClick={() => {
+              navigate("/handover");
+            }}
+            className="mt-4  border-2 flex justify-center items-center shadow-xl rounded-xl h-[140px] w-full"
+          >
+            <img
+              className="p-4"
+              src={officerNavigation[4].icon}
+              alt={officerNavigation[4].name}
+            />
+            <div className="font-semibold text-sm">Handover List</div>
+          </div>
         </div>
       </section>
       <section>
