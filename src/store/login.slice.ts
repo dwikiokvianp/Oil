@@ -2,10 +2,10 @@ import { create } from "zustand";
 
 interface LoginStore {
   isAdmin: boolean;
-  role: "ADMIN" | "USER" | "OFFICER" | "ADMIN_PUSAT" | "";
+  role: "ADMIN_SALES" | "USER" | "OFFICER" | "ADMIN_PUSAT" | "";
   setReverse: () => void;
   reset: () => void;
-  setRole: (role: "ADMIN" | "OFFICER" | "USER" | "ADMIN_PUSAT") => void;
+  setRole: (role: "ADMIN_SALES" | "OFFICER" | "USER" | "ADMIN_PUSAT") => void;
 }
 export const useLoginStore = create<LoginStore>((set) => ({
   isAdmin: true,

@@ -21,7 +21,7 @@ export default function Home() {
   const role = useLoginStore((state) => state.role);
 
   let filteredNavigation = [{}];
-  if (role === "ADMIN") {
+  if (role === "ADMIN_SALES") {
     filteredNavigation = navigation.slice(0, 3);
   } else if (role === "ADMIN_PUSAT") {
     filteredNavigation = navigation.slice(0, 3);

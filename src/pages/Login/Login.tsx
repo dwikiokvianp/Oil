@@ -32,14 +32,14 @@ export default function Login() {
       setLocalStorage(LocalStorageKeys.email, data.token.email);
       setLocalStorage(LocalStorageKeys.role, data.token.role);
       addNotification("success", "Login success");
-      if (data.token.role === "ADMIN") {
-        loginState("ADMIN");
+      if (data.token.role === "ADMIN_SALES") {
+        loginState("ADMIN_SALES");
         navigate("/");
       } else if (data.token.role === "OFFICER") {
         loginState("OFFICER");
         navigate("/officer");
       } else if (data.token.role === "ADMIN_PUSAT") {
-        loginState("ADMIN");
+        loginState("ADMIN_PUSAT");
         navigate("/order");
       } else {
         loginState("USER");

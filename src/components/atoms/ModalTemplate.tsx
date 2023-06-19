@@ -43,7 +43,7 @@ export default function ModalTemplate({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="bg-black relative transform overflow-hidden rounded-xl shadow-xl bg-white px-4 py-4 pb-8 text-left shadow-xl transition-all sm:my-2 sm:w-full sm:max-w-lg sm:p-6">
+              <Dialog.Panel className="bg-black relative transform overflow-hidden rounded-xl shadow-xl bg-white px-4 py-40 pb-40 text-left shadow-xl transition-all sm:my-2 sm:w-full sm:max-w-lg sm:p-6">
                 <div className="py-4">
                   <div>{innerComponent}</div>
                 </div>
