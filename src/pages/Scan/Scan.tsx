@@ -1,6 +1,8 @@
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { useState } from "react";
 import { addNotification } from "../../utils/notification.utils.ts";
+import { useQuery } from "react-query";
+import { getTransactionById } from "../../api/transaction.service.api.ts";
 
 export default function Scan({
   setIsValidData,
@@ -9,6 +11,24 @@ export default function Scan({
   setIsValidData: React.Dispatch<React.SetStateAction<boolean>>;
   setId: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const [userIdVerification, setUserIdVerification] = useState(-1);
+  const { refetch } = useQuery({
+    queryKey: ["detail", userIdVerification],
+    queryFn: () => getTransactionById(userIdVerification),
+    onSuccess: (data) => {
+      if (data.data.status === "done") {
+        addNotification(
+          "warning",
+          "Order has been finished, Please contact the admin"
+        );
+      } else {
+        addNotification("success", "Order has been found");
+        setIsValidData(true);
+        setStopStream(true);
+      }
+    },
+    enabled: false,
+  });
   const [stopStream, setStopStream] = useState(false);
   return (
     <div>
@@ -28,13 +48,9 @@ export default function Scan({
                   onUpdate={(err, result) => {
                     if (result) {
                       const scanData = result.getText();
+                      setUserIdVerification(Number(scanData));
                       setId(Number(scanData));
-                      setStopStream(true);
-                      addNotification(
-                        "success",
-                        "Data found!, Please confirm the data"
-                      );
-                      setIsValidData(true);
+                      refetch();
                     } else {
                       console.log(err);
                     }

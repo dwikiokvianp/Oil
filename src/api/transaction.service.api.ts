@@ -115,3 +115,32 @@ export const getSummaryTransaction = async (): Promise<{
   const { data } = await transactionService.get("/transactions/summary");
   return data;
 };
+
+interface HistoryOutTransaction {
+  id: number;
+  date: string;
+  quantity: number;
+  transaction_id: number;
+}
+
+interface HistoryInTransaction {
+  date: string;
+  quantity: number;
+  Oil: {
+    id: number;
+    name: string;
+  };
+}
+
+export const getHistory = async (): Promise<{
+  historyOut: HistoryOutTransaction[];
+  historyIn: HistoryInTransaction[];
+  totalQuantity: number;
+  totalIn: number;
+  totalOut: number;
+  totalQuantityIn: number;
+  totalQuantityOut: number;
+}> => {
+  const { data } = await transactionService.get("/history/today");
+  return data;
+};

@@ -76,7 +76,7 @@ export default function Order() {
             </button>
           </div>
         </form>
-        {!isAdminPusat ? (
+        {isAdminPusat ? (
           <button
             onClick={() => {
               setOpen(true);

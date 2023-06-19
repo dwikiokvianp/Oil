@@ -36,6 +36,15 @@ export function formatUnixTimestamp(unixTimestamp: number): string {
   return `${day}-${month}-${year}`;
 }
 
-const unixTimestamp = 1686593838;
-const formattedDateTime = formatUnixTimestamp(unixTimestamp);
-console.log(`Formatted date and time: ${formattedDateTime}`);
+export function formatIndonesianTime(date: string) {
+  const myDate = new Date(date);
+  const option = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const dateFormatter = new Intl.DateTimeFormat("id-ID", option);
+  return dateFormatter.format(myDate);
+}
