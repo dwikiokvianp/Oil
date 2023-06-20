@@ -9,11 +9,16 @@ import { Transaction } from "../pages/Transaction/Transaction.tsx";
 import { DetailTransaction } from "../pages/Transaction/DetailTransaction.tsx";
 import { UserList } from "../pages/UserList/UserList.tsx";
 import { redirect } from "react-router-dom";
+import { addNotification } from "../utils/notification.utils.ts";
 function loaderHome() {
   const token = localStorage.getItem("access_token");
+  const role = localStorage.getItem("role");
   if (!token) {
-    console.log("token not found");
+    addNotification("info", "Please login first");
     return redirect("/login");
+  } else if (role === "OFFICER") {
+    addNotification("info", "Coming soon officer feature");
+    return redirect("/officer");
   }
   return null;
 }
