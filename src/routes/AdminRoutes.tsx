@@ -11,13 +11,19 @@ const adminRoutes = [
     path: "/",
     element: <Home />,
     children: [
-      { path: "/", element: <Dashboard /> },
+      {
+        path: "/",
+        element: <Dashboard />,
+      },
       {
         path: "/order",
         element: <Order />,
       },
       { path: "/order/:id", element: <OrderForm /> },
-      { path: "/order/:id/transaction", element: <OrderTransaction /> },
+      {
+        path: "/order/:id/transaction",
+        element: <OrderTransaction />,
+      },
       { path: "/vehicle", element: <Vehicle /> },
       { path: "/transaction", element: <Transaction /> },
     ],

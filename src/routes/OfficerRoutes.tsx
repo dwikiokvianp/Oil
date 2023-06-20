@@ -9,7 +9,6 @@ import { addNotification } from "../utils/notification.utils.ts";
 
 const checkAuth = () => {
   const role = localStorage.getItem("role");
-  console.log(role);
   if (role !== "OFFICER") {
     addNotification("warning", "You are not authorized to access this page");
     return redirect("/");

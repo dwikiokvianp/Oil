@@ -119,10 +119,10 @@ export default function Order() {
             <div className="flex items-center gap-x-4">
               <div className="hidden sm:flex sm:flex-col sm:items-end">
                 {person.id ? (
-                  <p className="mt-1 text-xs leading-5 text-gray-500">
+                  <div className="mt-1 text-xs leading-5 text-gray-500">
                     <div>Member since </div>
                     <time>{formatUnixTimestamp(person.created_at)}</time>
-                  </p>
+                  </div>
                 ) : (
                   <div className="mt-1 flex items-center gap-x-1.5">
                     <div className="flex-none rounded-full bg-emerald-500/20 p-1">

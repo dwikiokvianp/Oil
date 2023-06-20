@@ -8,11 +8,26 @@ import { Vehicle } from "../pages/Vehicle/Vehicle.tsx";
 import { Transaction } from "../pages/Transaction/Transaction.tsx";
 import { DetailTransaction } from "../pages/Transaction/DetailTransaction.tsx";
 import { UserList } from "../pages/UserList/UserList.tsx";
+import { redirect } from "react-router-dom";
+import { addNotification } from "../utils/notification.utils.ts";
+function loaderHome() {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  if (!token) {
+    addNotification("warning", "You have to login first");
+    return redirect("/login");
+  } else if (role === "OFFICER") {
+    addNotification("warning", "You are not authorized to access this page");
+    return redirect("/officer");
+  }
+  return null;
+}
 
 const homeRoutes = [
   {
     path: "/",
     element: <Home />,
+    loader: loaderHome,
     children: [
       { path: "/", element: <Dashboard /> },
       {
