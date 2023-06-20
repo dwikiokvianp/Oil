@@ -32,7 +32,6 @@ export default function Login() {
       setLocalStorage(LocalStorageKeys.email, data.token.email);
       setLocalStorage(LocalStorageKeys.role, data.token.role);
       setLocalStorage(LocalStorageKeys.name, data.token.name);
-      console.log(data.token);
       addNotification("success", "Login success");
       if (data.token.role === "ADMIN_SALES") {
         loginState("ADMIN_SALES");
@@ -41,6 +40,7 @@ export default function Login() {
         loginState("OFFICER");
         navigate("/officer");
       } else if (data.token.role === "ADMIN_PUSAT") {
+        console.log("masuk admin pusat");
         loginState("ADMIN_PUSAT");
         navigate("/order");
       } else {
