@@ -73,16 +73,15 @@ export function CameraReact() {
   console.log(PhotoProof, "ini dari photo proof");
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
-      const { data } = await axios.post(
-        `http://localhost:8080/proof/${orderId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const proofService = axios.create({
+        baseURL: import.meta.env.VITE_BASE_URL,
+      });
+      const { data } = await proofService.post(`/proof/${orderId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       return data;
     },
     onMutate: () => {
