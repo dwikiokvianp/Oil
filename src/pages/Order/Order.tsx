@@ -33,7 +33,7 @@ export default function Order() {
   return (
     <>
       <div className="grid grid-cols-6 gap-2">
-        <form className="col-span-3">
+        <form className="col-span-6 md:col-span-4">
           <label
             htmlFor="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only "
@@ -70,7 +70,7 @@ export default function Order() {
             />
             <button
               type="submit"
-              className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+              className="hidden text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
             >
               Search
             </button>
@@ -81,7 +81,7 @@ export default function Order() {
             onClick={() => {
               setOpen(true);
             }}
-            className="bg-slate-700 rounded-xl text-white"
+            className="col-span-6 py-3 bg-slate-500 md:col-span-2 hover:bg-slate-700 rounded-xl text-white"
           >
             Add User
           </button>
