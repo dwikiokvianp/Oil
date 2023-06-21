@@ -8,7 +8,7 @@ import { OrderTransaction } from "./OrderTransaction.tsx";
 export function OrderForm() {
   const params = useParams();
 
-  const { data: User } = useQuery({
+  const { data: User, isLoading } = useQuery({
     queryKey: ["transaction", params.id],
     queryFn: () => getUserById(Number(params.id)),
     onSuccess: (data) => {
@@ -41,10 +41,10 @@ export function OrderForm() {
                   </label>
                   <div className="mt-2">
                     <label
-                      className="block text-medium font-medium leading-10 text-black-900"
+                      className={`block rounded text-medium font-medium leading-10 text-black-900`}
                       style={{ fontSize: "25px" }}
                     >
-                      {User?.data.username}
+                      {isLoading ? <SkeletonForm /> : User?.data.username}
                     </label>
                   </div>
                 </div>
@@ -61,12 +61,16 @@ export function OrderForm() {
                       className="block text-medium font-medium leading-10 text-black-900"
                       style={{ fontSize: "23px" }}
                     >
-                      {User?.data.company.companyName}
+                      {isLoading ? (
+                        <SkeletonForm />
+                      ) : (
+                        User?.data.company.companyName
+                      )}
                     </label>
                   </div>
                 </div>
 
-                <div className="sm:col-span-4">
+                <div className="sm:col-span-6">
                   <label
                     htmlFor="email"
                     className="block text-medium font-medium leading-6 text-gray-400"
@@ -78,24 +82,7 @@ export function OrderForm() {
                       className="block text-medium font-medium leading-10 text-black-900"
                       style={{ fontSize: "23px" }}
                     >
-                      {User?.data.email}
-                    </label>
-                  </div>
-                </div>
-
-                <div className="sm:col-span-5 ">
-                  <label
-                    htmlFor="city"
-                    className="block text-medium font-medium leading-6 text-gray-400"
-                  >
-                    Phone Number
-                  </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-10 text-black-900"
-                      style={{ fontSize: "22px" }}
-                    >
-                      {User?.data.phone}
+                      {isLoading ? <SkeletonForm /> : User?.data.email}
                     </label>
                   </div>
                 </div>
@@ -112,7 +99,7 @@ export function OrderForm() {
                       className="block text-medium font-medium leading-6 text-black-900"
                       style={{ fontSize: "22px" }}
                     >
-                      {User?.data.detail.balance}
+                      {isLoading ? <SkeletonForm /> : User?.data.detail.balance}
                     </label>
                   </div>
                 </div>
@@ -129,7 +116,23 @@ export function OrderForm() {
                       className="block text-medium font-medium leading-6 text-black-900"
                       style={{ fontSize: "22px" }}
                     >
-                      {User?.data.detail.credit}
+                      {isLoading ? <SkeletonForm /> : User?.data.detail.credit}
+                    </label>
+                  </div>
+                </div>
+                <div className="sm:col-span-4 ">
+                  <label
+                    htmlFor="city"
+                    className="block text-medium font-medium leading-6 text-gray-400"
+                  >
+                    Phone Number
+                  </label>
+                  <div className="mt-2">
+                    <label
+                      className="block text-medium font-medium leading-10 text-black-900"
+                      style={{ fontSize: "22px" }}
+                    >
+                      {isLoading ? <SkeletonForm /> : User?.data.phone}
                     </label>
                   </div>
                 </div>
@@ -146,7 +149,11 @@ export function OrderForm() {
                       className="block text-medium font-medium leading-6 text-black-900"
                       style={{ fontSize: "22px" }}
                     >
-                      {formatUnixTimestamp(User?.data.created_at as number)}
+                      {isLoading ? (
+                        <SkeletonForm />
+                      ) : (
+                        formatUnixTimestamp(User?.data.created_at as number)
+                      )}
                     </label>
                   </div>
                 </div>
@@ -160,5 +167,13 @@ export function OrderForm() {
         </div>
       </div>
     </>
+  );
+}
+
+export function SkeletonForm() {
+  return (
+    <div className="animate-pulse">
+      <div className="h-10 bg-gray-200 rounded "></div>
+    </div>
   );
 }
