@@ -1,7 +1,7 @@
 import Order from "../Order/Order.tsx";
 
 const stats = [
-  { name: "Total Pending Order", stat: "20" },
+  { name: "Total Pending Order", stat: "10" },
   { name: "Total Approved Order", stat: "10" },
   { name: "Total Finished Order", stat: "2" },
 ];

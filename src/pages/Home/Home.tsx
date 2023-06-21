@@ -40,6 +40,8 @@ export default function Home() {
           removeLocalStorage(LocalStorageKeys.token);
           removeLocalStorage(LocalStorageKeys.role);
           removeLocalStorage(LocalStorageKeys.name);
+          removeLocalStorage(LocalStorageKeys.access_token);
+          removeLocalStorage(LocalStorageKeys.email);
           navigate("/login");
           addNotification("success", "Sign out success");
         } else {
