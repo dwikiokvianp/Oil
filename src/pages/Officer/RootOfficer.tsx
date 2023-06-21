@@ -179,7 +179,7 @@ export function RootOfficer() {
               setOpen(true);
             }}
             className="p-4"
-            src="../../../public/qr_code_scanner.svg"
+            src="/qr_code_scanner.svg"
             alt="qr_code_scanner"
           />
         </div>
