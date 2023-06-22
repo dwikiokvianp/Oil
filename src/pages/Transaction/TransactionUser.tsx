@@ -4,25 +4,20 @@ import { formatUnixTimestamp } from "../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useParams } from "react-router-dom";
-import { getUserById } from "../../api/users.service.api.ts";
 
 export function TransactionUser() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data: Transactions, isLoading } = useQuery({
+  const { data: Transactions, isLoading: isLoadingTransaction } = useQuery({
     queryKey: ["transactions", id],
     queryFn: () => getTransactionByUserId(Number(id)),
-  });
-  const params = useParams();
-  const { data: User } = useQuery({
-    queryKey: ["users", params.id],
-    queryFn: () => getUserById(Number(params.id)),
     onSuccess: (data) => {
-      console.log(data, "halo ini dari data");
-      console.log("boleh");
+      console.log(data, "ini data", data.data);
+    },
+    onError: (error) => {
+      console.log(error, "ini error ya");
     },
   });
-  console.log(User?.data.username);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 mt-6">
@@ -80,6 +75,7 @@ export function TransactionUser() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
+                  {isLoadingTransaction ? <TableSkeleton /> : null}
                   {Transactions?.data.map((transaction, index) => (
                     <tr key={transaction.id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
@@ -118,11 +114,24 @@ export function TransactionUser() {
 
       <ReactPaginate
         breakLabel="..."
-        pageCount={isLoading ? 0 : 0}
+        pageCount={isLoadingTransaction ? 0 : 0}
         renderOnZeroPageCount={null}
         containerClassName="flex justify-center gap-x-2 mt-4"
         pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
       />
     </div>
+  );
+}
+
+function TableSkeleton() {
+  return (
+    <tr className="animate-pulse">
+      <td className="h-10 bg-slate-200 w-full whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
+      <td className="h-10 bg-slate-200 w-full whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
+      <td className="h-10 bg-slate-200 w-full whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
+      <td className="h-10 bg-slate-200 w-full whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
+      <td className="h-10 bg-slate-200 w-full whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
+      <td className="h-10 bg-slate-200 w-full whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
+    </tr>
   );
 }
