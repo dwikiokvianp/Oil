@@ -17,17 +17,21 @@ export function TransactionUser() {
   const { data: User } = useQuery({
     queryKey: ["users", params.id],
     queryFn: () => getUserById(Number(params.id)),
+    onSuccess: (data) => {
+      console.log(data, "halo ini dari data");
+      console.log("boleh");
+    },
   });
   console.log(User?.data.username);
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-4 sm:px-6 lg:px-8 mt-6">
       <div className="sm:flex sm:items-center justify-between">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
             Transaction
           </h1>
-          <p className="mt-2 text-sm text-gray-700">Get transaction list</p>
+          <p className="mt-2 text-sm text-gray-700">Get transaction</p>
         </div>
       </div>
       <div className="mt-8 flow-root">

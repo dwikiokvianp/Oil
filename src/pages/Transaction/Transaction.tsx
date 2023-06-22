@@ -11,9 +11,6 @@ export function Transaction() {
   const { data: Transactions, isLoading } = useQuery({
     queryKey: ["transactions", page],
     queryFn: () => getTransaction(page),
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 
   return (
@@ -25,7 +22,7 @@ export function Transaction() {
               <h1 className="text-base font-semibold leading-6 text-gray-900">
                 Transaction
               </h1>
-              <p className="mt-2 text-sm text-gray-700">Get transaction list</p>
+              <p className="mt-2 text-sm text-gray-700">Get transaction</p>
             </div>
             <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
               <button
