@@ -86,17 +86,35 @@ export const getProofByTransactionId = async (
   return data;
 };
 
-interface TodayTransaction {
-  date: string;
+interface Data {
   id: number;
-  name: string;
-  phone: string;
+  User: {
+    id: number;
+    name: string;
+    phone: string;
+    company: {
+      companyName: string;
+    };
+  };
   quantity: number;
   status: "pending" | "done";
+  date: string;
 }
-export const getTodayTransactions = async (): Promise<TodayTransaction[]> => {
-  const { data } = await transactionService.get("/transactions/today");
-  return data;
+interface TodayTransaction {
+  data: Data[];
+}
+export const getTodayTransactions = async (
+  queryName: string
+): Promise<TodayTransaction> => {
+  if (!queryName) {
+    const { data } = await transactionService.get("/transactions/v2/toda");
+    return data;
+  } else {
+    const { data } = await transactionService.get(
+      `/transactions/v2/toda?name=${queryName}`
+    );
+    return data;
+  }
 };
 
 export const getTomorrowTransactions = async (): Promise<

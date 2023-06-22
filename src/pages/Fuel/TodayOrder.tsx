@@ -7,18 +7,19 @@ import {
   getSummaryTransaction,
   getTodayTransactions,
 } from "../../api/transaction.service.api.ts";
+import { formatIndonesianTime } from "../../utils/day.converter.ts";
+import { useState } from "react";
 
 export function TodayOrder() {
+  const [queryName, setQueryName] = useState("");
   const { data: Summary } = useQuery({
     queryKey: "summary",
     queryFn: getSummaryTransaction,
   });
   const { data } = useQuery({
-    queryKey: "todayOrder",
-    queryFn: getTodayTransactions,
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    queryKey: ["today", queryName],
+    queryFn: () => getTodayTransactions(queryName),
+    keepPreviousData: true,
   });
 
   return (
@@ -36,19 +37,25 @@ export function TodayOrder() {
           type="text"
           className="w-full border-none italic font-normal text-xs focus:outline-none"
           placeholder="Search Order"
+          onChange={(e) => setQueryName(e.target.value)}
         />
         <AiOutlineSearch className="text-[#B2B2B2] bg-white text-xl mr-2" />
       </section>
       <section className="mt-6">
-        {data?.map((item) => (
-          <OrderBarInformation
+        {data?.data.map((item) => (
+          <div
             key={item.id}
-            date={item.date}
-            company_name={item.name}
-            quantity={item.quantity}
-            status={item.status}
-            phone_number={item.phone}
-          />
+            className="w-full"
+            onClick={() => console.log(item.id)}
+          >
+            <OrderBarInformation
+              date={formatIndonesianTime(item.date)}
+              company_name={item.User.company.companyName}
+              quantity={item.quantity}
+              status={item.status}
+              phone_number={item.User.phone}
+            />
+          </div>
         ))}
       </section>
     </div>
