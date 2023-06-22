@@ -6,6 +6,7 @@ import { ListOrder } from "../pages/Fuel/ListOrder.tsx";
 import { Handover } from "../pages/Fuel/Handover.tsx";
 import { redirect } from "react-router-dom";
 import { addNotification } from "../utils/notification.utils.ts";
+import { TransactionDetailOfficer } from "../pages/Fuel/TransactionDetailOfficer.tsx";
 
 const checkAuth = () => {
   const role = localStorage.getItem("role");
@@ -48,6 +49,8 @@ const officerRoutes = [
     element: <Handover />,
     loader: checkAuth,
   },
+
+  { path: "/transaction/officer/:id", element: <TransactionDetailOfficer /> },
 ];
 
 export default officerRoutes;

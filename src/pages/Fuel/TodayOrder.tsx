@@ -9,9 +9,11 @@ import {
 } from "../../api/transaction.service.api.ts";
 import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function TodayOrder() {
   const [queryName, setQueryName] = useState("");
+  const navigate = useNavigate();
   const { data: Summary } = useQuery({
     queryKey: "summary",
     queryFn: getSummaryTransaction,
@@ -46,7 +48,7 @@ export function TodayOrder() {
           <div
             key={item.id}
             className="w-full"
-            onClick={() => console.log(item.id)}
+            onClick={() => navigate(`/transaction/officer/${item.id}`)}
           >
             <OrderBarInformation
               date={formatIndonesianTime(item.date)}
