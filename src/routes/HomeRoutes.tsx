@@ -1,7 +1,6 @@
 import Home from "../pages/Home/Home.tsx";
 import Dashboard from "../pages/Dashboard/Dashboard.tsx";
 import Order from "../pages/Order/Order.tsx";
-import { CameraReact } from "../pages/Camera/Camera.tsx";
 import { OrderForm } from "../pages/Order/OrderForm.tsx";
 import { OrderTransaction } from "../pages/Order/OrderTransaction.tsx";
 import { Vehicle } from "../pages/Vehicle/Vehicle.tsx";
@@ -42,7 +41,6 @@ const homeRoutes = [
       { path: "/transaction", element: <Transaction /> },
       { path: "/transaction/:id", element: <DetailTransaction /> },
       { path: "/dashboard", element: <Dashboard /> },
-      { path: "/camera/:orderId", element: <CameraReact /> },
     ],
   },
   {

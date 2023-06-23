@@ -8,14 +8,19 @@ import { useParams } from "react-router-dom";
 export function TransactionUser() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { data: Transactions, isLoading: isLoadingTransaction } = useQuery({
+  const {
+    data: Transactions,
+    isError: isTransactionNotFound,
+    isLoading: isLoadingTransaction,
+  } = useQuery({
     queryKey: ["transactions", id],
     queryFn: () => getTransactionByUserId(Number(id)),
+    retry: false,
     onSuccess: (data) => {
       console.log(data, "ini data", data.data);
     },
-    onError: (error) => {
-      console.log(error, "ini error ya");
+    onSettled: () => {
+      console.log(isTransactionNotFound, "ini state nya");
     },
   });
 
@@ -29,88 +34,94 @@ export function TransactionUser() {
           <p className="mt-2 text-sm text-gray-700">Get transaction</p>
         </div>
       </div>
-      <div className="mt-8 flow-root">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                    >
-                      No
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Username
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Product
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Ship Name
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Created At
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                    >
-                      <span className="sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {isLoadingTransaction ? <TableSkeleton /> : null}
-                  {Transactions?.data.map((transaction, index) => (
-                    <tr key={transaction.id}>
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        {index + 1}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {transaction.User.username}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {transaction.Oil.name}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {transaction.Vehicle.name}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {formatUnixTimestamp(transaction.created_at)}
-                      </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a
-                          onClick={() => {
-                            navigate(`/transaction/${transaction.id}`);
-                          }}
-                          className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
-                        >
-                          Transaction Detail
-                        </a>
-                      </td>
+      {isLoadingTransaction || isTransactionNotFound ? (
+        <div className="h-[15vh] font-semibold flex justify-center items-center">
+          Users never make a transaction
+        </div>
+      ) : (
+        <div className="mt-8 flow-root">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-300">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                      >
+                        No
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Username
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Product
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Ship Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Created At
+                      </th>
+                      <th
+                        scope="col"
+                        className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                      >
+                        <span className="sr-only">Edit</span>
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {isLoadingTransaction ? <TableSkeleton /> : null}
+                    {Transactions?.data.map((transaction, index) => (
+                      <tr key={transaction.id}>
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                          {index + 1}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {transaction.User.username}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {transaction.Oil.name}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {transaction.Vehicle.name}
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                          {formatUnixTimestamp(transaction.created_at)}
+                        </td>
+                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                          <a
+                            onClick={() => {
+                              navigate(`/transaction/${transaction.id}`);
+                            }}
+                            className="text-indigo-600 hover:text-indigo-900 hover:cursor-pointer"
+                          >
+                            Transaction Detail
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <ReactPaginate
         breakLabel="..."

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { addNotification } from "../../utils/notification.utils.ts";
 import { useQuery } from "react-query";
 import { getTransactionById } from "../../api/transaction.service.api.ts";
+import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 
 export default function Scan({
   setIsValidData,
@@ -11,6 +12,7 @@ export default function Scan({
   setIsValidData: React.Dispatch<React.SetStateAction<boolean>>;
   setId: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const [isCameraFront, setIsCameraFront] = useState(false);
   const [userIdVerification, setUserIdVerification] = useState(-1);
   const { refetch } = useQuery({
     queryKey: ["detail", userIdVerification],
@@ -44,7 +46,7 @@ export default function Scan({
                   width={260}
                   height={260}
                   stopStream={stopStream}
-                  facingMode={"environment"}
+                  facingMode={!isCameraFront ? "user" : "environment"}
                   onUpdate={(err, result) => {
                     if (result) {
                       const scanData = result.getText();
@@ -58,6 +60,13 @@ export default function Scan({
                 />
               </div>
             </div>
+            <button
+              onClick={() => setIsCameraFront(!isCameraFront)}
+              className="bg-blue-500 mt-4 gap-2 w-full hover:bg-blue-900 text-white flex justify-center items-center"
+            >
+              <div>Rotate Camera</div>
+              <MdOutlineFlipCameraAndroid className="text-md" />
+            </button>
           </>
         </div>
       </div>

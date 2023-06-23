@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { addNotification } from "../utils/notification.utils.ts";
-import { registerUser } from "../api/users.service.api.ts";
+import { getCompany, registerUser } from "../api/users.service.api.ts";
 import { CustomErrorType } from "../type/axios.type";
 export function FormAddUser() {
+  const queryClient = useQueryClient();
   const [registerForm, setRegisterForm] = useState({
     email: "",
     username: "",
@@ -14,7 +15,7 @@ export function FormAddUser() {
   const mutation = useMutation({
     mutationFn: () => registerUser(registerForm),
     onSuccess: (data) => {
-      console.log(data);
+      queryClient.invalidateQueries("users");
       addNotification("success", data.message);
     },
     onError: (e: CustomErrorType) => {
@@ -22,6 +23,15 @@ export function FormAddUser() {
       addNotification("error", e.error);
     },
   });
+
+  const { data: User } = useQuery({
+    queryKey: ["company"],
+    queryFn: getCompany,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
   };
@@ -92,6 +102,7 @@ export function FormAddUser() {
         <select
           id="company_id"
           name="company_id"
+          defaultValue={0}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           onChange={(e) => {
             setRegisterForm({
@@ -100,17 +111,12 @@ export function FormAddUser() {
             });
           }}
         >
-          <option selected>Choose a compnay</option>
-          <option value="1">Donnelly-Donnelly</option>
-          <option value="2">Berge, Berge and Berge</option>
-          <option value="3">Collins-Collins</option>
-          <option value="4">Langosh, Langosh and Langosh</option>
-          <option value="5">Herzog Ltd</option>
-          <option value="6">Bartell Inc</option>
-          <option value="7">Hegmann, Hegmann and Hegmann</option>
-          <option value="8">Kub-Kub</option>
-          <option value="9">Bradtke, Bradtke and Bradtke</option>
-          <option value="10">Osinski and Sons</option>
+          <option value={0}>Select Company</option>
+          {User?.data.map((company) => (
+            <option key={company.id} value={company.id}>
+              {company.companyName}
+            </option>
+          ))}
         </select>
       </div>
       <button

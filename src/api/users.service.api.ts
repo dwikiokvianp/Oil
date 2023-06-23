@@ -16,7 +16,7 @@ export const getUser = async (userData: {
     return data;
   } else {
     const { data } = await userService.get(
-      `/users?role=3&page=${userData.page}`
+      `/users?role=4&page=${userData.page}`
     );
     return data;
   }
@@ -90,3 +90,18 @@ export async function registerUser(
   const { data } = await userService.post("/auth/register", registerForm);
   return data;
 }
+
+interface Company {
+  id: number;
+  companyName: string;
+  password: string;
+  company_detail: string;
+  company_zip_code: number;
+  created_at: number;
+}
+export const getCompany = async (): Promise<{
+  data: Company[];
+}> => {
+  const { data } = await userService.get(`/company`);
+  return data;
+};

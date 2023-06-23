@@ -10,10 +10,11 @@ import { FormAddUser } from "../../components/FormAddUser.tsx";
 
 export default function Order() {
   const [selectedPage, setSelectedPage] = useState(0);
+  const [isKeepPreviousData, setIsKeepPreviousData] = useState(true);
   const [queryName, setQueryName] = useState("");
   const { data: Users, isLoading } = useQuery({
     queryKey: ["users", selectedPage, queryName],
-    keepPreviousData: true,
+    keepPreviousData: isKeepPreviousData,
     queryFn: () =>
       getUser({
         page: selectedPage,
@@ -65,6 +66,7 @@ export default function Order() {
               placeholder="Search for users"
               onChange={(e) => {
                 setSelectedPage(1);
+                setIsKeepPreviousData(true);
                 setQueryName(e.target.value);
               }}
             />
@@ -144,6 +146,7 @@ export default function Order() {
           nextLabel="next >"
           pageCount={isLoading ? 0 : (Users?.total as number)}
           onPageChange={(e) => {
+            setIsKeepPreviousData(false);
             setSelectedPage(e.selected + 1);
           }}
           previousLabel="previous"
