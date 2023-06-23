@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export function Transaction() {
   const navigate = useNavigate();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const { data: Transactions, isLoading } = useQuery({
     queryKey: ["transactions", page],
     queryFn: () => getTransaction(page),
@@ -74,7 +74,9 @@ export function Transaction() {
                       {Transactions?.data.map((transaction, index) => (
                         <tr key={transaction.id}>
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                            {page === 1 ? index + 1 : page * index + 1}
+                            {page === 1
+                              ? index + 1
+                              : index + 1 + 5 * (page - 1)}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {transaction.User.username}
