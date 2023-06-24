@@ -141,19 +141,22 @@ export default function Order() {
             </div>
           </li>
         ))}
-        <ReactPaginate
-          breakLabel="..."
-          nextLabel="next >"
-          pageCount={isLoading ? 0 : (Users?.total as number)}
-          onPageChange={(e) => {
-            setIsKeepPreviousData(false);
-            setSelectedPage(e.selected + 1);
-          }}
-          previousLabel="previous"
-          renderOnZeroPageCount={null}
-          containerClassName="flex justify-center gap-x-2 mt-4"
-          pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
-        />
+        <div className="mt-4">
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="next >"
+            pageCount={isLoading ? 0 : (Users?.total as number)}
+            onPageChange={(e) => {
+              setIsKeepPreviousData(false);
+              setSelectedPage(e.selected + 1);
+            }}
+            previousLabel="previous"
+            previousClassName="flex items-center justify-center w-6 h-6 bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
+            renderOnZeroPageCount={null}
+            containerClassName="flex justify-center gap-x-2 mt-10"
+            pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
+          />
+        </div>
       </ul>
       <ModalTemplate
         open={open}

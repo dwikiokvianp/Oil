@@ -7,7 +7,7 @@ import { Handover } from "../pages/Fuel/Handover.tsx";
 import { redirect } from "react-router-dom";
 import { addNotification } from "../utils/notification.utils.ts";
 import { TransactionDetailOfficer } from "../pages/Fuel/TransactionDetailOfficer.tsx";
-import { CameraReact } from "../pages/Camera/Camera.tsx";
+import { UploadProof } from "../pages/Fuel/UploadProof.tsx";
 
 const checkAuth = () => {
   const role = localStorage.getItem("role");
@@ -52,7 +52,7 @@ const officerRoutes = [
   },
 
   { path: "/transaction/officer/:id", element: <TransactionDetailOfficer /> },
-  { path: "/camera/:orderId", element: <CameraReact /> },
+  { path: "/camera/:orderId", element: <UploadProof /> },
 ];
 
 export default officerRoutes;
