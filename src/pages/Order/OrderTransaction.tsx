@@ -17,7 +17,9 @@ export function OrderTransaction() {
   const [selectedOil, setSelectedOil] = useState(2);
   const [selectedQuantity, setSelectedQuantity] = useState(8000);
   const [selectedOfficer, setSelectedOfficer] = useState(1);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().substr(0, 10)
+  );
   const [selectedProvince, setSelectedProvince] = useState(1);
   const [selectedCity, setSelectedCity] = useState(selectedProvince);
   const { id } = useParams();
@@ -65,6 +67,10 @@ export function OrderTransaction() {
     onSuccess: (data) => {
       addNotification("success", data.message);
       navigate("/transaction");
+    },
+    onError: (error: { response: { data: { message: string } } }) => {
+      const errorMessage = error.response.data.message;
+      addNotification("error", errorMessage);
     },
     onSettled: (data, error, variables, context) => {
       console.log(data, error, variables, context);
@@ -252,6 +258,7 @@ export function OrderTransaction() {
                     type="date"
                     id="date"
                     name="birthday"
+                    defaultValue={selectedDate}
                   />
                 </div>
               </div>
