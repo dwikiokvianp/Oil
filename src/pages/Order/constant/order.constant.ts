@@ -60,6 +60,8 @@ export interface OrderInput {
   quantity: number;
   officer_id: number;
   date: string;
+  province_id: number;
+  city_id: number;
 }
 
 export const quantity = [

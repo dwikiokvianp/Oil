@@ -17,11 +17,15 @@ export interface GetCityResponse {
 export interface ProvinceResponse {
   id: number;
   name: string;
-  cities: City[];
+  city: City[];
 }
 
 export interface GetProvinceResponse {
   data: ProvinceResponse[];
+}
+
+export interface GetProvinceByIdResponse {
+  data: ProvinceResponse;
 }
 
 export const getRegionCity = async (): Promise<GetCityResponse> => {
@@ -39,7 +43,9 @@ export const getRegionCityById = async (id: number) => {
   return data;
 };
 
-export const getRegionProvinceById = async (id: number) => {
+export const getRegionProvinceById = async (
+  id: number
+): Promise<GetProvinceByIdResponse> => {
   const { data } = await regionServiceApi.get(`/province/${id}`);
   return data;
 };

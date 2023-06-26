@@ -7,8 +7,19 @@ import { postOrder } from "../../api/order.service.api.ts";
 import { addNotification } from "../../utils/notification.utils.ts";
 import { getOfficer, getUserById } from "../../api/users.service.api.ts";
 import { quantity } from "./constant/order.constant.ts";
+import {
+  getRegionProvince,
+  getRegionProvinceById,
+} from "../../api/region.service.api.ts";
 
 export function OrderTransaction() {
+  const [selectedShip, setSelectedShip] = useState(1);
+  const [selectedOil, setSelectedOil] = useState(2);
+  const [selectedQuantity, setSelectedQuantity] = useState(8000);
+  const [selectedOfficer, setSelectedOfficer] = useState(1);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState(1);
+  const [selectedCity, setSelectedCity] = useState(selectedProvince);
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: Ships } = useQuery({
@@ -25,16 +36,27 @@ export function OrderTransaction() {
     queryFn: getOfficer,
   });
 
+  const { data: Province } = useQuery({
+    queryKey: ["province"],
+    queryFn: getRegionProvince,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
+  const { data: City } = useQuery({
+    queryKey: ["province", selectedProvince],
+    queryFn: () => getRegionProvinceById(selectedProvince),
+    onSuccess: (data) => {
+      console.log(data, "ini dari province dimana ", selectedProvince);
+    },
+  });
+
   const { data: User } = useQuery({
     queryKey: ["users", id],
     queryFn: () => getUserById(Number(id)),
   });
 
-  const [selectedShip, setSelectedShip] = useState(1);
-  const [selectedOil, setSelectedOil] = useState(2);
-  const [selectedQuantity, setSelectedQuantity] = useState(8000);
-  const [selectedOfficer, setSelectedOfficer] = useState(1);
-  const [selectedDate, setSelectedDate] = useState("");
   const mutation = useMutation({
     mutationFn: postOrder,
     onMutate: () => {
@@ -72,6 +94,8 @@ export function OrderTransaction() {
               quantity: selectedQuantity,
               officer_id: selectedOfficer,
               date: new Date(selectedDate).toISOString(),
+              city_id: selectedCity,
+              province_id: selectedProvince,
             });
           }}
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
@@ -127,6 +151,60 @@ export function OrderTransaction() {
                     {Oil?.data.map((ship) => (
                       <option key={ship.id} value={ship.id}>
                         {ship.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="province"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Province
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="province"
+                    name="province"
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    value={selectedProvince}
+                    defaultValue={1}
+                    onChange={(e) => {
+                      setSelectedProvince(Number(e.target.value));
+                    }}
+                  >
+                    {Province?.data.map((province) => (
+                      <option key={province.id} value={province.id}>
+                        {province.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="province"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  City
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="city"
+                    name="city"
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    value={selectedCity}
+                    defaultValue={1}
+                    onChange={(e) => {
+                      setSelectedCity(Number(e.target.value));
+                    }}
+                  >
+                    {City?.data.city.map((province) => (
+                      <option key={province.id} value={province.id}>
+                        {province.name}
                       </option>
                     ))}
                   </select>
