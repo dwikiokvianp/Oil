@@ -52,6 +52,11 @@ export interface GetOil {
   data: Oil[];
 }
 
+export interface DetailTransaction {
+  quantity: number;
+  oil_id: number;
+}
+
 export interface OrderInput {
   id: number;
   vehicle_id: number;
@@ -62,6 +67,7 @@ export interface OrderInput {
   date: string;
   province_id: number;
   city_id: number;
+  transaction_detail: DetailTransaction[];
 }
 
 export const quantity = [
