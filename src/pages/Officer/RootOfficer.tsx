@@ -201,9 +201,7 @@ export function DetailData({ id }: { id: number }) {
   const { data } = useQuery({
     queryKey: ["detail", id],
     queryFn: () => getTransactionById(id),
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    enabled: false,
   });
   const [checkedOne, setCheckedOne] = useState(false);
   const [checkedTwo, setCheckedTwo] = useState(false);
