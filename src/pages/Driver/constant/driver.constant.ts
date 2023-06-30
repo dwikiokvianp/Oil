@@ -3,12 +3,12 @@ export const driverNavigation = [
     id: 1,
     name: "Fuel In",
     icon: "/deliver.svg",
-    navigate: "/fuel-in",
+    navigate: "/pickup-order",
   },
   {
     id: 2,
     name: "Fuel Out",
     icon: "/jalan.svg",
-    navigate: "/fuel-out",
+    navigate: "/delivery-order",
   },
 ];
