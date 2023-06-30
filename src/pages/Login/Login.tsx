@@ -43,6 +43,8 @@ export default function Login() {
         console.log("masuk admin pusat");
         loginState("ADMIN_PUSAT");
         navigate("/order");
+      } else if (data.token.role === "DRIVER") {
+        navigate("/driver");
       } else {
         loginState("USER");
       }
