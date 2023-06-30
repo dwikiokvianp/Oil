@@ -12,8 +12,8 @@ import {
 } from "../../utils/notification.utils.ts";
 import { classNames } from "../../utils/class.mapper.utils.ts";
 import { OfficerNavigation } from "../../components/organisms/OfficerNavigation.tsx";
-import { officerNavigation } from "../Officer/constant/officer.constant.ts";
 import { useNavigate } from "react-router-dom";
+import { driverNavigation } from "./constant/driver.constant.ts";
 
 export default function DriverRoot() {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export default function DriverRoot() {
       </header>
       <section>
         <div className="grid grid-cols-2 gap-4 ">
-          {officerNavigation.map((item) => {
+          {driverNavigation.map((item) => {
             if (item.id !== 5) {
               return (
                 <div key={item.id} className="flex justify-center">
@@ -103,15 +103,6 @@ export default function DriverRoot() {
               );
             }
           })}
-        </div>
-      </section>
-      <section>
-        <div className="absolute bottom-5 right-5 bg-[#5243DF] rounded-full w-[75px] flex justify-center items-center">
-          <img
-            className="p-4"
-            src="/qr_code_scanner.svg"
-            alt="qr_code_scanner"
-          />
         </div>
       </section>
     </main>
