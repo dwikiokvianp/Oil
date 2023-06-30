@@ -1,7 +1,9 @@
+import { HeaderOfficerTitle } from "../../components/molecules/HeaderOfficerTitle.tsx";
+
 export default function PickupOrder() {
   return (
-    <div>
-      <h1>Pickup Order</h1>
+    <div className="m-6">
+      <HeaderOfficerTitle title={"Pickup Order"} />
     </div>
   );
 }
