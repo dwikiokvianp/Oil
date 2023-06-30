@@ -15,8 +15,8 @@ import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 
 export function OrderTransaction() {
   const [selectedShip, setSelectedShip] = useState(1);
-  const [selectedOil, setSelectedOil] = useState(2);
-  const [selectedQuantity, setSelectedQuantity] = useState(8000);
+  const [selectedOil] = useState(2);
+  const [selectedQuantity] = useState(8000);
   const [selectedOfficer, setSelectedOfficer] = useState(1);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().substr(0, 10)
@@ -136,7 +136,7 @@ export function OrderTransaction() {
                   </select>
                 </div>
               </div>
-              {detailTransaction.map((detail, index) => (
+              {detailTransaction.map((_, index) => (
                 <div className="sm:col-span-4">
                   <div className="sm:col-span-4">
                     <div>
