@@ -26,6 +26,7 @@ const navigation = [
   { name: "Dashboard", href: "#", current: true },
   { name: "Order", href: "#", current: false },
   { name: "Transaction", current: false, href: "#" },
+  { name: "Travel", current: false, href: "#" },
   { name: "Vehicle", href: "#", current: false },
   { name: "Today-transaction", href: "#", current: false },
 ];
