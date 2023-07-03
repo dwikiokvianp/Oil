@@ -105,3 +105,14 @@ export const getCompany = async (): Promise<{
   const { data } = await userService.get(`/company`);
   return data;
 };
+
+interface NoPaginateUser {
+  id: number;
+  username: string;
+}
+export const getUserWithoutPagination = async (): Promise<{
+  data: NoPaginateUser[];
+}> => {
+  const { data } = await userService.get(`/users/no-paginate`);
+  return data;
+};
