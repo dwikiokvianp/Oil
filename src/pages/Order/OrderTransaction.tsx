@@ -12,11 +12,13 @@ import {
   getRegionProvinceById,
 } from "../../api/region.service.api.ts";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
+import { getDrivers } from "../../api/driver.service.api.ts";
 
 export function OrderTransaction() {
   const [selectedShip, setSelectedShip] = useState(1);
   const [selectedOil] = useState(2);
   const [selectedQuantity] = useState(8000);
+  const [selectedDriver, setSelectedDriver] = useState(1);
   const [selectedOfficer, setSelectedOfficer] = useState(1);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().substr(0, 10)
@@ -27,9 +29,6 @@ export function OrderTransaction() {
   const [detailTransaction, setDetailTransaction] = useState<
     DetailTransaction[]
   >([{ quantity: 8000, oil_id: 1 }]);
-  const [lastDetailIndex, setLastDetailIndex] = useState(
-    detailTransaction.length
-  );
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -53,6 +52,11 @@ export function OrderTransaction() {
     onSuccess: (data) => {
       console.log(data);
     },
+  });
+
+  const { data: Drivers } = useQuery({
+    queryKey: ["driver"],
+    queryFn: getDrivers,
   });
 
   const { data: City } = useQuery({
@@ -94,6 +98,7 @@ export function OrderTransaction() {
           onSubmit={(e) => {
             e.preventDefault();
             mutation.mutate({
+              driver_id: Number(selectedDriver),
               oil_id: Number(selectedOil),
               vehicle_id: Number(selectedShip),
               id: Number(id),
@@ -136,6 +141,32 @@ export function OrderTransaction() {
                   </select>
                 </div>
               </div>
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="drivers"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Driver
+                </label>
+                <div className="mt-2">
+                  <select
+                    id="country"
+                    name="country"
+                    autoComplete="country-name"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                    value={selectedDriver}
+                    onChange={(e) => {
+                      setSelectedDriver(Number(e.target.value));
+                    }}
+                  >
+                    {Drivers?.data.map((driver) => (
+                      <option key={driver.id} value={driver.id}>
+                        {driver.username}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               {detailTransaction.map((_, index) => (
                 <div className="sm:col-span-4">
                   <div className="sm:col-span-4">
@@ -168,33 +199,29 @@ export function OrderTransaction() {
                           ))}
                         </select>
                       </div>
+                      <div className="flex">
+                        <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setDetailTransaction((prev) => {
+                              return [...prev, { quantity: 8000, oil_id: 1 }];
+                            });
+                          }}
+                        >
+                          <AiFillPlusCircle />
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            const newDetailTransaction = [...detailTransaction];
+                            newDetailTransaction.splice(index, 1);
+                            setDetailTransaction(newDetailTransaction);
+                          }}
+                        >
+                          <AiFillMinusCircle />
+                        </div>
+                      </div>
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setDetailTransaction((prev) => {
-                          return [...prev, { quantity: 8000, oil_id: 1 }];
-                        });
-                        setLastDetailIndex(detailTransaction.length + 1);
-                        console.log(lastDetailIndex, "ini last detail index");
-                      }}
-                      className="bg-blue-500 p-2 px-4 rounded text-white"
-                    >
-                      <AiFillPlusCircle />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const newDetailTransaction = [...detailTransaction];
-                        newDetailTransaction.splice(index, 1);
-                        setDetailTransaction(newDetailTransaction);
-                        setLastDetailIndex(detailTransaction.length - 1);
-                        console.log(lastDetailIndex, "ini last detail index");
-                      }}
-                      className="bg-blue-500 p-2 px-4 rounded text-white"
-                    >
-                      <AiFillMinusCircle />
-                    </button>
                   </div>
                   <div className="sm:col-span-4">
                     <label

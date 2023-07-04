@@ -64,6 +64,7 @@ export interface OrderInput {
   email: string;
   quantity: number;
   officer_id: number;
+  driver_id: number;
   date: string;
   province_id: number;
   city_id: number;

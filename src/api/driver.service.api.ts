@@ -43,3 +43,15 @@ export const getDeliveryOrders = async (): Promise<{
   const { data } = await driverServiceApi.get("/drivers/1/transactions");
   return data;
 };
+
+interface Driver {
+  id: number;
+  username: string;
+  password: string;
+}
+export const getDrivers = async (): Promise<{
+  data: Driver[];
+}> => {
+  const { data } = await driverServiceApi.get("/drivers");
+  return data;
+};
