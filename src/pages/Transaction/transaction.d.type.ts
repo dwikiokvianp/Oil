@@ -16,6 +16,16 @@ export interface TransactionData {
   company: Company;
   qr_code_url;
   status: string;
+  transaction_detail: TransactionDetail[];
+}
+
+interface TransactionDetail {
+  id: number;
+  transaction_id: number;
+  quantity: number;
+  storage_id: number;
+  oil_id: number;
+  oil: Oil;
 }
 
 interface User {
@@ -69,6 +79,7 @@ interface VehicleType {
 interface Oil {
   id: number;
   name: string;
+  storage_id: number;
 }
 
 interface Officer {
