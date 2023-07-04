@@ -11,6 +11,7 @@ import { redirect } from "react-router-dom";
 import { addNotification } from "../utils/notification.utils.ts";
 import NotFound from "../pages/NotFound/NotFound.tsx";
 import { Travel } from "../pages/Travel/Travel.tsx";
+import { TravelTwo } from "../pages/Travel/TravelTwo.tsx";
 function loaderHome() {
   const token = localStorage.getItem("access_token");
   const role = localStorage.getItem("role");
@@ -36,6 +37,7 @@ const homeRoutes = [
         element: <Order />,
       },
       { path: "/order/:id", element: <OrderForm /> },
+      { path: "/traveltwo", element: <TravelTwo /> },
       { path: "/order/:id/transaction", element: <OrderTransaction /> },
       { path: "/userlist", element: <UserList /> },
       { path: "/vehicle", element: <Vehicle /> },

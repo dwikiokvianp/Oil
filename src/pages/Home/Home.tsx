@@ -22,9 +22,9 @@ export default function Home() {
 
   let filteredNavigation = [{}];
   if (role === "ADMIN_SALES") {
-    filteredNavigation = navigation.slice(0, 4);
+    filteredNavigation = navigation.slice(0, 5);
   } else if (role === "ADMIN_PUSAT") {
-    filteredNavigation = navigation.slice(0, 4);
+    filteredNavigation = navigation.slice(0, 5);
   }
 
   const [navigationBar, setNavigationBar] = useState<NavigationType[]>(
