@@ -52,7 +52,7 @@ export function Travel() {
 
   const [travelDeliveryInput, setTravelDeliveryInput] =
     useState<TravelDeliveryInput>({
-      departure_date: "2023-06-18T00:00:00Z",
+      departure_date: new Date().toISOString().substr(0, 10),
       driver_id: 1,
       message: "",
       officer_id: 1,
@@ -101,19 +101,7 @@ export function Travel() {
 
   return (
     <>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          travelDeliveryInput.departure_date = new Date(
-            travelDeliveryInput.departure_date
-          ).toISOString();
-          console.log(travelDeliveryInput.recipient_detail[0].user_id);
-          mutation.mutate(travelDeliveryInput);
-        }}
-      >
-        hao
-      </button>
-      <div className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10  border-gray-900/10 pb-12 md:grid-cols-3">
         <div>
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Personal Information
@@ -282,7 +270,7 @@ export function Travel() {
       {travelDeliveryInput.warehouse_detail.map((detail, index) => (
         <div
           key={index}
-          className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3"
+          className="grid grid-cols-1 gap-x-8 gap-y-10 border-gray-900/10 pb-12 md:grid-cols-3"
         >
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -402,7 +390,7 @@ export function Travel() {
       {travelDeliveryInput.recipient_detail.map((detailUser, index) => (
         <div
           key={index}
-          className="grid grid-cols-1 gap-x-8 gap-y-10 border-b border-gray-900/10 pb-12 md:grid-cols-3"
+          className="grid grid-cols-1 gap-x-8 gap-y-10 border-gray-900/10 pb-12 md:grid-cols-3"
         >
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -412,28 +400,31 @@ export function Travel() {
               Use Customer information where you can receive the package.
             </p>
           </div>
-          {index === travelDeliveryInput.recipient_detail.length - 1 ? (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                setTravelDeliveryInput({
-                  ...travelDeliveryInput,
-                  recipient_detail: [
-                    ...travelDeliveryInput.recipient_detail,
-                    {
-                      user_id: 301,
-                      quantity: 8000,
-                      city_id: 1,
-                      province_id: 1,
-                      email: "dwikiokvianp1999@gmail.com",
-                    },
-                  ],
-                });
-              }}
-            >
-              Add Customer Information
-            </button>
-          ) : null}
+          <div>
+            {index === travelDeliveryInput.recipient_detail.length - 1 ? (
+              <button
+                className="bg-black text-white px-4 py-2 rounded"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setTravelDeliveryInput({
+                    ...travelDeliveryInput,
+                    recipient_detail: [
+                      ...travelDeliveryInput.recipient_detail,
+                      {
+                        user_id: 301,
+                        quantity: 8000,
+                        city_id: 1,
+                        province_id: 1,
+                        email: "dwikiokvianp1999@gmail.com",
+                      },
+                    ],
+                  });
+                }}
+              >
+                Add Transaction Customer
+              </button>
+            ) : null}
+          </div>
           <div className="sm:col-span-3">
             <label
               htmlFor="warehouse"
@@ -566,6 +557,28 @@ export function Travel() {
           </div>
         </div>
       ))}
+      <div className="mt-6 flex items-center justify-end gap-x-6">
+        <button
+          type="button"
+          className="text-sm font-semibold leading-6 text-gray-900"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={(e) => {
+            e.preventDefault();
+            travelDeliveryInput.departure_date = new Date(
+              travelDeliveryInput.departure_date
+            ).toISOString();
+            console.log(travelDeliveryInput.recipient_detail[0].user_id);
+            mutation.mutate(travelDeliveryInput);
+          }}
+        >
+          Save
+        </button>
+      </div>
     </>
   );
 }

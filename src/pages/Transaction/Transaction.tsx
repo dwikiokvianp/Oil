@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { getTransaction } from "../../api/transaction.service.api.ts";
-import { formatUnixTimestamp } from "../../utils/day.converter.ts";
+import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
@@ -42,13 +42,13 @@ export function Transaction() {
                           scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                         >
-                          Username
+                          Customer Name
                         </th>
                         <th
                           scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                         >
-                          Product
+                          Company Name
                         </th>
                         <th
                           scope="col"
@@ -60,7 +60,7 @@ export function Transaction() {
                           scope="col"
                           className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                         >
-                          Created At
+                          Delivery Date
                         </th>
                         <th
                           scope="col"
@@ -82,13 +82,13 @@ export function Transaction() {
                             {transaction.User.username}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {/*{transaction.Oil.name}*/}
+                            {transaction.User.company.companyName}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {transaction.Vehicle.name}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {formatUnixTimestamp(transaction.created_at)}
+                            {formatIndonesianTime(transaction.date)}
                           </td>
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <a

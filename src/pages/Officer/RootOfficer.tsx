@@ -252,15 +252,30 @@ export function DetailData({ id }: { id: number }) {
                   </th>
                   <td className="px-6 py-4">{data?.data.User.username}</td>
                 </tr>
-                <tr className="border-b border-gray-200">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50"
-                  >
-                    Product
-                  </th>
-                  <td className="px-6 py-4">{data?.data.Oil.name}</td>
-                </tr>
+                {data?.data.transaction_detail.map((item, index) => {
+                  return (
+                    <>
+                      <tr className="border-b border-gray-200">
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50"
+                        >
+                          Product {index + 1}
+                        </th>
+                        <td className="px-6 py-4">{item.oil.name}</td>
+                      </tr>
+                      <tr className="border-b border-gray-200">
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50"
+                        >
+                          Quantity {index + 1}
+                        </th>
+                        <td className="px-6 py-4">{item.quantity}</td>
+                      </tr>
+                    </>
+                  );
+                })}
                 <tr className="border-b border-gray-200">
                   <th
                     scope="row"
@@ -269,15 +284,6 @@ export function DetailData({ id }: { id: number }) {
                     Company
                   </th>
                   <td className="px-6 py-4">{"halo"}</td>
-                </tr>
-                <tr className="border-b border-gray-200">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50"
-                  >
-                    Quantity
-                  </th>
-                  <td className="px-6 py-4">{data?.data.quantity}</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <th

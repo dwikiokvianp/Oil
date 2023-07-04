@@ -1,0 +1,45 @@
+import axios from "axios";
+
+const driverServiceApi = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
+});
+
+interface DeliveryOrder {
+  id: number;
+  driver_id: number;
+  pickup_location: string;
+  departure_date: string;
+  message: string;
+  status: string;
+  officer_id: number;
+  vehicle_id: number;
+  quantity: number;
+  recipient_detail: RecipientDetail[];
+  warehouse_detail: WarehouseDetail[];
+}
+
+interface RecipientDetail {
+  id: number;
+  delivery_order_id: number;
+  oil_id: number;
+  user_id: number;
+  email: string;
+  quantity: number;
+  province_id: number;
+  city_id: number;
+}
+
+interface WarehouseDetail {
+  id: number;
+  delivery_order_id: number;
+  warehouse_id: number;
+  storage_id: number;
+  quantity: number;
+}
+
+export const getDeliveryOrders = async (): Promise<{
+  data: DeliveryOrder[];
+}> => {
+  const { data } = await driverServiceApi.get("/drivers/1/transactions");
+  return data;
+};

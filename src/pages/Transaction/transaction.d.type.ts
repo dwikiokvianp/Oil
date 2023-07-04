@@ -1,6 +1,7 @@
 export interface TransactionData {
   id: number;
   user_id: number;
+  date: string;
   email: string;
   User: User;
   vehicle_id: number;
@@ -57,6 +58,7 @@ interface UserDetail {
 interface Company {
   id: number;
   username: string;
+  companyName: string;
   password: string;
   company_detail: string;
   company_zip_code: number;
