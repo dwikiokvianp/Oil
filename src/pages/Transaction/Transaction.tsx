@@ -76,13 +76,13 @@ export function Transaction() {
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                             {page === 1
                               ? index + 1
-                              : index + 1 + 5 * (page - 1)}
+                              : index + 1 + 10 * (page - 1)}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {transaction.User.username}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {transaction.Oil.name}
+                            {/*{transaction.Oil.name}*/}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {transaction.Vehicle.name}

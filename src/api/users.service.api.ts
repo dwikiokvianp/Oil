@@ -109,6 +109,7 @@ export const getCompany = async (): Promise<{
 interface NoPaginateUser {
   id: number;
   username: string;
+  email: string;
 }
 export const getUserWithoutPagination = async (): Promise<{
   data: NoPaginateUser[];

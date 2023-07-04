@@ -16,7 +16,7 @@ export const getDrivers = async (): Promise<{
 };
 
 export interface TravelDeliveryInput {
-  driverId: number;
+  driver_id: number;
   pickup_location: string;
   departure_date: string;
   message: string;
@@ -40,12 +40,32 @@ interface RecipientDetail {
 interface WarehouseDetail {
   warehouse_id: number;
   quantity: number;
+  storage_id: number;
 }
 
 export const createTravelDelivery = async (inputForm: TravelDeliveryInput) => {
   const { data } = await travelDeliveryServiceApi.post(
     "/travel-delivery",
     inputForm
+  );
+  return data;
+};
+
+interface GetStorage {
+  data: StorageData[];
+}
+
+interface StorageData {
+  id: number;
+  warehouse_detail_id: number;
+  name: string;
+  quantity: number;
+  oil_id: number;
+}
+
+export const getStorage = async (id: number): Promise<GetStorage> => {
+  const { data } = await travelDeliveryServiceApi.get(
+    `/warehouses/storage/${id}`
   );
   return data;
 };
