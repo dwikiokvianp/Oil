@@ -3,12 +3,15 @@ import { useQuery } from "react-query";
 import { getDeliveryOrders } from "../../api/driver.service.api.ts";
 import { OfficerHistoryBar } from "../../components/molecules/OfficerHistoryBar.tsx";
 import { formatIndonesianTime } from "../../utils/day.converter.ts";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 export default function PickupOrder() {
   const { data: pickupOrder } = useQuery({
     queryKey: "pickupOrder",
     queryFn: getDeliveryOrders,
   });
+
+  const navigate = useNavigate();
 
   return (
     <div className="m-6">
@@ -17,11 +20,17 @@ export default function PickupOrder() {
       <section className="mt-6">
         <main className="mt-4">
           {pickupOrder?.data.map((item) => (
-            <OfficerHistoryBar
-              type={"Pickup Order"}
-              date={formatIndonesianTime(item.departure_date)}
-              quantity={item.quantity}
-            />
+            <div
+              onClick={() => {
+                navigate(`/delivery-order/${item.id}`);
+              }}
+            >
+              <OfficerHistoryBar
+                type={"Pickup Order"}
+                date={formatIndonesianTime(item.departure_date)}
+                quantity={item.quantity}
+              />
+            </div>
           ))}
         </main>
       </section>

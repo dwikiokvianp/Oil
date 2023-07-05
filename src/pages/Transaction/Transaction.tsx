@@ -10,7 +10,7 @@ export function Transaction() {
   const [page, setPage] = useState(1);
   const { data: Transactions, isLoading } = useQuery({
     queryKey: ["transactions", page],
-    queryFn: () => getTransaction(page),
+    queryFn: () => getTransaction(page, "approved"),
   });
 
   return (

@@ -6,18 +6,21 @@ export const transactionService = axios.create({
 });
 
 export const getTransaction = async (
-  page?: number
+  page?: number,
+  status?: string
 ): Promise<{
   data: TransactionData[];
   page: number;
   pageSize: number;
   total: number;
 }> => {
-  if (page) {
-    const { data } = await transactionService.get(`/transactions?page=${page}`);
+  if (status) {
+    const { data } = await transactionService.get(
+      `/transactions?page=${page}&status=${status}`
+    );
     return data;
   } else {
-    const { data } = await transactionService.get("/transactions");
+    const { data } = await transactionService.get(`/transactions?page=${page}`);
     return data;
   }
 };
@@ -27,7 +30,9 @@ export const getTransactionById = async (
 ): Promise<{
   data: TransactionData;
 }> => {
-  const { data } = await transactionService.get(`/transactions/${id}`);
+  const { data } = await transactionService.get(
+    `/transactions/${id}?status=approved`
+  );
   return data;
 };
 

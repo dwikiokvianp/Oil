@@ -22,7 +22,6 @@ export interface TravelDeliveryInput {
   message: string;
   officer_id: number;
   oil_id: number;
-  status: string;
   vehicle_id: number;
   quantity: number;
   recipient_detail: RecipientDetail[];
@@ -32,6 +31,7 @@ export interface TravelDeliveryInput {
 interface RecipientDetail {
   user_id: number;
   email: string;
+  transaction_id: number;
   quantity: number;
   province_id: number;
   city_id: number;
@@ -67,5 +67,20 @@ export const getStorage = async (id: number): Promise<GetStorage> => {
   const { data } = await travelDeliveryServiceApi.get(
     `/warehouses/storage/${id}`
   );
+  return data;
+};
+
+interface patchTransactionDeliveryInput {
+  id: number;
+  vehicle_id: number;
+  driver_id: number;
+}
+
+export const patchTransactionDelivery = async (
+  input: patchTransactionDeliveryInput
+): Promise<{
+  message: string;
+}> => {
+  const { data } = await travelDeliveryServiceApi.patch(`/transactions`, input);
   return data;
 };
