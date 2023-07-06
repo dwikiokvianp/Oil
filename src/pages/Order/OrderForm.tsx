@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { getUserById } from "../../api/users.service.api.ts";
 import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import { OrderTransaction } from "./OrderTransaction.tsx";
+import { classNames } from "../../utils/class.mapper.utils.ts";
 
 export function OrderForm() {
   const params = useParams();
@@ -14,8 +15,8 @@ export function OrderForm() {
 
   return (
     <>
-      <div className="divide-y divide-gray-900/10 sm:block lg:flex">
-        <div className="gap-x-8 gap-y-4 md:grid-cols-4">
+      <div className="sm:block lg:grid grid-cols-4">
+        <div className="gap-x-8 gap-y-4 md:grid-cols-4 col-span-2">
           <div className="px-4 sm:px-3">
             <h1 className="text-lg font-bold text-gray-900 ">
               Personal Information
@@ -134,14 +135,168 @@ export function OrderForm() {
             </div>
           </form>
         </div>
-        <div>
-          {/*<TransactionUser />*/}
+        <div className="col-span-2">
           <OrderTransaction />
+        </div>
+        <div className="col-span-2 absolute bottom-5 w-[61vh]">
+          <header>
+            <h1 className="text-lg font-bold text-gray-900">
+              History Transaction
+            </h1>
+          </header>
+          <main className="h-80 rounded">
+            <div className="px-4 sm:px-6 lg:px-1">
+              <div className=" mt-2 ring-1 ring-gray-900/10 sm:mx-0 sm:rounded-lg">
+                <table className="w-full divide-y divide-gray-900/2">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-gray-900 sm:pl-6"
+                      >
+                        Product
+                      </th>
+                      <th
+                        scope="col"
+                        className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
+                      >
+                        Quantity
+                      </th>
+                      <th
+                        scope="col"
+                        className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
+                      >
+                        Transaction Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                      >
+                        <span className="sr-only">Select</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {plans.map((plan, planIdx) => (
+                      <tr key={plan.id}>
+                        <td
+                          className={classNames(
+                            planIdx === 0 ? "" : "border-t border-transparent",
+                            "relative py-4 pl-4 pr-3 text-xs sm:pl-6"
+                          )}
+                        >
+                          <div className="font-medium text-gray-900">
+                            {plan.name}
+                            {plan.isCurrent ? (
+                              <span className="ml-1 text-indigo-600">
+                                (Current Plan)
+                              </span>
+                            ) : null}
+                          </div>
+                          <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
+                            <span>
+                              {plan.memory} / {plan.cpu}
+                            </span>
+                            <span className="hidden sm:inline">·</span>
+                            <span>{plan.storage}</span>
+                          </div>
+                          {planIdx !== 0 ? (
+                            <div className="absolute -top-px left-6 right-0 h-px bg-gray-200" />
+                          ) : null}
+                        </td>
+                        <td
+                          className={classNames(
+                            planIdx === 0 ? "" : "border-t border-gray-200",
+                            "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
+                          )}
+                        >
+                          {plan.memory}
+                        </td>
+                        <td
+                          className={classNames(
+                            planIdx === 0 ? "" : "border-t border-gray-200",
+                            "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
+                          )}
+                        >
+                          {plan.cpu}
+                        </td>
+                        <td
+                          className={classNames(
+                            planIdx === 0 ? "" : "border-t border-gray-200",
+                            "hidden px-3 py-3.5 text-sm text-gray-500"
+                          )}
+                        >
+                          {plan.storage}
+                        </td>
+                        <td
+                          className={classNames(
+                            planIdx === 0 ? "" : "border-t border-transparent",
+                            "relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                          )}
+                        >
+                          <button
+                            type="button"
+                            className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                            disabled={plan.isCurrent}
+                          >
+                            Detail
+                            <span className="sr-only">, {plan.name}</span>
+                          </button>
+                          {planIdx !== 0 ? (
+                            <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
+                          ) : null}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
     </>
   );
 }
+
+const plans = [
+  {
+    id: 1,
+    name: "Oil",
+    memory: "8000",
+    cpu: "24 Juni 2021",
+    storage: "128 ",
+    price: "$40",
+    isCurrent: false,
+  },
+  {
+    id: 2,
+    name: "MFO",
+    memory: "8000",
+    cpu: "24 Juni 2021",
+    storage: "256 ",
+    price: "$80",
+    isCurrent: false,
+  },
+  {
+    id: 3,
+    name: "Oil",
+    memory: "8000",
+    cpu: "25 Juni 2021",
+    storage: "256",
+    price: "$80",
+    isCurrent: false,
+  },
+  {
+    id: 4,
+    name: "MFO",
+    memory: "8000",
+    cpu: "27 Juni 2021",
+    storage: "256",
+    price: "$80",
+    isCurrent: false,
+  },
+];
 
 export function SkeletonForm() {
   return (

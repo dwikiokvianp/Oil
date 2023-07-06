@@ -90,6 +90,8 @@ export function OrderTransaction() {
     },
   });
 
+  const [isPickup, setIsPickup] = useState(true);
+
   return (
     <div className="ml-8 space-y-10 divide-y divide-gray-900/10 w-full">
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
@@ -110,24 +112,42 @@ export function OrderTransaction() {
               transaction_detail: detailTransaction,
             });
           }}
-          className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+          className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3"
         >
           <div className="px-4 py-6 sm:p-8">
             <div className="flex justify-center items-center gap-6 mb-5">
-              <div className="bg-indigo-900 py-1 px-6 text-white rounded-lg flex flex-col items-center cursor-pointer">
-                <DeliveryIcon />
-                <p className="text-xs">Delivery</p>
-              </div>
-              <div className="py-1 px-6 border border-slate-200 rounded-lg flex flex-col items-center text-slate-400 cursor-pointer">
+              <div
+                onClick={() => {
+                  setIsPickup(true);
+                }}
+                className={`${
+                  isPickup
+                    ? "bg-indigo-900 text-white"
+                    : "bg-white text-black border-2"
+                } py-1 px-6  rounded-lg flex flex-col items-center cursor-pointer`}
+              >
                 <PickupIcon />
                 <p className="text-sm">Pickup</p>
+              </div>
+              <div
+                onClick={() => {
+                  setIsPickup(false);
+                }}
+                className={`${
+                  !isPickup
+                    ? "bg-indigo-900 text-white"
+                    : "bg-white text-black border-2"
+                } py-1 px-6  rounded-lg flex flex-col items-center cursor-pointer`}
+              >
+                <DeliveryIcon />
+                <p className="text-xs">Delivery</p>
               </div>
             </div>
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label
                   htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6 text-slate-500 "
                 >
                   Ship
                 </label>
@@ -273,7 +293,7 @@ export function OrderTransaction() {
               ))}
               <div className="sm:col-span-6 flex justify-end items-center">
                 <div
-                  className="cursor-pointer  px-2 py-1 rounded-md flex gap-x-2 items-center bg-indigo-600 text-white "
+                  className="cursor-pointer  px-2 py-1 rounded-md flex gap-x-2 items-center bg-indigo-800 text-white "
                   onClick={(e) => {
                     e.preventDefault();
                     setDetailTransaction((prev) => {
@@ -294,58 +314,6 @@ export function OrderTransaction() {
               </div>
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="province"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Province
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="province"
-                    name="province"
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={selectedProvince}
-                    onChange={(e) => {
-                      setSelectedProvince(Number(e.target.value));
-                    }}
-                  >
-                    {Province?.data.map((province) => (
-                      <option key={province.id} value={province.id}>
-                        {province.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="province"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  City
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="city"
-                    name="city"
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={selectedCity}
-                    onChange={(e) => {
-                      setSelectedCity(Number(e.target.value));
-                    }}
-                  >
-                    {City?.data.city.map((province) => (
-                      <option key={province.id} value={province.id}>
-                        {province.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-3">
-                <label
                   htmlFor="date"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
@@ -359,10 +327,67 @@ export function OrderTransaction() {
                     type="date"
                     id="date"
                     name="birthday"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     defaultValue={selectedDate}
                   />
                 </div>
               </div>
+              {!isPickup ? (
+                <>
+                  <div className="sm:col-span-3">
+                    <label
+                      htmlFor="province"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Province
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        id="province"
+                        name="province"
+                        autoComplete="country-name"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                        value={selectedProvince}
+                        onChange={(e) => {
+                          setSelectedProvince(Number(e.target.value));
+                        }}
+                      >
+                        {Province?.data.map((province) => (
+                          <option key={province.id} value={province.id}>
+                            {province.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="sm:col-span-3">
+                    <label
+                      htmlFor="province"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      City
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        id="city"
+                        name="city"
+                        autoComplete="country-name"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                        value={selectedCity}
+                        onChange={(e) => {
+                          setSelectedCity(Number(e.target.value));
+                        }}
+                      >
+                        {City?.data.city.map((province) => (
+                          <option key={province.id} value={province.id}>
+                            {province.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </>
+              ) : null}
               <div className="sm:col-span-3">
                 <label
                   htmlFor="country"
@@ -400,7 +425,7 @@ export function OrderTransaction() {
             </button>
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-indigo-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Proceed Transaction
             </button>
