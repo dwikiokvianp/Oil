@@ -80,11 +80,11 @@ export function DetailTransaction() {
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 {data?.data.status === "pending" ? (
                   <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                    Pending
+                    {data?.data.status}
                   </span>
                 ) : (
                   <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                    Done
+                    {data?.data.status}
                   </span>
                 )}
               </dd>
