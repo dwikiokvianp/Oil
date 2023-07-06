@@ -2,6 +2,7 @@ import DriverRoot from "../pages/Driver/DriverRoot.tsx";
 import PickupOrder from "../pages/Driver/PickupOrder.tsx";
 import DeliveryOrder from "../pages/Driver/DeliveryOrder.tsx";
 import DeliveryOrderId from "../pages/Driver/DeliveryOrderId.tsx";
+import { TransactionDeliveryDetail } from "../pages/Driver/TransactionDeliveryDetail.tsx";
 
 const driverRoutes = [
   {
@@ -19,6 +20,10 @@ const driverRoutes = [
   {
     path: "/delivery-order/:id",
     element: <DeliveryOrderId />,
+  },
+  {
+    path: "/delivery-order/transaction/:id",
+    element: <TransactionDeliveryDetail />,
   },
 ];
 

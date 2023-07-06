@@ -611,108 +611,116 @@ function User({
           </p>
         </div>
       </div>
-      <div className="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
-        <table className="min-w-full divide-y divide-gray-300">
-          <thead>
-            <tr>
-              <th
-                scope="col"
-                className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-              >
-                Username
-              </th>
-              <th
-                scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-              >
-                Company Name
-              </th>
-              <th
-                scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-              >
-                Order Date
-              </th>
-              <th
-                scope="col"
-                className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-              >
-                Order Status
-              </th>
-              <th
-                scope="col"
-                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-              >
-                Destination
-              </th>
-              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                <span className="sr-only">Select</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {Transactions?.data.map((plan, planIdx) => (
-              <tr key={plan.id}>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? "" : "border-t border-transparent",
-                    "relative py-4 pl-4 pr-3 text-sm sm:pl-6"
-                  )}
+      {Transactions?.data.length !== 0 ? (
+        <div className="-mx-4 mt-10 ring-1 ring-gray-300 sm:mx-0 sm:rounded-lg">
+          <table className="min-w-full divide-y divide-gray-300">
+            <thead>
+              <tr>
+                <th
+                  scope="col"
+                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                 >
-                  <div className="font-medium text-gray-900">
-                    {plan.User.username}
-                  </div>
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? "" : "border-t border-gray-200",
-                    "hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"
-                  )}
+                  Username
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                 >
-                  {plan.User.company.companyName}
-                </td>
-                <td className="border-t border-gray-200">
-                  {formatIndonesianTime(plan.date)}
-                </td>
-                <td className="border-t border-gray-200">{plan.status}</td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? "" : "border-t border-gray-200",
-                    "px-3 py-3.5 text-sm text-gray-500"
-                  )}
+                  Company Name
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                 >
-                  <div>
-                    {plan.City.name} {","} {plan.Province.name}
-                  </div>
-                </td>
-                <td
-                  className={classNames(
-                    planIdx === 0 ? "" : "border-t border-transparent",
-                    "relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
-                  )}
+                  Order Date
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                 >
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      console.log("clicked");
-                      e.preventDefault();
-                      setOpen(!open);
-                      setIsEnabled(true);
-                      setTransactionId(plan.id);
-                    }}
-                    className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                  >
-                    Select<span className="sr-only"></span>
-                  </button>
-                  {planIdx !== 0 ? (
-                    <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
-                  ) : null}
-                </td>
+                  Order Status
+                </th>
+                <th
+                  scope="col"
+                  className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                >
+                  Destination
+                </th>
+                <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span className="sr-only">Select</span>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {Transactions?.data.map((plan, planIdx) => (
+                <tr key={plan.id}>
+                  <td
+                    className={classNames(
+                      planIdx === 0 ? "" : "border-t border-transparent",
+                      "relative py-4 pl-4 pr-3 text-sm sm:pl-6"
+                    )}
+                  >
+                    <div className="font-medium text-gray-900">
+                      {plan.User.username}
+                    </div>
+                  </td>
+                  <td
+                    className={classNames(
+                      planIdx === 0 ? "" : "border-t border-gray-200",
+                      "hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell"
+                    )}
+                  >
+                    {plan.User.company.companyName}
+                  </td>
+                  <td className="border-t border-gray-200">
+                    {formatIndonesianTime(plan.date)}
+                  </td>
+                  <td className="border-t border-gray-200">{plan.status}</td>
+                  <td
+                    className={classNames(
+                      planIdx === 0 ? "" : "border-t border-gray-200",
+                      "px-3 py-3.5 text-sm text-gray-500"
+                    )}
+                  >
+                    <div>
+                      {plan.City.name} {","} {plan.Province.name}
+                    </div>
+                  </td>
+                  <td
+                    className={classNames(
+                      planIdx === 0 ? "" : "border-t border-transparent",
+                      "relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                    )}
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        console.log("clicked");
+                        e.preventDefault();
+                        setOpen(!open);
+                        setIsEnabled(true);
+                        setTransactionId(plan.id);
+                      }}
+                      className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                    >
+                      Select<span className="sr-only"></span>
+                    </button>
+                    {planIdx !== 0 ? (
+                      <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
+                    ) : null}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="h-48 flex justify-center items-center">
+          <h1 className="font-semibold text-lg text-slate-700">
+            There is no transaction yet. Please wait for the user to order.
+          </h1>
+        </div>
+      )}
     </div>
   );
 }

@@ -8,6 +8,14 @@ export interface TransactionData {
   Vehicle: Vehicle;
   oil_id: number;
   Oil: Oil;
+  Province: {
+    id: number;
+    name: string;
+  };
+  City: {
+    id: number;
+    name: string;
+  };
   created_at: number;
   updated_at: number;
   quantity: number;

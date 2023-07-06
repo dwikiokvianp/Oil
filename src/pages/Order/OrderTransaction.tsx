@@ -80,7 +80,7 @@ export function OrderTransaction() {
     onSuccess: (data) => {
       console.log(data, "ini dari mutation");
       addNotification("success", data.message);
-      navigate("/transaction");
+      navigate("/travel");
     },
     onError: (error: { response: { data: { message: string } } }) => {
       const errorMessage = error.response.data.message;
@@ -168,7 +168,7 @@ export function OrderTransaction() {
                 </div>
               </div>
               {detailTransaction.map((_, index) => (
-                <div className="sm:col-span-4">
+                <div className="sm:col-span-6 grid grid-cols-6">
                   <div className="sm:col-span-4">
                     <div>
                       <label
@@ -199,31 +199,37 @@ export function OrderTransaction() {
                           ))}
                         </select>
                       </div>
-                      <div className="flex">
-                        <div
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setDetailTransaction((prev) => {
-                              return [...prev, { quantity: 8000, oil_id: 1 }];
-                            });
-                          }}
-                        >
-                          <AiFillPlusCircle />
-                        </div>
-                        <div
-                          onClick={(e) => {
-                            e.preventDefault();
-                            const newDetailTransaction = [...detailTransaction];
-                            newDetailTransaction.splice(index, 1);
-                            setDetailTransaction(newDetailTransaction);
-                          }}
-                        >
-                          <AiFillMinusCircle />
-                        </div>
+                    </div>
+                  </div>
+
+                  <div className="col-span-2 flex justify-center items-center">
+                    <div className="flex">
+                      <div
+                        className="cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setDetailTransaction((prev) => {
+                            return [...prev, { quantity: 8000, oil_id: 1 }];
+                          });
+                        }}
+                      >
+                        <AiFillPlusCircle />
+                      </div>
+                      <div
+                        className="cursor-pointer"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const newDetailTransaction = [...detailTransaction];
+                          newDetailTransaction.splice(index, 1);
+                          setDetailTransaction(newDetailTransaction);
+                        }}
+                      >
+                        <AiFillMinusCircle />
                       </div>
                     </div>
                   </div>
-                  <div className="sm:col-span-4">
+
+                  <div className="sm:col-span-4 ">
                     <label
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900"

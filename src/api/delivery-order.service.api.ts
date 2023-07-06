@@ -15,6 +15,7 @@ interface TravelOrder {
   id: number;
   pickup_location: string;
   quantity: number;
+  departure_date: string;
 }
 
 interface RecipientTravelOrder {
@@ -25,7 +26,7 @@ interface RecipientTravelOrder {
 interface getDeliveryOrdersResponse {
   travel_order: TravelOrder;
   delivery_order: DeliveryOrder;
-  recipient_travel_order: RecipientTravelOrder[];
+  recipient: RecipientTravelOrder[];
 }
 
 export const getDeliveryOrdersMobile = async (

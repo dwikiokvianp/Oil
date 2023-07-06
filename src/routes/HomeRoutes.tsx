@@ -10,7 +10,6 @@ import { UserList } from "../pages/UserList/UserList.tsx";
 import { redirect } from "react-router-dom";
 import { addNotification } from "../utils/notification.utils.ts";
 import NotFound from "../pages/NotFound/NotFound.tsx";
-import { Travel } from "../pages/Travel/Travel.tsx";
 import { TravelTwo } from "../pages/Travel/TravelTwo.tsx";
 function loaderHome() {
   const token = localStorage.getItem("access_token");
@@ -37,14 +36,13 @@ const homeRoutes = [
         element: <Order />,
       },
       { path: "/order/:id", element: <OrderForm /> },
-      { path: "/traveltwo", element: <TravelTwo /> },
+      { path: "/travel", element: <TravelTwo /> },
       { path: "/order/:id/transaction", element: <OrderTransaction /> },
       { path: "/userlist", element: <UserList /> },
       { path: "/vehicle", element: <Vehicle /> },
       { path: "/transaction", element: <Transaction /> },
       { path: "/transaction/:id", element: <DetailTransaction /> },
       { path: "/dashboard", element: <Dashboard /> },
-      { path: "/travel", element: <Travel /> },
     ],
   },
   {

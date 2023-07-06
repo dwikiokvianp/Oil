@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { getDeliveryOrders } from "../../api/driver.service.api.ts";
 import { OfficerHistoryBar } from "../../components/molecules/OfficerHistoryBar.tsx";
 import { formatIndonesianTime } from "../../utils/day.converter.ts";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function PickupOrder() {
   const { data: pickupOrder } = useQuery({
@@ -21,6 +21,7 @@ export default function PickupOrder() {
         <main className="mt-4">
           {pickupOrder?.data.map((item) => (
             <div
+              key={item.id}
               onClick={() => {
                 navigate(`/delivery-order/${item.id}`);
               }}
