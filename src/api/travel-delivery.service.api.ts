@@ -70,14 +70,14 @@ export const getStorage = async (id: number): Promise<GetStorage> => {
   return data;
 };
 
-interface patchTransactionDeliveryInput {
+export interface patchTransactionDeliveryInput {
   id: number;
-  vehicle_id: number;
-  driver_id: number;
+  vehicle_id?: number;
+  driver_id?: number;
 }
 
 export const patchTransactionDelivery = async (
-  input: patchTransactionDeliveryInput
+  input: patchTransactionDeliveryInput[]
 ): Promise<{
   message: string;
 }> => {

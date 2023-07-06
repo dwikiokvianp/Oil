@@ -4,6 +4,7 @@ import {
   getDrivers,
   getStorage,
   patchTransactionDelivery,
+  patchTransactionDeliveryInput,
   TravelDeliveryInput,
 } from "../../api/travel-delivery.service.api.ts";
 import React, { useState } from "react";
@@ -45,8 +46,9 @@ export function TravelTwo() {
     []
   );
   const [isEnabled, setIsEnabled] = useState(false);
-  const [patchData, setPatchData] = useState<any>([]);
-  const { data: TransactionById } = useQuery({
+
+  const [patchData] = useState<patchTransactionDeliveryInput[]>([]);
+  useQuery({
     queryKey: ["transaction", transactionId],
     queryFn: () => getTransactionById(transactionId),
     enabled: isEnabled,
@@ -78,7 +80,7 @@ export function TravelTwo() {
   const mutationPatch = useMutation({
     mutationFn: patchTransactionDelivery,
     mutationKey: "patchTransaction",
-    onSuccess: (data) => {
+    onSuccess: () => {
       travelDeliveryInput.departure_date = new Date().toISOString();
       console.log(travelDeliveryInput.departure_date, "ini departure date");
       mutation.mutate(travelDeliveryInput);
@@ -576,7 +578,7 @@ export function TravelTwo() {
             type="button"
             className="block rounded-md bg-slate-600 px-6 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={() => {
-              patchData.map((data, index) => {
+              patchData.map((data) => {
                 data.vehicle_id = travelDeliveryInput.vehicle_id;
                 data.driver_id = travelDeliveryInput.driver_id;
               });
