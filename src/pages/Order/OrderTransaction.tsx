@@ -114,7 +114,7 @@ export function OrderTransaction() {
         >
           <div className="px-4 py-6 sm:p-8">
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -140,7 +140,7 @@ export function OrderTransaction() {
                   </select>
                 </div>
               </div>
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="drivers"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -167,12 +167,12 @@ export function OrderTransaction() {
                 </div>
               </div>
               {detailTransaction.map((_, index) => (
-                <div className="sm:col-span-6 grid grid-cols-6">
-                  <div className="sm:col-span-4">
+                <div className="sm:col-span-6 grid grid-cols-7 gap-5">
+                  <div className="sm:col-span-3">
                     <div>
                       <label
                         htmlFor="country"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                        className="block text-sm font-medium mt-5 text-gray-900"
                       >
                         Oil
                       </label>
@@ -201,37 +201,10 @@ export function OrderTransaction() {
                     </div>
                   </div>
 
-                  <div className="col-span-2 flex justify-center items-end">
-                    <div className="flex gap-x-2">
-                      <div
-                        className="cursor-pointer bg-black text-white px-2 py-1 rounded-md"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setDetailTransaction((prev) => {
-                            return [...prev, { quantity: 8000, oil_id: 1 }];
-                          });
-                        }}
-                      >
-                        +
-                      </div>
-                      <div
-                        className="cursor-pointer bg-slate-700 text-white px-2 py-1 rounded-md"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          const newDetailTransaction = [...detailTransaction];
-                          newDetailTransaction.splice(index, 1);
-                          setDetailTransaction(newDetailTransaction);
-                        }}
-                      >
-                        -
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="sm:col-span-4 mt-5">
+                  <div className="sm:col-span-3 mt-5">
                     <label
                       htmlFor="country"
-                      className="block text-sm font-medium leading-6 text-gray-900"
+                      className="block text-sm font-medium text-gray-900"
                     >
                       Quantity
                     </label>
@@ -258,9 +231,35 @@ export function OrderTransaction() {
                       </select>
                     </div>
                   </div>
+                  <div className="col-span-1 flex justify-center items-end">
+                    <div className="flex gap-x-2">
+                      <div
+                        className="cursor-pointer bg-black text-white px-2 py-1 rounded-md"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setDetailTransaction((prev) => {
+                            return [...prev, { quantity: 8000, oil_id: 1 }];
+                          });
+                        }}
+                      >
+                        +
+                      </div>
+                      <div
+                        className="cursor-pointer bg-slate-700 text-white px-2 py-1 rounded-md"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const newDetailTransaction = [...detailTransaction];
+                          newDetailTransaction.splice(index, 1);
+                          setDetailTransaction(newDetailTransaction);
+                        }}
+                      >
+                        -
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="province"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -286,7 +285,7 @@ export function OrderTransaction() {
                   </select>
                 </div>
               </div>
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="province"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -312,7 +311,7 @@ export function OrderTransaction() {
                   </select>
                 </div>
               </div>
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="date"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -331,7 +330,7 @@ export function OrderTransaction() {
                   />
                 </div>
               </div>
-              <div className="sm:col-span-4">
+              <div className="sm:col-span-3">
                 <label
                   htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"

@@ -67,7 +67,7 @@ interface User {
   detail: Detail;
   company: Company;
   company_id: number;
-  created_at: number;
+  created_at: string;
   phone: string;
 }
 

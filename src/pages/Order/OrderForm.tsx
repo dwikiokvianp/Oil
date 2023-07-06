@@ -1,8 +1,7 @@
-import { TransactionUser } from "../Transaction/TransactionUser.tsx";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getUserById } from "../../api/users.service.api.ts";
-import { formatUnixTimestamp } from "../../utils/day.converter.ts";
+import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import { OrderTransaction } from "./OrderTransaction.tsx";
 
 export function OrderForm() {
@@ -11,20 +10,14 @@ export function OrderForm() {
   const { data: User, isLoading } = useQuery({
     queryKey: ["transaction", params.id],
     queryFn: () => getUserById(Number(params.id)),
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 
   return (
     <>
       <div className="divide-y divide-gray-900/10 sm:block lg:flex">
-        <div className="gap-x-8 gap-y-4 md:grid-cols-3">
+        <div className="gap-x-8 gap-y-4 md:grid-cols-4">
           <div className="px-4 sm:px-3">
-            <h1
-              className="text-base font-semibold text-gray-900"
-              style={{ fontSize: "25px" }}
-            >
+            <h1 className="text-lg font-bold text-gray-900 ">
               Personal Information
             </h1>
           </div>
@@ -35,32 +28,45 @@ export function OrderForm() {
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="first-name"
-                    className="block text-medium font-medium leading-6 text-gray-400"
+                    className="block text-medium font-medium text-gray-400"
                   >
                     Username
                   </label>
-                  <div className="mt-2">
+                  <div>
                     <label
-                      className={`block rounded text-medium font-medium leading-10 text-black-900`}
-                      style={{ fontSize: "25px" }}
+                      className={`block rounded text-medium font-medium text-black-900`}
                     >
                       {isLoading ? <SkeletonForm /> : User?.data.username}
                     </label>
                   </div>
                 </div>
-
                 <div className="sm:col-span-3">
                   <label
+                    htmlFor="postal-code"
+                    className="block text-medium font-medium text-gray-400"
+                  >
+                    Member Since
+                  </label>
+                  <div>
+                    <label className="block text-medium font-medium text-black-900">
+                      {isLoading ? (
+                        <SkeletonForm />
+                      ) : (
+                        formatIndonesianTime(User?.data.created_at as string)
+                      )}
+                    </label>
+                  </div>
+                </div>
+
+                <div className="sm:col-span-4">
+                  <label
                     htmlFor="last-name"
-                    className="block text-medium font-medium leading-6 text-gray-400"
+                    className="block text-medium font-medium text-gray-400"
                   >
                     Company Name
                   </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-10 text-black-900"
-                      style={{ fontSize: "23px" }}
-                    >
+                  <div>
+                    <label className="block text-medium font-medium  text-black-900">
                       {isLoading ? (
                         <SkeletonForm />
                       ) : (
@@ -73,15 +79,12 @@ export function OrderForm() {
                 <div className="sm:col-span-6">
                   <label
                     htmlFor="email"
-                    className="block text-medium font-medium leading-6 text-gray-400"
+                    className="block text-medium font-medium text-gray-400"
                   >
                     Email Address
                   </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-10 text-black-900"
-                      style={{ fontSize: "23px" }}
-                    >
+                  <div>
+                    <label className="block text-medium font-medium  text-black-900">
                       {isLoading ? <SkeletonForm /> : User?.data.email}
                     </label>
                   </div>
@@ -90,15 +93,12 @@ export function OrderForm() {
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="region"
-                    className="block text-medium font-medium leading-6 text-gray-400"
+                    className="block text-medium font-medium text-gray-400"
                   >
                     Balance
                   </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-6 text-black-900"
-                      style={{ fontSize: "22px" }}
-                    >
+                  <div>
+                    <label className="block text-medium font-medium text-black-900">
                       {isLoading ? <SkeletonForm /> : User?.data.detail.balance}
                     </label>
                   </div>
@@ -107,15 +107,12 @@ export function OrderForm() {
                 <div className="sm:col-span-3">
                   <label
                     htmlFor="postal-code"
-                    className="block text-medium font-medium leading-6 text-gray-400"
+                    className="block text-medium font-medium text-gray-400"
                   >
                     Credit
                   </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-6 text-black-900"
-                      style={{ fontSize: "22px" }}
-                    >
+                  <div>
+                    <label className="block text-medium font-medium text-black-900">
                       {isLoading ? <SkeletonForm /> : User?.data.detail.credit}
                     </label>
                   </div>
@@ -123,37 +120,13 @@ export function OrderForm() {
                 <div className="sm:col-span-4 ">
                   <label
                     htmlFor="city"
-                    className="block text-medium font-medium leading-6 text-gray-400"
+                    className="block text-medium font-medium text-gray-400"
                   >
                     Phone Number
                   </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-10 text-black-900"
-                      style={{ fontSize: "22px" }}
-                    >
+                  <div>
+                    <label className="block text-medium font-medium text-black-900">
                       {isLoading ? <SkeletonForm /> : User?.data.phone}
-                    </label>
-                  </div>
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label
-                    htmlFor="postal-code"
-                    className="block text-medium font-medium leading-6 text-gray-400"
-                  >
-                    Member Since
-                  </label>
-                  <div className="mt-2">
-                    <label
-                      className="block text-medium font-medium leading-6 text-black-900"
-                      style={{ fontSize: "22px" }}
-                    >
-                      {isLoading ? (
-                        <SkeletonForm />
-                      ) : (
-                        formatUnixTimestamp(User?.data.created_at as number)
-                      )}
                     </label>
                   </div>
                 </div>
@@ -162,7 +135,7 @@ export function OrderForm() {
           </form>
         </div>
         <div>
-          <TransactionUser />
+          {/*<TransactionUser />*/}
           <OrderTransaction />
         </div>
       </div>
