@@ -113,7 +113,17 @@ export function OrderTransaction() {
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
         >
           <div className="px-4 py-6 sm:p-8">
-            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="flex justify-center items-center gap-6 mb-5">
+              <div className="bg-indigo-900 py-1 px-6 text-white rounded-lg flex flex-col items-center cursor-pointer">
+                <DeliveryIcon />
+                <p className="text-xs">Delivery</p>
+              </div>
+              <div className="py-1 px-6 border border-slate-200 rounded-lg flex flex-col items-center text-slate-400 cursor-pointer">
+                <PickupIcon />
+                <p className="text-sm">Pickup</p>
+              </div>
+            </div>
+            <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label
                   htmlFor="country"
@@ -234,18 +244,7 @@ export function OrderTransaction() {
                   <div className="col-span-1 flex justify-center items-end">
                     <div className="flex gap-x-2">
                       <div
-                        className="cursor-pointer bg-black text-white px-2 py-1 rounded-md"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setDetailTransaction((prev) => {
-                            return [...prev, { quantity: 8000, oil_id: 1 }];
-                          });
-                        }}
-                      >
-                        +
-                      </div>
-                      <div
-                        className="cursor-pointer bg-slate-700 text-white px-2 py-1 rounded-md"
+                        className="cursor-pointer text-red-500 px-2 py-1 rounded-md"
                         onClick={(e) => {
                           e.preventDefault();
                           const newDetailTransaction = [...detailTransaction];
@@ -253,12 +252,46 @@ export function OrderTransaction() {
                           setDetailTransaction(newDetailTransaction);
                         }}
                       >
-                        -
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-6 h-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                          />
+                        </svg>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
+              <div className="sm:col-span-6 flex justify-end items-center">
+                <div
+                  className="cursor-pointer  px-2 py-1 rounded-md flex gap-x-2 items-center bg-indigo-600 text-white "
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setDetailTransaction((prev) => {
+                      return [...prev, { quantity: 8000, oil_id: 1 }];
+                    });
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                  </svg>
+                  <p className="text-sm">Add Item</p>
+                </div>
+              </div>
               <div className="sm:col-span-3">
                 <label
                   htmlFor="province"
@@ -375,5 +408,45 @@ export function OrderTransaction() {
         </form>
       </div>
     </div>
+  );
+}
+
+function DeliveryIcon() {
+  return (
+    <div className="flex gap-x-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function PickupIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+      />
+    </svg>
   );
 }
