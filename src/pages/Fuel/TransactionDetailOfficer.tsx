@@ -3,7 +3,7 @@ import { HeaderOfficerTitle } from "../../components/molecules/HeaderOfficerTitl
 
 export function TransactionDetailOfficer() {
   return (
-    <div className="m-2">
+    <div className="m-4">
       <HeaderOfficerTitle title={"Detail Transaction"} />
       <div className="mt-8">
         <DetailTransaction />

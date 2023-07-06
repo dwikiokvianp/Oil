@@ -6,7 +6,7 @@ import {
   patchTransactionDelivery,
   TravelDeliveryInput,
 } from "../../api/travel-delivery.service.api.ts";
-import { useState } from "react";
+import React, { useState } from "react";
 import { getWarehouses } from "../../api/warehouse.service.api.ts";
 import { addNotification } from "../../utils/notification.utils.ts";
 import { useNavigate } from "react-router-dom";
@@ -100,7 +100,7 @@ export function TravelTwo() {
       message: "",
       officer_id: 1,
       oil_id: 1,
-      pickup_location: "Pertamina Cirebon",
+      pickup_location: "Pertamina Cilacap",
       quantity: 8000,
       recipient_detail: [],
       vehicle_id: 1,
@@ -130,6 +130,20 @@ export function TravelTwo() {
     onError: (error: any) => {
       const errors = error.response.data.message;
       addNotification("error", errors);
+    },
+  });
+
+  const [usersTransactionSource, setUsersTransactionSource] = useState<{
+    data: TransactionData[];
+  }>();
+
+  useQuery({
+    queryKey: "transactions",
+    queryFn: () => getTransaction(),
+    retry: false,
+    onSuccess: (data) => {
+      console.log("refetch");
+      setUsersTransactionSource(data);
     },
   });
 
@@ -245,7 +259,7 @@ export function TravelTwo() {
                   name="oil"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option value={"Pertamina Cirebon"}>Pertamina Cirebon</option>
+                  <option value={"Pertamina Cilacap"}>Pertamina Cilacap</option>
                 </select>
               </div>
             </div>
@@ -576,7 +590,21 @@ export function TravelTwo() {
       <ModalTemplateBigger
         open={open}
         setOpen={setOpen}
-        innerComponent={User({ open, setOpen, setIsEnabled, setTransactionId })}
+        innerComponent={User({
+          open,
+          setOpen,
+          setIsEnabled,
+          setTransactionId,
+          Transactions: usersTransactionSource as {
+            data: TransactionData[];
+            page: number;
+            pageSize: number;
+            total: number;
+          },
+          setTransaction: setUsersTransactionSource as React.Dispatch<
+            React.SetStateAction<{ data: TransactionData[] }>
+          >,
+        })}
       />
     </>
   );
@@ -587,18 +615,25 @@ function User({
   setOpen,
   setIsEnabled,
   setTransactionId,
+  Transactions,
+  setTransaction,
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   setTransactionId: React.Dispatch<React.SetStateAction<number>>;
+  Transactions: {
+    data: TransactionData[];
+    page: number;
+    pageSize: number;
+    total: number;
+  };
+  setTransaction: React.Dispatch<
+    React.SetStateAction<{
+      data: TransactionData[];
+    }>
+  >;
 }) {
-  const { data: Transactions } = useQuery({
-    queryKey: "transactions",
-    queryFn: () => getTransaction(),
-    refetchOnMount: false,
-    enabled: open,
-  });
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -700,6 +735,19 @@ function User({
                         setOpen(!open);
                         setIsEnabled(true);
                         setTransactionId(plan.id);
+                        console.log(Transactions);
+                        setTransaction((prev) => ({
+                          ...prev,
+                          data: prev.data.filter((item) => {
+                            console.log(
+                              item.id,
+                              plan.id,
+                              typeof item.id,
+                              typeof plan.id
+                            );
+                            return item.id !== plan.id;
+                          }),
+                        }));
                       }}
                       className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
                     >

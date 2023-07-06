@@ -11,7 +11,6 @@ import {
   getRegionProvince,
   getRegionProvinceById,
 } from "../../api/region.service.api.ts";
-import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { getDrivers } from "../../api/driver.service.api.ts";
 
 export function OrderTransaction() {
@@ -202,10 +201,10 @@ export function OrderTransaction() {
                     </div>
                   </div>
 
-                  <div className="col-span-2 flex justify-center items-center">
-                    <div className="flex">
+                  <div className="col-span-2 flex justify-center items-end">
+                    <div className="flex gap-x-2">
                       <div
-                        className="cursor-pointer"
+                        className="cursor-pointer bg-black text-white px-2 py-1 rounded-md"
                         onClick={(e) => {
                           e.preventDefault();
                           setDetailTransaction((prev) => {
@@ -213,10 +212,10 @@ export function OrderTransaction() {
                           });
                         }}
                       >
-                        <AiFillPlusCircle />
+                        +
                       </div>
                       <div
-                        className="cursor-pointer"
+                        className="cursor-pointer bg-slate-700 text-white px-2 py-1 rounded-md"
                         onClick={(e) => {
                           e.preventDefault();
                           const newDetailTransaction = [...detailTransaction];
@@ -224,12 +223,12 @@ export function OrderTransaction() {
                           setDetailTransaction(newDetailTransaction);
                         }}
                       >
-                        <AiFillMinusCircle />
+                        -
                       </div>
                     </div>
                   </div>
 
-                  <div className="sm:col-span-4 ">
+                  <div className="sm:col-span-4 mt-5">
                     <label
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900"
