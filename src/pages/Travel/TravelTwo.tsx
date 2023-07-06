@@ -21,6 +21,7 @@ import { classNames } from "../../utils/class.mapper.utils.ts";
 import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import type { TransactionData } from "../Transaction/transaction.d.type.ts";
 import { getVehicle } from "../../api/vehicle.service.api.ts";
+import { CustomErrorType } from "../../type/axios.type";
 
 export function TravelTwo() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export function TravelTwo() {
     queryFn: getDrivers,
   });
 
-  const { data: Warehouses } = useQuery({
+  useQuery({
     queryKey: "warehouses",
     queryFn: getWarehouses,
   });
@@ -114,8 +115,8 @@ export function TravelTwo() {
         },
       ],
     });
-  const [warehouseId, setWarehouseId] = useState(1);
-  const { data: Storage } = useQuery({
+  const [warehouseId] = useState(1);
+  useQuery({
     queryKey: ["storage", warehouseId],
     queryFn: () => getStorage(warehouseId),
   });
@@ -129,7 +130,7 @@ export function TravelTwo() {
       addNotification("success", data.message);
       navigate("/transaction");
     },
-    onError: (error: any) => {
+    onError: (error: CustomErrorType) => {
       const errors = error.response.data.message;
       addNotification("error", errors);
     },
@@ -144,15 +145,14 @@ export function TravelTwo() {
     queryFn: () => getTransaction(),
     retry: false,
     onSuccess: (data) => {
-      console.log("refetch");
       setUsersTransactionSource(data);
     },
   });
 
   return (
     <>
-      <div className="grid grid-cols-2 border-2 shadow rounded-md">
-        <div className="p-8">
+      <div className="grid grid-cols-2 gap-2">
+        <div className="p-8 border rounded-xl h-[48vh]">
           <div className="grid grid-cols-1 gap-x-8 gap-y-2.5  border-gray-900/10 pb-12 md:grid-cols-3">
             <div className="col-span-3">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -342,272 +342,158 @@ export function TravelTwo() {
             </div>
           </div>
         </div>
-        <div className="p-8">
-          {travelDeliveryInput.warehouse_detail.map((detail, index) => (
-            <div
-              key={index}
-              className="grid grid-cols-1 gap-x-8 gap-y-2 border-gray-900/10 pb-12 md:grid-cols-3"
-            >
-              <div className="md:col-span-3">
-                <div className=" text-base font-semibold leading-7 text-gray-900">
-                  Warehouse Destination
-                </div>
-                <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Use warehouse information where you can receive the package.
-                </p>
-              </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="warehouse"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+        <div className="rounded-xl min-h-[48vh] border p-8">
+          <div className="sm:flex sm:items-center mt-2">
+            <div className="sm:flex-auto">
+              <h1 className="text-base font-semibold leading-6 text-gray-900">
+                Travel Order
+              </h1>
+              <p className="mt-2 text-sm text-gray-700">
+                Order information for the travel
+              </p>
+            </div>
+            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+              <button
+                type="button"
+                className="block rounded-md bg-slate-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={() => {
+                  setOpen(!open);
+                }}
+              >
+                Add Customer Destination
+              </button>
+            </div>
+          </div>
+          {usersTransaction.length > 0 ? (
+            <div className="-mx-4 my-10 flow-root sm:mx-0">
+              <table className="min-w-full">
+                <thead className="border-b border-gray-300 text-gray-900">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                    >
+                      Information
+                    </th>
+                    <th
+                      scope="col"
+                      className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
+                    >
+                      Product
+                    </th>
+                    <th
+                      scope="col"
+                      className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0"
+                    >
+                      Total Quantity
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {usersTransaction.map((project) => (
+                    <tr key={project.id} className="border-b border-gray-200">
+                      <td className="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
+                        <div className="font-medium text-gray-900">
+                          {project.User.username}
+                        </div>
+                        <div className="mt-1 truncate text-gray-500">
+                          {project.User.company.companyName}
+                        </div>
+                      </td>
+                      <td className="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
+                        {project.transaction_detail.map((detail) => (
+                          <div key={detail.id}>{detail.oil.name}</div>
+                        ))}
+                      </td>
+                      <td className="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
+                        {project.transaction_detail.map((detail) => (
+                          <div key={detail.id}>{detail.quantity}</div>
+                        ))}
+                      </td>
+                      <td className="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
+                        {project.transaction_detail.reduce((acc, detail) => {
+                          return acc + detail.quantity;
+                        }, 0)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th
+                      scope="row"
+                      colSpan={3}
+                      className="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0"
+                    >
+                      Total
+                    </th>
+                    <th
+                      scope="row"
+                      className="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden"
+                    >
+                      Total
+                    </th>
+                    <td className="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
+                      {usersTransaction.reduce((acc, project) => {
+                        return (
+                          acc +
+                          project.transaction_detail.reduce((acc, detail) => {
+                            return acc + detail.quantity;
+                          }, 0)
+                        );
+                      }, 0)}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="button"
+                  className="block rounded-md bg-slate-600 px-6 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={() => {
+                    patchData.map((data) => {
+                      data.vehicle_id = travelDeliveryInput.vehicle_id;
+                      data.driver_id = travelDeliveryInput.driver_id;
+                    });
+                    mutationPatch.mutate(patchData);
+                  }}
                 >
-                  Warehouse
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="warehouse"
-                    name="warehouse"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={detail.warehouse_id}
-                    onChange={(e) => {
-                      setWarehouseId(Number(e.target.value));
-                      const newWarehouseDetails = [
-                        ...travelDeliveryInput.warehouse_detail,
-                      ];
-                      newWarehouseDetails[index].warehouse_id = Number(
-                        e.target.value
-                      );
-                      setTravelDeliveryInput({
-                        ...travelDeliveryInput,
-                        warehouse_detail: newWarehouseDetails,
-                      });
-                    }}
-                  >
-                    {Warehouses?.map((driver) => (
-                      <option key={driver.id} value={driver.id}>
-                        {driver.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="warehouse"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Storage
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="warehouse"
-                    name="warehouse"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={detail.storage_id}
-                    onChange={(e) => {
-                      const newWarehouseDetails = [
-                        ...travelDeliveryInput.warehouse_detail,
-                      ];
-                      newWarehouseDetails[index].storage_id = Number(
-                        e.target.value
-                      );
-                      setTravelDeliveryInput({
-                        ...travelDeliveryInput,
-                        warehouse_detail: newWarehouseDetails,
-                      });
-                    }}
-                  >
-                    {Storage?.data.map((storage) => (
-                      <option key={storage.id} value={storage.id}>
-                        {storage.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="quantity"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Quantity
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="drivers"
-                    name="drivers"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={detail.warehouse_id}
-                    onChange={(e) => {
-                      const newWarehouseDetails = [
-                        ...travelDeliveryInput.warehouse_detail,
-                      ];
-                      newWarehouseDetails[index].warehouse_id = Number(
-                        e.target.value
-                      );
-                      setTravelDeliveryInput({
-                        ...travelDeliveryInput,
-                        warehouse_detail: newWarehouseDetails,
-                      });
-                    }}
-                  >
-                    <option value={8000}>8000</option>
-                    <option value={16000}>16000</option>
-                    <option value={24000}>24000</option>
-                    <option value={32000}>32000</option>
-                    <option value={40000}>40000</option>
-                    <option value={48000}>48000</option>
-                  </select>
-                </div>
+                  Save
+                </button>
               </div>
             </div>
-          ))}
+          ) : (
+            <div className="h-[32vh] flex justify-center items-center text-slate-700 font-semibold">
+              Customer Destination is empty
+            </div>
+          )}
         </div>
+        <ModalTemplateBigger
+          open={open}
+          setOpen={setOpen}
+          innerComponent={User({
+            open,
+            setOpen,
+            setIsEnabled,
+            setTransactionId,
+            Transactions: usersTransactionSource as {
+              data: TransactionData[];
+              page: number;
+              pageSize: number;
+              total: number;
+            },
+            setTransaction: setUsersTransactionSource as React.Dispatch<
+              React.SetStateAction<{ data: TransactionData[] }>
+            >,
+          })}
+        />
       </div>
-
-      <div className="px-4 sm:px-6 lg:px-8 border-2 shadow my-4 rounded-md">
-        <div className="sm:flex sm:items-center mt-8">
-          <div className="sm:flex-auto">
-            <h1 className="text-base font-semibold leading-6 text-gray-900">
-              Travel Order
-            </h1>
-            <p className="mt-2 text-sm text-gray-700">
-              Order information for the travel
-            </p>
-          </div>
-          <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button
-              type="button"
-              className="block rounded-md bg-slate-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={() => {
-                setOpen(!open);
-              }}
-            >
-              Add Customer Destination
-            </button>
-          </div>
-        </div>
-        <div className="-mx-4 my-10 flow-root sm:mx-0">
-          <table className="min-w-full">
-            <thead className="border-b border-gray-300 text-gray-900">
-              <tr>
-                <th
-                  scope="col"
-                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                >
-                  Information
-                </th>
-                <th
-                  scope="col"
-                  className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-                >
-                  Product
-                </th>
-                <th
-                  scope="col"
-                  className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-                >
-                  Quantity
-                </th>
-                <th
-                  scope="col"
-                  className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 sm:pr-0"
-                >
-                  Total Quantity
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {usersTransaction.map((project) => (
-                <tr key={project.id} className="border-b border-gray-200">
-                  <td className="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
-                    <div className="font-medium text-gray-900">
-                      {project.User.username}
-                    </div>
-                    <div className="mt-1 truncate text-gray-500">
-                      {project.User.company.companyName}
-                    </div>
-                  </td>
-                  <td className="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
-                    {project.transaction_detail.map((detail) => (
-                      <div key={detail.id}>{detail.oil.name}</div>
-                    ))}
-                  </td>
-                  <td className="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
-                    {project.transaction_detail.map((detail) => (
-                      <div key={detail.id}>{detail.quantity}</div>
-                    ))}
-                  </td>
-                  <td className="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
-                    {project.transaction_detail.reduce((acc, detail) => {
-                      return acc + detail.quantity;
-                    }, 0)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr>
-                <th
-                  scope="row"
-                  colSpan={3}
-                  className="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0"
-                >
-                  Total
-                </th>
-                <th
-                  scope="row"
-                  className="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden"
-                >
-                  Total
-                </th>
-                <td className="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
-                  {usersTransaction.reduce((acc, project) => {
-                    return (
-                      acc +
-                      project.transaction_detail.reduce((acc, detail) => {
-                        return acc + detail.quantity;
-                      }, 0)
-                    );
-                  }, 0)}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-          <button
-            type="button"
-            className="block rounded-md bg-slate-600 px-6 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => {
-              patchData.map((data) => {
-                data.vehicle_id = travelDeliveryInput.vehicle_id;
-                data.driver_id = travelDeliveryInput.driver_id;
-              });
-              mutationPatch.mutate(patchData);
-            }}
-          >
-            Save
-          </button>
-        </div>
-      </div>
-      <ModalTemplateBigger
-        open={open}
-        setOpen={setOpen}
-        innerComponent={User({
-          open,
-          setOpen,
-          setIsEnabled,
-          setTransactionId,
-          Transactions: usersTransactionSource as {
-            data: TransactionData[];
-            page: number;
-            pageSize: number;
-            total: number;
-          },
-          setTransaction: setUsersTransactionSource as React.Dispatch<
-            React.SetStateAction<{ data: TransactionData[] }>
-          >,
-        })}
-      />
     </>
   );
 }
