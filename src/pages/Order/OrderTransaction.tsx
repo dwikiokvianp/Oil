@@ -81,7 +81,7 @@ export function OrderTransaction() {
     onSuccess: (data) => {
       console.log(data, "ini dari mutation");
       addNotification("success", data.message);
-      navigate("/travel");
+      navigate("/");
     },
     onError: (error: { response: { data: { message: string } } }) => {
       const errorMessage = error.response.data.message;
