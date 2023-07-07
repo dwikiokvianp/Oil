@@ -285,15 +285,6 @@ export function DetailData({ id }: { id: number }) {
                   </th>
                   <td className="px-6 py-4">{"halo"}</td>
                 </tr>
-                <tr className="border-b border-gray-200">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50"
-                  >
-                    Ship Name
-                  </th>
-                  <td className="px-6 py-4">{data?.data.Vehicle.name}</td>
-                </tr>
                 <tr>
                   <th
                     scope="row"
