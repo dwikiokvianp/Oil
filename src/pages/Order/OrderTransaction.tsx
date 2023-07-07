@@ -14,15 +14,15 @@ import {
 import { getDrivers } from "../../api/driver.service.api.ts";
 
 export function OrderTransaction() {
-  const [selectedShip, setSelectedShip] = useState(1);
+  const [selectedShip] = useState(1);
   const [selectedOil] = useState(2);
   const [selectedQuantity] = useState(8000);
-  const [selectedDriver, setSelectedDriver] = useState(1);
+  const [selectedDriver] = useState(1);
   const [selectedOfficer, setSelectedOfficer] = useState(1);
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().substr(0, 10)
   );
-  const [selectedProvince, setSelectedProvince] = useState(1);
+  const [selectedProvince, setSelectedProvince] = useState(13);
   const [selectedCity, setSelectedCity] = useState(selectedProvince);
 
   const [detailTransaction, setDetailTransaction] = useState<
@@ -31,7 +31,7 @@ export function OrderTransaction() {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: Ships } = useQuery({
+  useQuery({
     queryKey: ["ship"],
     queryFn: getVehicle,
   });
@@ -53,7 +53,7 @@ export function OrderTransaction() {
     },
   });
 
-  const { data: Drivers } = useQuery({
+  useQuery({
     queryKey: ["driver"],
     queryFn: getDrivers,
   });
@@ -147,36 +147,30 @@ export function OrderTransaction() {
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-slate-500 "
+                  htmlFor="date"
+                  className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Ship
+                  Date of Transaction
                 </label>
                 <div className="mt-2">
-                  <select
-                    id="country"
-                    name="country"
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={selectedShip}
+                  <input
                     onChange={(e) => {
-                      setSelectedShip(Number(e.target.value));
+                      setSelectedDate(e.target.value);
                     }}
-                  >
-                    {Ships?.data.map((ship) => (
-                      <option key={ship.id} value={ship.id}>
-                        {ship.name}
-                      </option>
-                    ))}
-                  </select>
+                    type="date"
+                    id="date"
+                    name="birthday"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    defaultValue={selectedDate}
+                  />
                 </div>
               </div>
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="drivers"
+                  htmlFor="country"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Driver
+                  Officer
                 </label>
                 <div className="mt-2">
                   <select
@@ -184,14 +178,14 @@ export function OrderTransaction() {
                     name="country"
                     autoComplete="country-name"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={selectedDriver}
+                    value={selectedOfficer}
                     onChange={(e) => {
-                      setSelectedDriver(Number(e.target.value));
+                      setSelectedOfficer(Number(e.target.value));
                     }}
                   >
-                    {Drivers?.data.map((driver) => (
-                      <option key={driver.id} value={driver.id}>
-                        {driver.username}
+                    {Officer?.data.map((ship) => (
+                      <option key={ship.id} value={ship.id}>
+                        {ship.username}
                       </option>
                     ))}
                   </select>
@@ -314,52 +308,6 @@ export function OrderTransaction() {
                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                   </svg>
                   <p className="text-sm">Add Item</p>
-                </div>
-              </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="date"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Date of Transaction
-                </label>
-                <div className="mt-2">
-                  <input
-                    onChange={(e) => {
-                      setSelectedDate(e.target.value);
-                    }}
-                    type="date"
-                    id="date"
-                    name="birthday"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    defaultValue={selectedDate}
-                  />
-                </div>
-              </div>
-              <div className="sm:col-span-3">
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Officer
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="country"
-                    name="country"
-                    autoComplete="country-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={selectedOfficer}
-                    onChange={(e) => {
-                      setSelectedOfficer(Number(e.target.value));
-                    }}
-                  >
-                    {Officer?.data.map((ship) => (
-                      <option key={ship.id} value={ship.id}>
-                        {ship.username}
-                      </option>
-                    ))}
-                  </select>
                 </div>
               </div>
               {!isPickup ? (
