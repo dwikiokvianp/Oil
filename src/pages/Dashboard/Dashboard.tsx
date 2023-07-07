@@ -71,15 +71,15 @@ export default function Dashboard() {
         )}
         {(ApprovedCustomer?.data.length as number) > 0 ? (
           <TransactionStatus
-            title={"Approved Transaction"}
+            title={"Latest Approved Transaction"}
             data={ApprovedCustomer?.data as TransactionData[]}
           />
         ) : (
-          <TransactionStatusEmpty title={"Approved Transaction"} />
+          <TransactionStatusEmpty title={"Latest Approved Transaction"} />
         )}
         {(PickupCustomer?.data.length as number) > 0 ? (
           <TransactionStatus
-            title={"Pickup Transaction"}
+            title={"Latest Pickup Transaction"}
             data={PickupCustomer?.data as TransactionData[]}
           />
         ) : (
