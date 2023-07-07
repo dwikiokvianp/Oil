@@ -59,6 +59,7 @@ export interface DetailTransaction {
 
 export interface OrderInput {
   id: number;
+  isPickup?: boolean;
   vehicle_id: number;
   oil_id: number;
   email: string;

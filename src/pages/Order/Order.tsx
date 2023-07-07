@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQuery } from "react-query";
 import { getUser } from "../../api/users.service.api.ts";
 import { formatUnixTimestamp } from "../../utils/day.converter.ts";
@@ -144,14 +144,13 @@ export default function Order() {
         <div className="mt-4">
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
             pageCount={isLoading ? 0 : (Users?.total as number)}
             onPageChange={(e) => {
               setIsKeepPreviousData(false);
               setSelectedPage(e.selected + 1);
             }}
-            previousLabel="previous"
-            previousClassName="flex items-center justify-center w-6 h-6 bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
+            previousLabel={<ChevronLeftIcon className="w-5 h-5" />}
+            nextLabel={<ChevronRightIcon className="w-5 h-5" />}
             renderOnZeroPageCount={null}
             containerClassName="flex justify-center gap-x-2 mt-10"
             pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"

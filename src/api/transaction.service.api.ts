@@ -7,22 +7,20 @@ export const transactionService = axios.create({
 
 export const getTransaction = async (
   page?: number,
-  status?: string
+  status?: string,
+  limit?: number
 ): Promise<{
   data: TransactionData[];
   page: number;
   pageSize: number;
   total: number;
 }> => {
-  if (status) {
-    const { data } = await transactionService.get(
-      `/transactions?page=${page}&status=${status}`
-    );
-    return data;
-  } else {
-    const { data } = await transactionService.get(`/transactions?page=${page}`);
-    return data;
-  }
+  const { data } = await transactionService.get(
+    `/transactions?page=${page ?? ""}&status=${status ?? ""}&limit=${
+      limit ?? ""
+    }`
+  );
+  return data;
 };
 
 export const getTransactionById = async (

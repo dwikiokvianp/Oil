@@ -71,6 +71,8 @@ export function OrderTransaction() {
     queryFn: () => getUserById(Number(id)),
   });
 
+  const [isPickup, setIsPickup] = useState(true);
+
   const mutation = useMutation({
     mutationFn: postOrder,
     onMutate: () => {
@@ -90,8 +92,6 @@ export function OrderTransaction() {
     },
   });
 
-  const [isPickup, setIsPickup] = useState(true);
-
   return (
     <div className="ml-8 space-y-10 divide-y divide-gray-900/10 w-full">
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
@@ -110,6 +110,7 @@ export function OrderTransaction() {
               city_id: selectedCity,
               province_id: selectedProvince,
               transaction_detail: detailTransaction,
+              isPickup: isPickup,
             });
           }}
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-3"
@@ -197,7 +198,10 @@ export function OrderTransaction() {
                 </div>
               </div>
               {detailTransaction.map((_, index) => (
-                <div className="sm:col-span-6 grid grid-cols-7 gap-5">
+                <div
+                  key={index}
+                  className="sm:col-span-6 grid grid-cols-7 gap-5"
+                >
                   <div className="sm:col-span-3">
                     <div>
                       <label

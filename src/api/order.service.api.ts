@@ -16,8 +16,12 @@ orderService.interceptors.request.use(checkLocalStorage);
 export const postOrder = async (
   order: OrderInput
 ): Promise<{ message: string }> => {
-  console.log(order, "ini dari order");
-  const { data } = await orderService.post(`/transactions/${order.id}`, order);
+  const { data } = await orderService.post(
+    `/transactions/${order.id}?${
+      order.isPickup ? "status=pickup" : "status=pending"
+    }`,
+    order
+  );
   return data;
 };
 

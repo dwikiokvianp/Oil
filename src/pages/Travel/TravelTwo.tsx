@@ -10,7 +10,6 @@ import {
 import React, { useState } from "react";
 import { getWarehouses } from "../../api/warehouse.service.api.ts";
 import { addNotification } from "../../utils/notification.utils.ts";
-import { useNavigate } from "react-router-dom";
 import { getOil } from "../../api/oil.service.api.ts";
 import {
   getTransaction,
@@ -24,7 +23,6 @@ import { getVehicle } from "../../api/vehicle.service.api.ts";
 import { CustomErrorType } from "../../type/axios.type";
 
 export function TravelTwo() {
-  const navigate = useNavigate();
   const { data: Drivers } = useQuery({
     queryKey: "drivers",
     queryFn: getDrivers,
@@ -123,12 +121,8 @@ export function TravelTwo() {
 
   const mutation = useMutation({
     mutationFn: createTravelDelivery,
-    onMutate: (data) => {
-      console.log(data, "ini dari travel mutation");
-    },
     onSuccess: (data) => {
       addNotification("success", data.message);
-      navigate("/transaction");
     },
     onError: (error: CustomErrorType) => {
       const errors = error.response.data.message;
@@ -152,7 +146,7 @@ export function TravelTwo() {
   return (
     <>
       <div className="grid grid-cols-2 gap-2">
-        <div className="p-8 border rounded-xl h-[48vh]">
+        <div className="p-8 border rounded-xl">
           <div className="grid grid-cols-1 gap-x-8 gap-y-2.5  border-gray-900/10 pb-12 md:grid-cols-3">
             <div className="col-span-3">
               <h2 className="text-base font-semibold leading-7 text-gray-900">

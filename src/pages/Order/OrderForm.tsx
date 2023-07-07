@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { getUserById } from "../../api/users.service.api.ts";
 import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import { OrderTransaction } from "./OrderTransaction.tsx";
+import { getTransactionByUserId } from "../../api/transaction.service.api.ts";
 import { classNames } from "../../utils/class.mapper.utils.ts";
 
 export function OrderForm() {
@@ -11,6 +12,14 @@ export function OrderForm() {
   const { data: User, isLoading } = useQuery({
     queryKey: ["transaction", params.id],
     queryFn: () => getUserById(Number(params.id)),
+  });
+
+  const { data: HistoryTransaction } = useQuery({
+    queryKey: ["history", params.id],
+    queryFn: () => getTransactionByUserId(Number(params.id)),
+    onSuccess: (data) => {
+      console.log(data);
+    },
   });
 
   return (
@@ -138,12 +147,10 @@ export function OrderForm() {
         <div className="col-span-2">
           <OrderTransaction />
         </div>
-        <div className="col-span-2 absolute bottom-5 w-[61vh]">
-          <header>
-            <h1 className="text-lg font-bold text-gray-900">
-              History Transaction
-            </h1>
-          </header>
+        <div className="col-span-2 w-full">
+          <h1 className="text-lg font-bold text-gray-900 mr-20">
+            History Transaction
+          </h1>
           <main className="h-80 rounded">
             <div className="px-4 sm:px-6 lg:px-1">
               <div className=" mt-2 ring-1 ring-gray-900/10 sm:mx-0 sm:rounded-lg">
@@ -177,7 +184,7 @@ export function OrderForm() {
                     </tr>
                   </thead>
                   <tbody>
-                    {plans.map((plan, planIdx) => (
+                    {HistoryTransaction?.data.map((plan, planIdx) => (
                       <tr key={plan.id}>
                         <td
                           className={classNames(
@@ -186,19 +193,17 @@ export function OrderForm() {
                           )}
                         >
                           <div className="font-medium text-gray-900">
-                            {plan.name}
-                            {plan.isCurrent ? (
-                              <span className="ml-1 text-indigo-600">
-                                (Current Plan)
-                              </span>
-                            ) : null}
+                            {plan.transaction_detail.map((item) => (
+                              <div key={item.id}>{item.oil.name}</div>
+                            ))}
                           </div>
                           <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
                             <span>
-                              {plan.memory} / {plan.cpu}
+                              {plan.transaction_detail.map((item) => (
+                                <div key={item.id}>{item.oil.id}</div>
+                              ))}
                             </span>
-                            <span className="hidden sm:inline">·</span>
-                            <span>{plan.storage}</span>
+                            <span>{plan.date}</span>
                           </div>
                           {planIdx !== 0 ? (
                             <div className="absolute -top-px left-6 right-0 h-px bg-gray-200" />
@@ -210,7 +215,9 @@ export function OrderForm() {
                             "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
                           )}
                         >
-                          {plan.memory}
+                          {plan.transaction_detail.map((item) => (
+                            <div key={item.id}>{item.quantity}</div>
+                          ))}
                         </td>
                         <td
                           className={classNames(
@@ -218,16 +225,14 @@ export function OrderForm() {
                             "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
                           )}
                         >
-                          {plan.cpu}
+                          {formatIndonesianTime(plan.date)}
                         </td>
                         <td
                           className={classNames(
                             planIdx === 0 ? "" : "border-t border-gray-200",
                             "hidden px-3 py-3.5 text-sm text-gray-500"
                           )}
-                        >
-                          {plan.storage}
-                        </td>
+                        ></td>
                         <td
                           className={classNames(
                             planIdx === 0 ? "" : "border-t border-transparent",
@@ -237,10 +242,8 @@ export function OrderForm() {
                           <button
                             type="button"
                             className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                            disabled={plan.isCurrent}
                           >
                             Detail
-                            <span className="sr-only">, {plan.name}</span>
                           </button>
                           {planIdx !== 0 ? (
                             <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
@@ -258,45 +261,6 @@ export function OrderForm() {
     </>
   );
 }
-
-const plans = [
-  {
-    id: 1,
-    name: "Oil",
-    memory: "8000",
-    cpu: "24 Juni 2021",
-    storage: "128 ",
-    price: "$40",
-    isCurrent: false,
-  },
-  {
-    id: 2,
-    name: "MFO",
-    memory: "8000",
-    cpu: "24 Juni 2021",
-    storage: "256 ",
-    price: "$80",
-    isCurrent: false,
-  },
-  {
-    id: 3,
-    name: "Oil",
-    memory: "8000",
-    cpu: "25 Juni 2021",
-    storage: "256",
-    price: "$80",
-    isCurrent: false,
-  },
-  {
-    id: 4,
-    name: "MFO",
-    memory: "8000",
-    cpu: "27 Juni 2021",
-    storage: "256",
-    price: "$80",
-    isCurrent: false,
-  },
-];
 
 export function SkeletonForm() {
   return (

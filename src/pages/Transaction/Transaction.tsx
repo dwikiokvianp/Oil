@@ -4,6 +4,7 @@ import { formatIndonesianTime } from "../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 export function Transaction() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export function Transaction() {
               </select>
             </div>
           </div>
-          <div className="mt-8 flow-root h-[60vh]">
+          <div className="mt-8 flow-root ">
             {Transactions?.data.length === 0 ? (
               <div className=" flex justify-center items-center h-full">
                 <p className="text-2xl font-semibold text-gray-500">
@@ -137,17 +138,20 @@ export function Transaction() {
               </div>
             )}
           </div>
-
-          <ReactPaginate
-            breakLabel="..."
-            pageCount={isLoading ? 0 : (Transactions?.total as number)}
-            onPageChange={(e) => {
-              setPage(e.selected + 1);
-            }}
-            renderOnZeroPageCount={null}
-            containerClassName="flex justify-center gap-x-2 mt-4"
-            pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
-          />
+          {Transactions?.data.length === 0 ? null : (
+            <ReactPaginate
+              breakLabel="..."
+              previousLabel={<ChevronLeftIcon className="w-5 h-5" />}
+              nextLabel={<ChevronRightIcon className="w-5 h-5" />}
+              pageCount={isLoading ? 0 : (Transactions?.total as number)}
+              onPageChange={(e) => {
+                setPage(e.selected + 1);
+              }}
+              renderOnZeroPageCount={null}
+              containerClassName="flex justify-center gap-x-2 mt-4"
+              pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
+            />
+          )}
         </div>
       </div>
     </div>
