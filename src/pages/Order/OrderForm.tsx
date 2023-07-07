@@ -59,11 +59,7 @@ export function OrderForm() {
                   </label>
                   <div>
                     <label className="block text-medium font-medium text-black-900">
-                      {isLoading ? (
-                        <SkeletonForm />
-                      ) : (
-                        formatIndonesianTime(User?.data.created_at as string)
-                      )}
+                      {isLoading ? <SkeletonForm /> : <p>7 Juli 2023</p>}
                     </label>
                   </div>
                 </div>
