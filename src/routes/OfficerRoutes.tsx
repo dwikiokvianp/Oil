@@ -1,13 +1,13 @@
 import { RootOfficer } from "../pages/Officer/RootOfficer.tsx";
-import { FuelIn } from "../pages/Officer/Fuel/FuelIn.tsx";
-import { FuelOut } from "../pages/Officer/Fuel/FuelOut.tsx";
-import { TodayOrder } from "../pages/Officer/Fuel/TodayOrder.tsx";
-import { ListOrder } from "../pages/Officer/Fuel/ListOrder.tsx";
-import { Handover } from "../pages/Officer/Fuel/Handover.tsx";
+import { FuelIn } from "../pages/Officer/pages/Fuel/FuelIn.tsx";
+import { FuelOut } from "../pages/Officer/pages/Fuel/FuelOut.tsx";
+import { TodayOrder } from "../pages/Officer/pages/Fuel/TodayOrder.tsx";
+import { ListOrder } from "../pages/Officer/pages/Fuel/ListOrder.tsx";
+import { Handover } from "../pages/Officer/pages/Fuel/Handover.tsx";
 import { redirect } from "react-router-dom";
 import { addNotification } from "../utils/notification.utils.ts";
-import { TransactionDetailOfficer } from "../pages/Officer/Fuel/TransactionDetailOfficer.tsx";
-import { UploadProof } from "../pages/Officer/Fuel/UploadProof.tsx";
+import { TransactionDetailOfficer } from "../pages/Officer/pages/Fuel/TransactionDetailOfficer.tsx";
+import { UploadProof } from "../pages/Officer/pages/Fuel/UploadProof.tsx";
 
 const checkAuth = () => {
   const role = localStorage.getItem("role");

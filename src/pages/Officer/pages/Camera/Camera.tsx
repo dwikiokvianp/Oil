@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
-import { DetailOrder } from "../../components/templates/DetailOrder.tsx";
-import { CameraComponent } from "../../components/organisms/Camera.tsx";
-import { AddPhoto } from "../../components/molecules/AddPhoto.tsx";
+import { DetailOrder } from "../../../../components/templates/DetailOrder.tsx";
+import { CameraComponent } from "../../../../components/organisms/Camera.tsx";
+import { AddPhoto } from "../../../../components/molecules/AddPhoto.tsx";
 import { RefObject, useCallback, useRef, useState } from "react";
 import { CameraDetail, CameraForm } from "./camera.constant.ts";
 import Webcam from "react-webcam";
-import { dataURLtoFile } from "../../utils/camera.utils.ts";
+import { dataURLtoFile } from "../../../../utils/camera.utils.ts";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios from "axios";
-import { addNotification } from "../../utils/notification.utils.ts";
+import { addNotification } from "../../../../utils/notification.utils.ts";
 import {
   getProofByTransactionId,
   getTransactionById,
-} from "../../api/transaction.service.api.ts";
-import ModalTemplateCamera from "../../components/atoms/ModalTemplateCamera.tsx";
+} from "../../../../api/transaction.service.api.ts";
+import ModalTemplateCamera from "../../../../components/atoms/ModalTemplateCamera.tsx";
 
 export function CameraReact() {
   const { orderId } = useParams<{ orderId: string }>();

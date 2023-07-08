@@ -1,7 +1,7 @@
 import {
   userNavigation,
   UserNavigationType,
-} from "../../pages/Home/constant/home.constant.ts";
+} from "../../pages/admin/AdminNavigation/constant/home.constant.ts";
 import { Disclosure } from "@headlessui/react";
 
 export function UserDropdownMobile({

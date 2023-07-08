@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { getTransaction } from "../../api/transaction.service.api.ts";
-import { formatIndonesianTime } from "../../utils/day.converter.ts";
+import { getTransaction } from "../../../../api/transaction.service.api.ts";
+import { formatIndonesianTime } from "../../../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";

@@ -7,14 +7,14 @@ import {
   getLocalStorage,
   LocalStorageKeys,
   removeLocalStorage,
-} from "../../utils/local.storage.utils.ts";
-import { Container } from "../../components/templates/Container.tsx";
-import { NavigationDrawerMobile } from "../../components/organisms/NavigationDrawerMobile.tsx";
-import { RootHeader } from "../../components/templates/RootHeader.tsx";
+} from "../../../utils/local.storage.utils.ts";
+import { Container } from "../../../components/templates/Container.tsx";
+import { NavigationDrawerMobile } from "../../../components/organisms/NavigationDrawerMobile.tsx";
+import { RootHeader } from "../../../components/templates/RootHeader.tsx";
 import {
   addNotification,
   addNotificationWithConfirm,
-} from "../../utils/notification.utils.ts";
+} from "../../../utils/notification.utils.ts";
 
 export default function Home() {
   const navigate = useNavigate();

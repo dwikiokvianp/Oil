@@ -3,7 +3,7 @@ import {
   user,
   userNavigation,
   UserNavigationType,
-} from "../../pages/Home/constant/home.constant.ts";
+} from "../../pages/admin/AdminNavigation/constant/home.constant.ts";
 import { Fragment } from "react";
 import { classNames } from "../../utils/class.mapper.utils.ts";
 

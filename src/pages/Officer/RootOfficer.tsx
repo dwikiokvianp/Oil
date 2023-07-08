@@ -1,6 +1,6 @@
 import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
 import { useEffect, useState } from "react";
-import Scan from "../Scan/Scan.tsx";
+import Scan from "./pages/Scan/Scan.tsx";
 import { OfficerNavigation } from "../../components/organisms/OfficerNavigation.tsx";
 import {
   getLocalStorage,

@@ -1,5 +1,5 @@
 import Webcam from "react-webcam";
-import { videoConstraints } from "../../pages/Camera/camera.constant.ts";
+import { videoConstraints } from "../../pages/Officer/pages/Camera/camera.constant.ts";
 import { AiFillCamera } from "react-icons/ai";
 import { RefObject } from "react";
 import { useState } from "react";

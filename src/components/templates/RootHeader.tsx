@@ -6,7 +6,7 @@ import { MobileMenuIcon } from "../molecules/MobileMenuIcon.tsx";
 import {
   NavigationType,
   UserNavigationType,
-} from "../../pages/Home/constant/home.constant.ts";
+} from "../../pages/admin/AdminNavigation/constant/home.constant.ts";
 
 interface RootHeaderProps {
   navigationBar: NavigationType[];

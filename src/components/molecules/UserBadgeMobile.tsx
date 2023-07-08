@@ -1,4 +1,4 @@
-import { user } from "../../pages/Home/constant/home.constant.ts";
+import { user } from "../../pages/admin/AdminNavigation/constant/home.constant.ts";
 import {
   getLocalStorage,
   LocalStorageKeys,

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { TransactionData } from "../pages/Transaction/transaction.d.type.ts";
+import type { TransactionData } from "../pages/admin/pages/Transaction/transaction.d.type.ts";
 
 export const transactionService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,

@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import * as React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-import { CameraDetail } from "../pages/Camera/camera.constant.ts";
+import { CameraDetail } from "../pages/Officer/pages/Camera/camera.constant.ts";
 
 interface PhotoData {
   id: number;

@@ -1,8 +1,8 @@
 import BarcodeScannerComponent from "react-qr-barcode-scanner";
 import { useState } from "react";
-import { addNotification } from "../../utils/notification.utils.ts";
+import { addNotification } from "../../../../utils/notification.utils.ts";
 import { useQuery } from "react-query";
-import { getTransactionById } from "../../api/transaction.service.api.ts";
+import { getTransactionById } from "../../../../api/transaction.service.api.ts";
 
 export default function Scan({
   setIsValidData,

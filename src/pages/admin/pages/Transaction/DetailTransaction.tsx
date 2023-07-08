@@ -3,9 +3,9 @@ import { useQuery } from "react-query";
 import {
   getTransactionById,
   photo,
-} from "../../api/transaction.service.api.ts";
-import EmbeddedLink from "../../components/EmbeddedLink.tsx";
-import { formatUnixTimestamp } from "../../utils/day.converter.ts";
+} from "../../../../api/transaction.service.api.ts";
+import EmbeddedLink from "../../../../components/EmbeddedLink.tsx";
+import { formatUnixTimestamp } from "../../../../utils/day.converter.ts";
 export function DetailTransaction() {
   const { id } = useParams();
   const { data } = useQuery({

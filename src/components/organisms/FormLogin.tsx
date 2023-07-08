@@ -1,7 +1,7 @@
-import { LoginForm } from "../../pages/Auth/Login/login.constant.ts";
+import { LoginForm } from "../../pages/Auth/pages/Login/login.constant.ts";
 import { ButtonAuth } from "../atoms/ButtonAuth.tsx";
 import { FormEvent } from "react";
-import { LoginInput } from "../../pages/Auth/Login/login.type";
+import { LoginInput } from "../../pages/Auth/pages/Login/login.type";
 
 interface FormLoginProps {
   handleSubmit: (e: FormEvent<HTMLFormElement>, loginData: LoginInput) => void;

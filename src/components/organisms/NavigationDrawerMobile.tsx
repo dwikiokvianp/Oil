@@ -3,7 +3,7 @@ import { classNames } from "../../utils/class.mapper.utils.ts";
 import {
   NavigationType,
   UserNavigationType,
-} from "../../pages/Home/constant/home.constant.ts";
+} from "../../pages/admin/AdminNavigation/constant/home.constant.ts";
 import { UserBadgeMobile } from "../molecules/UserBadgeMobile.tsx";
 import { UserDropdownMobile } from "../molecules/UserDropdownMobile.tsx";
 
