@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import type { UserNavigationType } from "./constant/home.constant.ts";
 import { navigation, NavigationType } from "./constant/home.constant.ts";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getLocalStorage,
   LocalStorageKeys,
@@ -18,18 +18,36 @@ import {
 
 export default function Home() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const role = getLocalStorage(LocalStorageKeys.role);
 
-  let filteredNavigation = [{}];
+  let filteredNavigation: NavigationType[] = [{}];
   if (role === "ADMIN_SALES") {
     filteredNavigation = navigation.slice(0, 4);
   } else if (role === "ADMIN_PUSAT") {
     filteredNavigation = navigation.slice(0, 4);
   }
-
   const [navigationBar, setNavigationBar] = useState<NavigationType[]>(
     filteredNavigation as NavigationType[]
   );
+
+  useEffect(() => {
+    const updatedNavigation = filteredNavigation.map(
+      (navItem: NavigationType) => {
+        const pathNameNow = pathname.split("/")[1];
+
+        const current = navItem.name?.toLowerCase() === pathNameNow;
+
+        if (navItem.name === "Dashboard" && pathNameNow === "") {
+          return { ...navItem, current: true };
+        }
+
+        return { ...navItem, current };
+      }
+    );
+
+    setNavigationBar(updatedNavigation);
+  }, [pathname]);
 
   const handleSignOut = (nav: UserNavigationType) => {
     if (nav.name !== "Sign out") {
@@ -50,13 +68,14 @@ export default function Home() {
       });
     }
   };
+
   const handleOnChangeNavigation = (item: NavigationType) => {
     const updatedNavigation = navigationBar.map((navItem: NavigationType) => {
       const isDashboard = item.name === "Dashboard";
       const current = navItem.name === item.name;
 
       if (current) {
-        navigate(isDashboard ? "/" : `/${item.name.toLowerCase()}`);
+        navigate(isDashboard ? "/" : `/${item.name?.toLowerCase() as string}`);
       }
       return { ...navItem, current };
     });

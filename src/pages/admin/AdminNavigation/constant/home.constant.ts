@@ -1,7 +1,7 @@
 export interface NavigationType {
-  name: string;
-  href: string;
-  current: boolean;
+  name?: string;
+  href?: string;
+  current?: boolean;
 }
 
 export interface UserNavigationType {

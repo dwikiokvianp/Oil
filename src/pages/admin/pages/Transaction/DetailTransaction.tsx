@@ -11,17 +11,12 @@ export function DetailTransaction() {
   const { data } = useQuery({
     queryKey: ["detail-transaction", id],
     queryFn: () => getTransactionById(Number(id)),
-    onSuccess: (data) => {
-      console.log(data.data.qr_code_url);
-    },
   });
 
   const { data: Photo } = useQuery({
     queryKey: ["photo", id],
     queryFn: () => photo(Number(id)),
-    onSuccess: (data) => {
-      console.log(data);
-    },
+    retry: false,
   });
 
   return (
@@ -54,7 +49,7 @@ export function DetailTransaction() {
               </dd>
             </div>
             {data?.data.transaction_detail.map((item, index) => (
-              <>
+              <div key={index}>
                 <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-gray-900">
                     Product {index + 1}
@@ -71,7 +66,7 @@ export function DetailTransaction() {
                     {item.quantity}
                   </dd>
                 </div>
-              </>
+              </div>
             ))}
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900">
@@ -155,12 +150,28 @@ export function DetailTransaction() {
                     />
                   </ul>
                 ) : (
-                  <>Not found</>
+                  <>
+                    <div className="flex justify-center">
+                      <span className="text-sm text-gray-500">
+                        No attachments
+                      </span>
+                    </div>
+                  </>
                 )}
-                <EmbeddedLink
-                  link={data?.data.qr_code_url as string}
-                  fileName={`Qr code`}
-                />
+                {data?.data.qr_code_url ? (
+                  <EmbeddedLink
+                    link={data?.data.qr_code_url as string}
+                    fileName={`Qr code`}
+                  />
+                ) : (
+                  <div>
+                    <div className="flex justify-center">
+                      <span className="text-sm text-gray-500">
+                        No attachments
+                      </span>
+                    </div>
+                  </div>
+                )}
               </dd>
             </div>
           </dl>
