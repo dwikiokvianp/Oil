@@ -81,7 +81,6 @@ export function Travel() {
     mutationKey: "patchTransaction",
     onSuccess: () => {
       travelDeliveryInput.departure_date = new Date().toISOString();
-      console.log(travelDeliveryInput.departure_date, "ini departure date");
       mutation.mutate(travelDeliveryInput);
     },
     onMutate: () => {
@@ -612,21 +611,13 @@ function User({
                     <button
                       type="button"
                       onClick={(e) => {
-                        console.log("clicked");
                         e.preventDefault();
                         setOpen(!open);
                         setIsEnabled(true);
                         setTransactionId(plan.id);
-                        console.log(Transactions);
                         setTransaction((prev) => ({
                           ...prev,
                           data: prev.data.filter((item) => {
-                            console.log(
-                              item.id,
-                              plan.id,
-                              typeof item.id,
-                              typeof plan.id
-                            );
                             return item.id !== plan.id;
                           }),
                         }));
