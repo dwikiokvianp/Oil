@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import authRoutes from "./AuthRoutes.tsx";
 import officerRoutes from "./OfficerRoutes.tsx";
 import driverRoutes from "./DriverRoutes.tsx";
-import adminRoutes from "./HomeRoutes.tsx";
+import adminRoutes from "./AdminRoutes.tsx";
 
 const router = [
   ...adminRoutes,

@@ -17,9 +17,6 @@ export function OrderForm() {
   const { data: HistoryTransaction } = useQuery({
     queryKey: ["history", params.id],
     queryFn: () => getTransactionByUserId(Number(params.id)),
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 
   return (

@@ -2,7 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQuery } from "react-query";
 import { getUser } from "../../../../api/users.service.api.ts";
 import { formatUnixTimestamp } from "../../../../utils/day.converter.ts";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import ModalTemplate from "../../../../components/atoms/ModalTemplate.tsx";
@@ -12,6 +12,7 @@ export default function Order() {
   const [selectedPage, setSelectedPage] = useState(0);
   const [isKeepPreviousData, setIsKeepPreviousData] = useState(true);
   const [queryName, setQueryName] = useState("");
+  const [searchQuery, setSearchQuery] = useSearchParams("");
   const { data: Users, isLoading } = useQuery({
     queryKey: ["users", selectedPage, queryName],
     keepPreviousData: isKeepPreviousData,
@@ -31,6 +32,7 @@ export default function Order() {
       setIsAdminPusat(true);
     }
   }, []);
+
   return (
     <>
       <div className="grid grid-cols-6 gap-2">

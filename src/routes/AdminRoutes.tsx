@@ -13,11 +13,14 @@ async function loaderHome() {
   const token = localStorage.getItem("access_token");
   const role = localStorage.getItem("role");
   if (!token) {
-    await addNotification("info", "Please login first");
+    addNotification("info", "Please login first");
     return redirect("/login");
   } else if (role === "OFFICER") {
-    await addNotification("info", "Coming soon officer feature");
+    addNotification("info", "Coming soon officer feature");
     return redirect("/officer");
+  } else if (role === "DRIVER") {
+    addNotification("info", "You are not allowed to access this page");
+    return redirect("/driver");
   }
   return null;
 }
