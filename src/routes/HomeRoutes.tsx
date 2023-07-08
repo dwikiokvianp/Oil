@@ -22,7 +22,7 @@ async function loaderHome() {
   return null;
 }
 
-const homeRoutes = [
+const adminRoutes = [
   {
     path: "/",
     element: <Home />,
@@ -47,4 +47,4 @@ const homeRoutes = [
   },
 ];
 
-export default homeRoutes;
+export default adminRoutes;
