@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const regionServiceApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 export interface City {
   id: number;
@@ -29,23 +25,23 @@ export interface GetProvinceByIdResponse {
 }
 
 export const getRegionCity = async (): Promise<GetCityResponse> => {
-  const { data } = await regionServiceApi.get("/city");
+  const { data } = await fuelApiService.get("/city");
   return data;
 };
 
 export const getRegionProvince = async (): Promise<GetProvinceResponse> => {
-  const { data } = await regionServiceApi.get("/province");
+  const { data } = await fuelApiService.get("/province");
   return data;
 };
 
 export const getRegionCityById = async (id: number) => {
-  const { data } = await regionServiceApi.get(`/city/${id}`);
+  const { data } = await fuelApiService.get(`/city/${id}`);
   return data;
 };
 
 export const getRegionProvinceById = async (
   id: number
 ): Promise<GetProvinceByIdResponse> => {
-  const { data } = await regionServiceApi.get(`/province/${id}`);
+  const { data } = await fuelApiService.get(`/province/${id}`);
   return data;
 };

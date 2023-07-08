@@ -7,12 +7,9 @@ import type { TransactionData } from "../Transaction/transaction.d.type.ts";
 import { formatUnixTimestamp } from "../../../../utils/day.converter.ts";
 
 export default function Dashboard() {
-  const { data: History } = useQuery({
+  const { data: History, isLoading: isHistoryLoading } = useQuery({
     queryKey: "history",
     queryFn: getHistory,
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
   const { data: PendingCustomer } = useQuery({
     queryKey: "PendingCustomer",
@@ -39,7 +36,11 @@ export default function Dashboard() {
               Total Fuel Out
             </dt>
             <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              {(History?.totalQuantityOut as number) / 1000} KL
+              {!isHistoryLoading ? (
+                (History?.totalQuantityOut as number) / 1000
+              ) : (
+                <div className="animate-pulse bg-gray-200 rounded-lg h-8 w-24"></div>
+              )}
             </dd>
           </div>
           <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 hover:scale-105 duration-100">
@@ -47,7 +48,11 @@ export default function Dashboard() {
               Total Fuel In
             </dt>
             <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              {(History?.totalQuantityIn as number) / 1000} KL
+              {!isHistoryLoading ? (
+                (History?.totalQuantityIn as number) / 1000
+              ) : (
+                <div className="animate-pulse bg-gray-200 rounded-lg h-8 w-24"></div>
+              )}
             </dd>
           </div>
           <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6 hover:scale-105 duration-100">
@@ -55,7 +60,11 @@ export default function Dashboard() {
               Total Quantity Out
             </dt>
             <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
-              {(History?.totalQuantityOut as number) / 1000} KL
+              {!isHistoryLoading ? (
+                (History?.totalQuantityOut as number) / 1000
+              ) : (
+                <div className="animate-pulse bg-gray-200 rounded-lg h-8 w-24"></div>
+              )}
             </dd>
           </div>
         </dl>

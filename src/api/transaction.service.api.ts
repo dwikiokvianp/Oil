@@ -1,9 +1,5 @@
-import axios from "axios";
 import type { TransactionData } from "../pages/admin/pages/Transaction/transaction.d.type.ts";
-
-export const transactionService = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 export const getTransaction = async (
   page?: number,
@@ -15,7 +11,7 @@ export const getTransaction = async (
   pageSize: number;
   total: number;
 }> => {
-  const { data } = await transactionService.get(
+  const { data } = await fuelApiService.get(
     `/transactions?page=${page ?? ""}&status=${status ?? ""}&limit=${
       limit ?? ""
     }`
@@ -28,7 +24,7 @@ export const getTransactionById = async (
 ): Promise<{
   data: TransactionData;
 }> => {
-  const { data } = await transactionService.get(
+  const { data } = await fuelApiService.get(
     `/transactions/${id}?status=approved`
   );
   return data;
@@ -45,7 +41,7 @@ export const photo = async (
     qr_code_url: string;
   };
 }> => {
-  const { data } = await transactionService.get(`/proof/transaction/${id}`);
+  const { data } = await fuelApiService.get(`/proof/transaction/${id}`);
   return data;
 };
 
@@ -54,7 +50,7 @@ export const getTransactionByUserId = async (
 ): Promise<{
   data: TransactionData[];
 }> => {
-  const { data } = await transactionService.get(`/transactions/user/${id}`);
+  const { data } = await fuelApiService.get(`/transactions/user/${id}`);
   return data;
 };
 
@@ -66,11 +62,6 @@ interface TodayTransaction {
   quantity: number;
   status: "pending" | "done";
 }
-
-export const todayTransaction = async (): Promise<TodayTransaction[]> => {
-  const { data } = await transactionService.get("/transactions/today");
-  return data;
-};
 
 export interface ProofTransaction {
   id: number;
@@ -85,7 +76,7 @@ export const getProofByTransactionId = async (
 ): Promise<{
   data: ProofTransaction;
 }> => {
-  const { data } = await transactionService.get(`/proof/transaction/${id}`);
+  const { data } = await fuelApiService.get(`/proof/transaction/${id}`);
   return data;
 };
 
@@ -110,10 +101,10 @@ export const getTodayTransactions = async (
   queryName: string
 ): Promise<TodayTransaction> => {
   if (!queryName) {
-    const { data } = await transactionService.get("/transactions/v2/toda");
+    const { data } = await fuelApiService.get("/transactions/v2/toda");
     return data;
   } else {
-    const { data } = await transactionService.get(
+    const { data } = await fuelApiService.get(
       `/transactions/v2/toda?name=${queryName}`
     );
     return data;
@@ -123,7 +114,7 @@ export const getTodayTransactions = async (
 export const getTomorrowTransactions = async (): Promise<
   TodayTransaction[]
 > => {
-  const { data } = await transactionService.get("/transactions/tomorrow");
+  const { data } = await fuelApiService.get("/transactions/tomorrow");
   return data;
 };
 
@@ -133,7 +124,7 @@ export const getSummaryTransaction = async (): Promise<{
   order_done: number;
   order_today: number;
 }> => {
-  const { data } = await transactionService.get("/transactions/summary");
+  const { data } = await fuelApiService.get("/transactions/summary");
   return data;
 };
 
@@ -162,6 +153,6 @@ export const getHistory = async (): Promise<{
   totalQuantityIn: number;
   totalQuantityOut: number;
 }> => {
-  const { data } = await transactionService.get("/history/today");
+  const { data } = await fuelApiService.get("/history/today");
   return data;
 };

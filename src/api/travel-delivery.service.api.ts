@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const travelDeliveryServiceApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 interface DriverData {
   id: number;
@@ -11,7 +7,7 @@ interface DriverData {
 export const getDrivers = async (): Promise<{
   data: DriverData[];
 }> => {
-  const { data } = await travelDeliveryServiceApi.get("/drivers");
+  const { data } = await fuelApiService.get("/drivers");
   return data;
 };
 
@@ -44,10 +40,7 @@ interface WarehouseDetail {
 }
 
 export const createTravelDelivery = async (inputForm: TravelDeliveryInput) => {
-  const { data } = await travelDeliveryServiceApi.post(
-    "/travel-delivery",
-    inputForm
-  );
+  const { data } = await fuelApiService.post("/travel-delivery", inputForm);
   return data;
 };
 
@@ -64,9 +57,7 @@ interface StorageData {
 }
 
 export const getStorage = async (id: number): Promise<GetStorage> => {
-  const { data } = await travelDeliveryServiceApi.get(
-    `/warehouses/storage/${id}`
-  );
+  const { data } = await fuelApiService.get(`/warehouses/storage/${id}`);
   return data;
 };
 
@@ -81,6 +72,6 @@ export const patchTransactionDelivery = async (
 ): Promise<{
   message: string;
 }> => {
-  const { data } = await travelDeliveryServiceApi.patch(`/transactions`, input);
+  const { data } = await fuelApiService.patch(`/transactions`, input);
   return data;
 };

@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const driverServiceApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 interface DeliveryOrder {
   id: number;
@@ -40,7 +36,7 @@ interface WarehouseDetail {
 export const getDeliveryOrders = async (): Promise<{
   data: DeliveryOrder[];
 }> => {
-  const { data } = await driverServiceApi.get("/drivers/1/transactions");
+  const { data } = await fuelApiService.get("/drivers/1/transactions");
   return data;
 };
 
@@ -52,6 +48,6 @@ interface Driver {
 export const getDrivers = async (): Promise<{
   data: Driver[];
 }> => {
-  const { data } = await driverServiceApi.get("/drivers");
+  const { data } = await fuelApiService.get("/drivers");
   return data;
 };

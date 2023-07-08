@@ -1,11 +1,7 @@
-import axios from "axios";
 import { GetOil } from "../pages/admin/pages/Order/constant/order.constant.ts";
-
-export const oilService = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 export const getOil = async (): Promise<GetOil> => {
-  const { data } = await oilService.get("/oil");
+  const { data } = await fuelApiService.get("/oil");
   return data;
 };

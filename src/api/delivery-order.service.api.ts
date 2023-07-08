@@ -1,9 +1,5 @@
-import axios from "axios";
 import type { TransactionData } from "../pages/admin/pages/Transaction/transaction.d.type.ts";
-
-const deliveryOrderServiceApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 interface DeliveryOrder {
   id: number;
@@ -32,6 +28,6 @@ interface getDeliveryOrdersResponse {
 export const getDeliveryOrdersMobile = async (
   id: number
 ): Promise<getDeliveryOrdersResponse> => {
-  const { data } = await deliveryOrderServiceApi.get(`/delivery-order/${id}`);
+  const { data } = await fuelApiService.get(`/delivery-order/${id}`);
   return data;
 };
