@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GetOil } from "../pages/Order/constant/order.constant.ts";
+import { GetOil } from "../pages/admin/pages/Order/constant/order.constant.ts";
 
 export const oilService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,

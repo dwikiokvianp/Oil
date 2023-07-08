@@ -2,9 +2,9 @@ import { useQuery } from "react-query";
 import {
   getHistory,
   getTransaction,
-} from "../../api/transaction.service.api.ts";
-import type { TransactionData } from "../Transaction/transaction.d.type.ts";
-import { formatUnixTimestamp } from "../../utils/day.converter.ts";
+} from "../../../../api/transaction.service.api.ts";
+import type { TransactionData } from "../../../Transaction/transaction.d.type.ts";
+import { formatUnixTimestamp } from "../../../../utils/day.converter.ts";
 
 export default function Dashboard() {
   const { data: History } = useQuery({

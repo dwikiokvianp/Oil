@@ -1,5 +1,5 @@
-import { AuthHeader } from "../../components/molecules/LoginHeader.tsx";
-import { useLoginStore } from "../../store/login.slice.ts";
+import { AuthHeader } from "../../../components/molecules/LoginHeader.tsx";
+import { useLoginStore } from "../../../store/login.slice.ts";
 
 export default function Register() {
   const isAdmin = useLoginStore((state) => state.isAdmin);

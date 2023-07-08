@@ -1,12 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQuery } from "react-query";
-import { getUser } from "../../api/users.service.api.ts";
-import { formatUnixTimestamp } from "../../utils/day.converter.ts";
+import { getUser } from "../../../../api/users.service.api.ts";
+import { formatUnixTimestamp } from "../../../../utils/day.converter.ts";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import ModalTemplate from "../../components/atoms/ModalTemplate.tsx";
-import { FormAddUser } from "../../components/FormAddUser.tsx";
+import ModalTemplate from "../../../../components/atoms/ModalTemplate.tsx";
+import { FormAddUser } from "../../../../components/FormAddUser.tsx";
 
 export default function Order() {
   const [selectedPage, setSelectedPage] = useState(0);

@@ -5,7 +5,7 @@ import {
   OrderResponse,
   OrderTwoResponse,
 } from "../pages/Order List/order.constant.ts";
-import { OrderInput } from "../pages/Order/constant/order.constant.ts";
+import { OrderInput } from "../pages/admin/pages/Order/constant/order.constant.ts";
 
 const orderService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,

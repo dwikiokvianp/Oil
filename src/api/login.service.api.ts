@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LoginInput, LoginResponse } from "../pages/Login/login.type";
+import { LoginInput, LoginResponse } from "../pages/Auth/Login/login.type";
 
 const userService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,

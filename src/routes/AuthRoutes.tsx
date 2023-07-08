@@ -1,5 +1,5 @@
-import Login from "../pages/Login/Login.tsx";
-import Register from "../pages/Register/Register.tsx";
+import Login from "../pages/Auth/Login/Login.tsx";
+import Register from "../pages/Auth/Register/Register.tsx";
 
 const authRoutes = [
   {

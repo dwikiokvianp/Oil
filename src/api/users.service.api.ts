@@ -1,5 +1,8 @@
 import axios from "axios";
-import { GetOfficer, GetUser } from "../pages/Order/constant/order.constant.ts";
+import {
+  GetOfficer,
+  GetUser,
+} from "../pages/admin/pages/Order/constant/order.constant.ts";
 
 const userService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,

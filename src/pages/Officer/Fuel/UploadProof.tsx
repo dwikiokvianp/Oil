@@ -1,4 +1,4 @@
-import { CameraReact } from "../Camera/Camera.tsx";
+import { CameraReact } from "../../Camera/Camera.tsx";
 
 export function UploadProof() {
   return (

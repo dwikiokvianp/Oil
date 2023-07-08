@@ -1,9 +1,9 @@
-import { HeaderOfficerTitle } from "../../components/molecules/HeaderOfficerTitle.tsx";
-import { OfficerInformationBar } from "../../components/molecules/OfficerInformationBar.tsx";
-import { OfficerHistoryBar } from "../../components/molecules/OfficerHistoryBar.tsx";
+import { HeaderOfficerTitle } from "../../../components/molecules/HeaderOfficerTitle.tsx";
+import { OfficerInformationBar } from "../../../components/molecules/OfficerInformationBar.tsx";
+import { OfficerHistoryBar } from "../../../components/molecules/OfficerHistoryBar.tsx";
 import { useQuery } from "react-query";
-import { getHistory } from "../../api/transaction.service.api.ts";
-import { formatIndonesianTime } from "../../utils/day.converter.ts";
+import { getHistory } from "../../../api/transaction.service.api.ts";
+import { formatIndonesianTime } from "../../../utils/day.converter.ts";
 
 export function FuelOut() {
   const { data } = useQuery({

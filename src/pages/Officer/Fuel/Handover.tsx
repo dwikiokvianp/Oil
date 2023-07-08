@@ -1,4 +1,4 @@
-import { HeaderOfficerTitle } from "../../components/molecules/HeaderOfficerTitle.tsx";
+import { HeaderOfficerTitle } from "../../../components/molecules/HeaderOfficerTitle.tsx";
 import { MdDomainDisabled } from "react-icons/md";
 
 export function Handover() {
