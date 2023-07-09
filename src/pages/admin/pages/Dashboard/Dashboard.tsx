@@ -11,7 +11,7 @@ export default function Dashboard() {
     queryKey: "history",
     queryFn: getHistory,
   });
-  const { data: PendingCustomer } = useQuery({
+  const { data: PendingCustomer, isLoading: isPendingLoading } = useQuery({
     queryKey: "PendingCustomer",
     queryFn: () => getTransaction(1, "pending", 3),
   });
@@ -70,13 +70,19 @@ export default function Dashboard() {
         </dl>
       </div>
       <div className="grid grid-cols-9 gap-5">
-        {(PendingCustomer?.data.length as number) > 0 ? (
-          <TransactionStatus
-            title={"Pending Transaction"}
-            data={PendingCustomer?.data as TransactionData[]}
-          />
+        {isPendingLoading ? (
+          <TransactionStatusSkeleton />
         ) : (
-          <TransactionStatusEmpty title={"Pending Transaction"} />
+          <>
+            {(PendingCustomer?.data.length as number) > 0 ? (
+              <TransactionStatus
+                title={"Pending Transaction"}
+                data={PendingCustomer?.data as TransactionData[]}
+              />
+            ) : (
+              <TransactionStatusEmpty title={"Pending Transaction"} />
+            )}
+          </>
         )}
         {(ApprovedCustomer?.data.length as number) > 0 ? (
           <TransactionStatus
@@ -157,6 +163,21 @@ function TransactionStatusEmpty({ title }: { title: string }) {
           <div className="font-semibold text-slate-700">
             <h1>{title} is empty</h1>
           </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+function TransactionStatusSkeleton() {
+  return (
+    <div className="col-span-3 mt-4 bg-slate-400 animate-pulse">
+      <header>
+        <h1 className="font-semibold"></h1>
+      </header>
+
+      <main className="mt-4">
+        <div className="h-[460px] rounded-xl border shadow-xl flex justify-center items-center">
+          <div className="font-semibold text-slate-700"></div>
         </div>
       </main>
     </div>
