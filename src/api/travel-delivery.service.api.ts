@@ -7,7 +7,7 @@ interface DriverData {
 export const getDrivers = async (): Promise<{
   data: DriverData[];
 }> => {
-  const { data } = await fuelApiService.get("/drivers");
+  const { data } = await fuelApiService.get("/users?role=5");
   return data;
 };
 

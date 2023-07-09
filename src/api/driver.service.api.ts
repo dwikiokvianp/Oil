@@ -48,6 +48,6 @@ interface Driver {
 export const getDrivers = async (): Promise<{
   data: Driver[];
 }> => {
-  const { data } = await fuelApiService.get("/drivers");
+  const { data } = await fuelApiService.get("/users?role=5");
   return data;
 };

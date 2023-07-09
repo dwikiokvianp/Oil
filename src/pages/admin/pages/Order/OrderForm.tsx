@@ -14,9 +14,17 @@ export function OrderForm() {
     queryFn: () => getUserById(Number(params.id)),
   });
 
-  const { data: HistoryTransaction } = useQuery({
+  const {
+    data: HistoryTransaction,
+    isLoading: isHistoryLoading,
+    error: HistoryError,
+  } = useQuery({
     queryKey: ["history", params.id],
     queryFn: () => getTransactionByUserId(Number(params.id)),
+    onSuccess: (data) => {
+      console.log(data.data.length > 0);
+    },
+    retry: false,
   });
 
   return (
@@ -148,103 +156,137 @@ export function OrderForm() {
             <div className="px-4 sm:px-6 lg:px-1">
               <div className=" mt-2 ring-1 ring-gray-900/10 sm:mx-0 sm:rounded-lg">
                 <table className="w-full divide-y divide-gray-900/2">
-                  <thead>
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-gray-900 sm:pl-6"
-                      >
-                        Product
-                      </th>
-                      <th
-                        scope="col"
-                        className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
-                      >
-                        Quantity
-                      </th>
-                      <th
-                        scope="col"
-                        className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
-                      >
-                        Transaction Date
-                      </th>
-                      <th
-                        scope="col"
-                        className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                      >
-                        <span className="sr-only">Select</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {HistoryTransaction?.data.map((plan, planIdx) => (
-                      <tr key={plan.id}>
-                        <td
-                          className={classNames(
-                            planIdx === 0 ? "" : "border-t border-transparent",
-                            "relative py-4 pl-4 pr-3 text-xs sm:pl-6"
-                          )}
-                        >
-                          <div className="font-medium text-gray-900">
-                            {plan.transaction_detail.map((item) => (
-                              <div key={item.id}>{item.oil.name}</div>
-                            ))}
-                          </div>
-                          <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
-                            <span>
-                              {plan.transaction_detail.map((item) => (
-                                <div key={item.id}>{item.oil.id}</div>
-                              ))}
-                            </span>
-                            <span>{plan.date}</span>
-                          </div>
-                          {planIdx !== 0 ? (
-                            <div className="absolute -top-px left-6 right-0 h-px bg-gray-200" />
-                          ) : null}
+                  {isHistoryLoading ? (
+                    <>
+                      <tr>
+                        <td>
+                          <SkeletonForm />
                         </td>
-                        <td
-                          className={classNames(
-                            planIdx === 0 ? "" : "border-t border-gray-200",
-                            "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
-                          )}
-                        >
-                          {plan.transaction_detail.map((item) => (
-                            <div key={item.id}>{item.quantity}</div>
-                          ))}
+                        <td>
+                          <SkeletonForm />
                         </td>
-                        <td
-                          className={classNames(
-                            planIdx === 0 ? "" : "border-t border-gray-200",
-                            "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
-                          )}
-                        >
-                          {formatIndonesianTime(plan.date)}
+                        <td>
+                          <SkeletonForm />
                         </td>
-                        <td
-                          className={classNames(
-                            planIdx === 0 ? "" : "border-t border-gray-200",
-                            "hidden px-3 py-3.5 text-sm text-gray-500"
-                          )}
-                        ></td>
-                        <td
-                          className={classNames(
-                            planIdx === 0 ? "" : "border-t border-transparent",
-                            "relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
-                          )}
-                        >
-                          <button
-                            type="button"
-                            className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                          >
-                            Detail
-                          </button>
-                          {planIdx !== 0 ? (
-                            <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
-                          ) : null}
+                        <td>
+                          <SkeletonForm />
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
+                    </>
+                  ) : (
+                    <>
+                      <tbody>
+                        {HistoryError ? (
+                          <td>No transaction</td>
+                        ) : (
+                          <>
+                            <thead>
+                              <tr>
+                                <th
+                                  scope="col"
+                                  className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-gray-900 sm:pl-6"
+                                >
+                                  Product
+                                </th>
+                                <th
+                                  scope="col"
+                                  className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
+                                >
+                                  Quantity
+                                </th>
+                                <th
+                                  scope="col"
+                                  className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
+                                >
+                                  Transaction Date
+                                </th>
+                                <th
+                                  scope="col"
+                                  className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                                >
+                                  <span className="sr-only">Select</span>
+                                </th>
+                              </tr>
+                            </thead>
+                            {HistoryTransaction?.data.map((plan, planIdx) => (
+                              <tr key={plan.id}>
+                                <td
+                                  className={classNames(
+                                    planIdx === 0
+                                      ? ""
+                                      : "border-t border-transparent",
+                                    "relative py-4 pl-4 pr-3 text-xs sm:pl-6"
+                                  )}
+                                >
+                                  <div className="font-medium text-gray-900">
+                                    {plan.transaction_detail.map((item) => (
+                                      <div key={item.id}>{item.oil.name}</div>
+                                    ))}
+                                  </div>
+                                  <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
+                                    <span>
+                                      {plan.transaction_detail.map((item) => (
+                                        <div key={item.id}>{item.oil.id}</div>
+                                      ))}
+                                    </span>
+                                    <span>{plan.date}</span>
+                                  </div>
+                                </td>
+                                <td
+                                  className={classNames(
+                                    planIdx === 0
+                                      ? ""
+                                      : "border-t border-gray-200",
+                                    "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
+                                  )}
+                                >
+                                  {plan.transaction_detail.map((item) => (
+                                    <div key={item.id}>{item.quantity}</div>
+                                  ))}
+                                </td>
+                                <td
+                                  className={classNames(
+                                    planIdx === 0
+                                      ? ""
+                                      : "border-t border-gray-200",
+                                    "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
+                                  )}
+                                >
+                                  {formatIndonesianTime(plan.date)}
+                                </td>
+                                <td
+                                  className={classNames(
+                                    planIdx === 0
+                                      ? ""
+                                      : "border-t border-gray-200",
+                                    "hidden px-3 py-3.5 text-sm text-gray-500"
+                                  )}
+                                ></td>
+                                <td
+                                  className={classNames(
+                                    planIdx === 0
+                                      ? ""
+                                      : "border-t border-transparent",
+                                    "relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                                  )}
+                                >
+                                  <button
+                                    type="button"
+                                    className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                                  >
+                                    Detail
+                                  </button>
+                                  {planIdx !== 0 ? (
+                                    <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
+                                  ) : null}
+                                </td>
+                              </tr>
+                            ))}
+                          </>
+                        )}
+                      </tbody>
+                    </>
+                  )}
                 </table>
               </div>
             </div>
