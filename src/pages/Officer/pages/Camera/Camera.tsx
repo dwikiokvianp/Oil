@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { DetailOrder } from "../../../../components/templates/DetailOrder.tsx";
 import { CameraComponent } from "../../../../components/organisms/Camera.tsx";
 import { AddPhoto } from "../../../../components/molecules/AddPhoto.tsx";
-import { RefObject, useCallback, useRef, useState } from "react";
+import React, { RefObject, useCallback, useRef, useState } from "react";
 import { CameraDetail, CameraForm } from "./camera.constant.ts";
 import Webcam from "react-webcam";
 import { dataURLtoFile } from "../../../../utils/camera.utils.ts";
@@ -14,9 +14,11 @@ import {
   getTransactionById,
 } from "../../../../api/transaction.service.api.ts";
 import ModalTemplateCamera from "../../../../components/atoms/ModalTemplateCamera.tsx";
+import SignatureCanvas from "react-signature-canvas";
 
 export function CameraReact() {
   const { orderId } = useParams<{ orderId: string }>();
+  const [openSignature, setOpenSignature] = useState(false);
   const [picture, setPicture] = useState<CameraDetail[]>(CameraForm);
   const [openPetugas, setOpenPetugas] = useState(false);
   const [openKtp, setOpenKtp] = useState(false);
@@ -24,6 +26,8 @@ export function CameraReact() {
   const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
   const queryClient = useQueryClient();
   const [isTransactionDone, setIsTransactionDone] = useState(false);
+  const [signature, setSignature] = useState<SignatureCanvas>();
+  const [signatureUrl, setSignatureUrl] = useState("");
   const capture = useCallback(
     (id: number) => {
       const pictureSrc = webcamRef.current?.getScreenshot();
@@ -36,19 +40,17 @@ export function CameraReact() {
     [setPicture]
   );
 
-  const { data: TransactionDetail } = useQuery({
+  useQuery({
     queryKey: ["detail-order", orderId],
     queryFn: () => getTransactionById(Number(orderId)),
     onSuccess: (data) => {
       if (data.data.status === "done") {
         setIsTransactionDone(true);
-      } else {
-        console.log(data.data.status);
       }
     },
   });
 
-  const { data: PhotoProof } = useQuery({
+  useQuery({
     queryKey: ["proof", orderId],
     queryFn: () => getProofByTransactionId(Number(orderId)),
     onSuccess: (data) => {
@@ -65,12 +67,9 @@ export function CameraReact() {
           }
         });
       });
-      console.log(picture, "ini dari setpicture");
     },
   });
 
-  console.log(TransactionDetail, "ini dari transaction detail");
-  console.log(PhotoProof, "ini dari photo proof");
   const mutation = useMutation({
     mutationFn: async (formData: FormData) => {
       const proofService = axios.create({
@@ -117,7 +116,7 @@ export function CameraReact() {
       </div>
       <main>
         <div className="flex justify-center lg:justify-start lg:ml-16">
-          <div className="grid grid-cols-3 gap-5">
+          <div className="grid grid-cols-3 gap-2">
             {!picture[0].photo ? (
               <AddPhoto setOpen={setOpenPetugas} title={"Foto Petugas"} />
             ) : (
@@ -169,6 +168,25 @@ export function CameraReact() {
                 />
               </div>
             )}
+            {!signatureUrl ? (
+              <div className="col-span-3">
+                <AddPhoto title={"Signature"} setOpen={setOpenSignature} />
+              </div>
+            ) : (
+              <div className="col-span-3 border-2 rounded-xl">
+                <p className="text-center text-md font-bold  mt-6 lg:mt-0">
+                  Signature
+                </p>
+                <img
+                  onClick={() => {
+                    setOpenSignature(true);
+                  }}
+                  className="mt-2 lg:mt-0 rounded object-cover col-span-3"
+                  src={signatureUrl}
+                  alt="signature"
+                />
+              </div>
+            )}
           </div>
         </div>
         {isTransactionDone ? (
@@ -188,16 +206,16 @@ export function CameraReact() {
               ) {
                 addNotification("error", "Please upload all photos");
               } else {
-                console.log("masuk");
                 uploadFile(picture);
               }
             }}
-            className="bg-[#D9D9D9] rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-0 lg:ml-14 mt-6"
+            className={`bg-[#D9D9D9] w-full rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-0 lg:ml-14 mt-6`}
           >
-            Upload Foto
+            Upload Bukti
           </button>
         )}
       </main>
+
       <ModalTemplateCamera
         open={openPetugas}
         setOpen={setOpenPetugas}
@@ -223,6 +241,18 @@ export function CameraReact() {
         }
       />
       <ModalTemplateCamera
+        open={openSignature}
+        setOpen={setOpenSignature}
+        innerComponent={
+          <InnerSignature
+            signature={signature as SignatureCanvas}
+            setSignature={setSignature}
+            setUrl={setSignatureUrl}
+            setOpenSignature={setOpenSignature}
+          />
+        }
+      />
+      <ModalTemplateCamera
         open={openTangki}
         setOpen={setOpenTangki}
         innerComponent={
@@ -234,6 +264,43 @@ export function CameraReact() {
           />
         }
       />
+    </div>
+  );
+}
+
+function InnerSignature({
+  signature,
+  setSignature,
+  setUrl,
+  setOpenSignature,
+}: {
+  signature: SignatureCanvas;
+  setSignature: React.Dispatch<SignatureCanvas>;
+  setUrl: React.Dispatch<string>;
+  setOpenSignature: React.Dispatch<boolean>;
+}) {
+  return (
+    <div>
+      <div className="h-[20vh]">
+        <h1 className="font-semibold text-center">Sign Your Signature</h1>
+        <SignatureCanvas
+          penColor="black"
+          canvasProps={{ width: 500, height: 200, className: "sigCanvas" }}
+          ref={(ref) => {
+            setSignature(ref as SignatureCanvas);
+          }}
+        />
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            setUrl(signature.toDataURL());
+            setOpenSignature(false);
+          }}
+        >
+          halo
+        </button>
+      </div>
     </div>
   );
 }
