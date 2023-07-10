@@ -191,7 +191,7 @@ export function CameraReact() {
         </div>
         {isTransactionDone ? (
           <button
-            className="bg-[#D9D9D9] rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-14 mt-6"
+            className={`bg-[#D9D9D9] w-full rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-0 lg:ml-14 mt-6`}
             type="reset"
           >
             Generate Invoice
@@ -283,22 +283,25 @@ function InnerSignature({
     <div>
       <div className="h-[20vh]">
         <h1 className="font-semibold text-center">Sign Your Signature</h1>
-        <SignatureCanvas
-          penColor="black"
-          canvasProps={{ width: 500, height: 200, className: "sigCanvas" }}
-          ref={(ref) => {
-            setSignature(ref as SignatureCanvas);
-          }}
-        />
+        <div className="h-[150px] border-2">
+          <SignatureCanvas
+            penColor="black"
+            canvasProps={{ width: 400, height: 150, className: "sigCanvas" }}
+            ref={(ref) => {
+              setSignature(ref as SignatureCanvas);
+            }}
+          />
+        </div>
       </div>
       <div>
         <button
+          className="bg-[#D9D9D9] w-full rounded p-2 px-4 hover:bg-slate-500 hover:text-white hover:scale-105 duration-100 ml-0 lg:ml-14 mt-6"
           onClick={() => {
             setUrl(signature.toDataURL());
             setOpenSignature(false);
           }}
         >
-          halo
+          Save
         </button>
       </div>
     </div>
