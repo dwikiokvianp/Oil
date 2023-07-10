@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getUserById } from "../../../../api/users.service.api.ts";
 import { formatIndonesianTime } from "../../../../utils/day.converter.ts";
@@ -8,6 +8,7 @@ import { classNames } from "../../../../utils/class.mapper.utils.ts";
 
 export function OrderForm() {
   const params = useParams();
+  const navigate = useNavigate();
 
   const { data: User, isLoading } = useQuery({
     queryKey: ["transaction", params.id],
@@ -273,6 +274,10 @@ export function OrderForm() {
                                   <button
                                     type="button"
                                     className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      navigate(`/transaction/${plan.id}`);
+                                    }}
                                   >
                                     Detail
                                   </button>

@@ -15,6 +15,7 @@ import {
 } from "../../../../api/transaction.service.api.ts";
 import ModalTemplateCamera from "../../../../components/atoms/ModalTemplateCamera.tsx";
 import SignatureCanvas from "react-signature-canvas";
+import { HeaderOfficerTitle } from "../../../../components/molecules/HeaderOfficerTitle.tsx";
 
 export function CameraReact() {
   const { orderId } = useParams<{ orderId: string }>();
@@ -110,7 +111,8 @@ export function CameraReact() {
     mutation.mutate(formData);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2">
+    <div className="grid grid-cols-1 lg:grid-cols-2 m-4">
+      <HeaderOfficerTitle title={"Upload Proof"} />
       <div>
         <DetailOrder id={Number(orderId)} />
       </div>

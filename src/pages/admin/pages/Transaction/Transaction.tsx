@@ -45,6 +45,7 @@ export function Transaction() {
               >
                 <option value={"pending"}>Pending</option>
                 <option value={"approved"}> Approved</option>
+                <option value={"pickup"}> Pickup</option>
               </select>
             </div>
           </div>
@@ -148,8 +149,6 @@ export function Transaction() {
               onPageChange={(e) => {
                 setPage(e.selected + 1);
               }}
-              activeClassName={"text-indigo-600 hover:text-indigo-900"}
-              activeLinkClassName={"cursor-pointer bg-black text-white"}
               containerClassName="flex justify-center gap-x-2 mt-4"
               pageClassName="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 cursor-pointer"
             />

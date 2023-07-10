@@ -1,5 +1,6 @@
 import { useQuery } from "react-query";
 import { getTransactionById } from "../../api/transaction.service.api.ts";
+import React from "react";
 
 export function DetailOrder({ id }: { id: number }) {
   const { data } = useQuery({
@@ -7,7 +8,7 @@ export function DetailOrder({ id }: { id: number }) {
     queryFn: () => getTransactionById(id),
   });
   return (
-    <div className="-mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5  sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16">
+    <div className="-mx-4 px-4 py-8 shadow-sm   sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16">
       <h2 className="text-base font-semibold leading-6 text-gray-900">
         Order Detail
       </h2>
@@ -40,7 +41,7 @@ export function DetailOrder({ id }: { id: number }) {
           </tr>
           {data?.data.transaction_detail.map((item, index) => {
             return (
-              <>
+              <React.Fragment key={index}>
                 <tr className="text-xs border-b border-gray-100">
                   <td className="max-w-0 px-0 py-3 align-top">
                     <div className="font-medium text-gray-900">
@@ -61,7 +62,7 @@ export function DetailOrder({ id }: { id: number }) {
                     {item.quantity}
                   </td>
                 </tr>
-              </>
+              </React.Fragment>
             );
           })}
         </tbody>
