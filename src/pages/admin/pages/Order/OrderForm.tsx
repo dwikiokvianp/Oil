@@ -23,9 +23,6 @@ export function OrderForm() {
   } = useQuery({
     queryKey: ["history", params.id],
     queryFn: () => getTransactionByUserId(Number(params.id)),
-    onSuccess: (data) => {
-      console.log(data.data.length > 0);
-    },
     retry: false,
   });
 
@@ -150,8 +147,8 @@ export function OrderForm() {
         <div className="col-span-2">
           <OrderTransaction />
         </div>
-        <div className="col-span-2 w-full mt-4">
-          <h1 className="text-lg font-bold text-gray-900 mr-20">
+        <div className="col-span-2 w-full mt-8">
+          <h1 className="text-lg font-bold text-gray-900 ml-4 ">
             History Transaction
           </h1>
           <main className="h-80 rounded">
@@ -160,61 +157,61 @@ export function OrderForm() {
                 <table className="w-full divide-y divide-gray-900/2">
                   {isHistoryLoading ? (
                     <>
-                      <tr>
-                        <td>
-                          <SkeletonForm />
-                        </td>
-                        <td>
-                          <SkeletonForm />
-                        </td>
-                        <td>
-                          <SkeletonForm />
-                        </td>
-                        <td>
-                          <SkeletonForm />
-                        </td>
-                      </tr>
+                      <thead>
+                        <tr>
+                          <td>
+                            <SkeletonForm />
+                          </td>
+                          <td>
+                            <SkeletonForm />
+                          </td>
+                          <td>
+                            <SkeletonForm />
+                          </td>
+                          <td>
+                            <SkeletonForm />
+                          </td>
+                        </tr>
+                      </thead>
                     </>
                   ) : (
                     <>
-                      <tbody>
-                        {HistoryError ? (
-                          <React.Fragment>
-                            <h1>
-                              No History Transaction, Please Make a Transaction
-                            </h1>
-                          </React.Fragment>
-                        ) : (
-                          <>
-                            <thead>
-                              <tr>
-                                <th
-                                  scope="col"
-                                  className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-gray-900 sm:pl-6"
-                                >
-                                  Product
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
-                                >
-                                  Quantity
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
-                                >
-                                  Transaction Date
-                                </th>
-                                <th
-                                  scope="col"
-                                  className="relative py-3.5 pl-3 pr-4 sm:pr-6"
-                                >
-                                  <span className="sr-only">Select</span>
-                                </th>
-                              </tr>
-                            </thead>
-                            {HistoryTransaction?.data.map((plan, planIdx) => (
+                      {HistoryError ? (
+                        <React.Fragment>
+                          <h1>
+                            No History Transaction, Please Make a Transaction
+                          </h1>
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <thead>
+                            <tr>
+                              <th
+                                scope="col"
+                                className="py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-gray-900 sm:pl-6"
+                              >
+                                Product
+                              </th>
+                              <th
+                                scope="col"
+                                className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
+                              >
+                                Quantity
+                              </th>
+                              <th
+                                scope="col"
+                                className="hidden px-3 py-3.5 text-left text-xs font-semibold text-gray-900 lg:table-cell"
+                              >
+                                Transaction Date
+                              </th>
+                              <th
+                                scope="col"
+                                className="relative py-3.5 pl-3 pr-4 sm:pr-6"
+                              ></th>
+                            </tr>
+                          </thead>
+                          {HistoryTransaction?.data.map((plan, planIdx) => (
+                            <tbody key={planIdx}>
                               <tr key={plan.id}>
                                 <td
                                   className={classNames(
@@ -228,21 +225,12 @@ export function OrderForm() {
                                     <div key={item.id}>{item.oil.name}</div>
                                   ))}
                                 </td>
-                                <td>
-                                  <div className="mt-1 flex flex-col text-gray-500 sm:block lg:hidden">
-                                    <span>
-                                      {plan.transaction_detail.map((item) => (
-                                        <div key={item.id}>{item.oil.id}</div>
-                                      ))}
-                                    </span>
-                                  </div>
-                                </td>
                                 <td
                                   className={classNames(
                                     planIdx === 0
                                       ? ""
-                                      : "border-t border-gray-200",
-                                    "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
+                                      : "border-t border-transparent",
+                                    "relative py-4 pl-4 pr-3 text-xs sm:pl-6"
                                   )}
                                 >
                                   {plan.transaction_detail.map((item) => (
@@ -253,8 +241,8 @@ export function OrderForm() {
                                   className={classNames(
                                     planIdx === 0
                                       ? ""
-                                      : "border-t border-gray-200",
-                                    "hidden px-3 py-1 text-sm text-gray-500 lg:table-cell"
+                                      : "border-t border-transparent",
+                                    "relative py-4 pl-4 pr-3 text-xs sm:pl-6"
                                   )}
                                 >
                                   {formatIndonesianTime(plan.date)}
@@ -264,7 +252,7 @@ export function OrderForm() {
                                     planIdx === 0
                                       ? ""
                                       : "border-t border-transparent",
-                                    "relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
+                                    "relative py-4 pl-4 pr-3 text-xs sm:pl-6"
                                   )}
                                 >
                                   <button
@@ -277,15 +265,12 @@ export function OrderForm() {
                                   >
                                     Detail
                                   </button>
-                                  {planIdx !== 0 ? (
-                                    <div className="absolute -top-px left-0 right-6 h-px bg-gray-200" />
-                                  ) : null}
                                 </td>
                               </tr>
-                            ))}
-                          </>
-                        )}
-                      </tbody>
+                            </tbody>
+                          ))}
+                        </React.Fragment>
+                      )}
                     </>
                   )}
                 </table>

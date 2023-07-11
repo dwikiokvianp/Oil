@@ -23,7 +23,8 @@ export const addNotification = async (
 
 export const addNotificationWithConfirm = async (
   title?: string,
-  message?: string
+  message?: string,
+  confirmButton?: string
 ) => {
   return await Swal.fire({
     title: title || "Are you sure you want to logout?",
@@ -32,6 +33,6 @@ export const addNotificationWithConfirm = async (
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, logout!",
+    confirmButtonText: confirmButton || "Yes, logout!",
   });
 };

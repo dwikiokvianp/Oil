@@ -116,7 +116,7 @@ interface TransactionStatusProps {
 function TransactionStatus(props: TransactionStatusProps) {
   const navigate = useNavigate();
   return (
-    <div className="mt-4 col-span-3">
+    <div className="mt-4 col-span-9 md:col-span-3">
       <header>
         <h1 className="font-semibold">{props.title}</h1>
       </header>
@@ -149,7 +149,9 @@ function TransactionStatus(props: TransactionStatusProps) {
                     onClick={(e) => {
                       e.preventDefault();
                       addNotificationWithConfirm(
-                        `Are you sure to navigate to ${item.User.username} transaction data?`
+                        `Are you sure to navigate to ${item.User.username} transaction data?`,
+                        "You are about to navigate to transaction data",
+                        "Yes, navigate to transaction data"
                       ).then((res) => {
                         if (res.isConfirmed) {
                           navigate(`/transaction/${item.id}`);
@@ -173,14 +175,14 @@ function TransactionStatus(props: TransactionStatusProps) {
 }
 function TransactionStatusEmpty({ title }: { title: string }) {
   return (
-    <div className="col-span-3 mt-4">
+    <div className="col-span-9 md:col-span-3 mt-4">
       <header>
         <h1 className="font-semibold">{title}</h1>
       </header>
 
       <main className="mt-4">
         <div className="h-[460px] rounded-xl border shadow-xl flex justify-center items-center">
-          <div className="font-semibold text-slate-700">
+          <div className="text-xs sm:text-sm md:text-md font-semibold text-slate-700">
             <h1>{title} is empty</h1>
           </div>
         </div>

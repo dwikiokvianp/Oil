@@ -48,9 +48,6 @@ export function OrderTransaction() {
   const { data: Province } = useQuery({
     queryKey: ["province"],
     queryFn: getRegionProvince,
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 
   useQuery({
@@ -61,9 +58,6 @@ export function OrderTransaction() {
   const { data: City } = useQuery({
     queryKey: ["province", selectedProvince],
     queryFn: () => getRegionProvinceById(selectedProvince),
-    onSuccess: (data) => {
-      console.log(data, "ini dari province dimana ", selectedProvince);
-    },
   });
 
   const { data: User } = useQuery({
@@ -79,16 +73,12 @@ export function OrderTransaction() {
       addNotification("info", "Please wait...");
     },
     onSuccess: (data) => {
-      console.log(data, "ini dari mutation");
       addNotification("success", data.message);
       navigate("/");
     },
     onError: (error: { response: { data: { message: string } } }) => {
       const errorMessage = error.response.data.message;
       addNotification("error", errorMessage);
-    },
-    onSettled: (data, error, variables, context) => {
-      console.log(data, error, variables, context);
     },
   });
 

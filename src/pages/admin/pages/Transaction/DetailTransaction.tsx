@@ -13,7 +13,7 @@ export function DetailTransaction() {
     queryFn: () => getTransactionById(Number(id)),
   });
 
-  const { data: Photo } = useQuery({
+  const { data: Photo, isError: isPhotoError } = useQuery({
     queryKey: ["photo", id],
     queryFn: () => photo(Number(id)),
     retry: false,
@@ -129,9 +129,7 @@ export function DetailTransaction() {
                 Attachments
               </dt>
               <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                {Photo?.data.photo_ktp_url &&
-                Photo?.data.photo_orang_url &&
-                Photo?.data.photo_tangki_url ? (
+                {!isPhotoError ? (
                   <ul
                     role="list"
                     className="divide-y divide-gray-100 rounded-md border border-gray-200"
