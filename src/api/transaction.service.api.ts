@@ -69,6 +69,7 @@ export interface ProofTransaction {
   photo_ktp_url: string;
   photo_orang_url: string;
   photo_tangki_url: string;
+  invoice_url: string;
 }
 
 export const getProofByTransactionId = async (

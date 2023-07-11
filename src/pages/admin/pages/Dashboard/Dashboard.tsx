@@ -5,6 +5,8 @@ import {
 } from "../../../../api/transaction.service.api.ts";
 import type { TransactionData } from "../Transaction/transaction.d.type.ts";
 import { formatUnixTimestamp } from "../../../../utils/day.converter.ts";
+import { useNavigate } from "react-router-dom";
+import { addNotificationWithConfirm } from "../../../../utils/notification.utils.ts";
 
 export default function Dashboard() {
   const { data: History, isLoading: isHistoryLoading } = useQuery({
@@ -24,6 +26,7 @@ export default function Dashboard() {
     queryKey: "PickupCustomer",
     queryFn: () => getTransaction(1, "pickup", 3),
   });
+
   return (
     <>
       <div className="mb-4">
@@ -111,6 +114,7 @@ interface TransactionStatusProps {
 }
 
 function TransactionStatus(props: TransactionStatusProps) {
+  const navigate = useNavigate();
   return (
     <div className="mt-4 col-span-3">
       <header>
@@ -141,7 +145,23 @@ function TransactionStatus(props: TransactionStatusProps) {
                 </div>
                 <div className="p-4 flex flex-col justify-between items-end">
                   <p>{formatUnixTimestamp(item.created_at)}</p>
-                  <p className="text-blue-500 cursor-pointer">View Detail</p>
+                  <p
+                    onClick={(e) => {
+                      e.preventDefault();
+                      addNotificationWithConfirm(
+                        `Are you sure to navigate to ${item.User.username} transaction data?`
+                      ).then((res) => {
+                        if (res.isConfirmed) {
+                          navigate(`/transaction/${item.id}`);
+                        } else {
+                          return;
+                        }
+                      });
+                    }}
+                    className="text-blue-500 cursor-pointer"
+                  >
+                    View Detail
+                  </p>
                 </div>
               </div>
             ))}

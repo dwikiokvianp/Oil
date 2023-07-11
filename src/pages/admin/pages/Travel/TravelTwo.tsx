@@ -144,7 +144,7 @@ export function Travel() {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         <div className="p-8 border rounded-xl">
           <div className="grid grid-cols-1 gap-x-8 gap-y-2.5  border-gray-900/10 pb-12 md:grid-cols-3">
             <div className="col-span-3">
@@ -336,7 +336,7 @@ export function Travel() {
           </div>
         </div>
         <div className="rounded-xl min-h-[48vh] border p-8">
-          <div className="sm:flex sm:items-center mt-2">
+          <div className="sm:flex sm:items-center mt-2 grid grid-cols-1">
             <div className="sm:flex-auto">
               <h1 className="text-base font-semibold leading-6 text-gray-900">
                 Travel Order
