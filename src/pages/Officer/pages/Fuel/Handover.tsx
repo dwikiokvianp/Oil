@@ -7,7 +7,6 @@ import Webcam from "react-webcam";
 import { CameraDetail, HandoverForm } from "../Camera/camera.constant.ts";
 import { useQuery } from "react-query";
 import { getUser } from "../../../../api/users.service.api.ts";
-import type { HandoverProps } from "../../../../api/handover.service.api.ts";
 
 export function Handover() {
   const [openTangki, setOpenTangki] = useState(false);
@@ -16,8 +15,6 @@ export function Handover() {
   const [openPhoto, setOpenPhoto] = useState(false);
 
   const [picture, setPicture] = useState<CameraDetail[]>(HandoverForm);
-
-  const [inputHandover, setInputHandover] = useState<HandoverProps>();
 
   const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
 
