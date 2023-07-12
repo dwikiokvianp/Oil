@@ -7,7 +7,6 @@ import { CameraDetail, CameraForm } from "./camera.constant.ts";
 import Webcam from "react-webcam";
 import { dataURLtoFile } from "../../../../utils/camera.utils.ts";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import axios from "axios";
 import { addNotification } from "../../../../utils/notification.utils.ts";
 import {
   getProofByTransactionId,
@@ -16,6 +15,7 @@ import {
 import ModalTemplateCamera from "../../../../components/atoms/ModalTemplateCamera.tsx";
 import SignatureCanvas from "react-signature-canvas";
 import { HeaderOfficerTitle } from "../../../../components/molecules/HeaderOfficerTitle.tsx";
+import { uploadProof } from "../../../../api/proof.api.service.ts";
 
 export function CameraReact() {
   const { orderId } = useParams<{ orderId: string }>();
@@ -72,18 +72,7 @@ export function CameraReact() {
   });
 
   const mutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const proofService = axios.create({
-        baseURL: import.meta.env.VITE_BASE_URL,
-      });
-      const { data } = await proofService.post(`/proof/${orderId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      return data;
-    },
+    mutationFn: uploadProof,
     onMutate: () => {
       addNotification("info", "Uploading your transaction proof");
     },
@@ -108,6 +97,7 @@ export function CameraReact() {
       formData.append(item.name, file, `${item.name}-${random}.jpg`);
     });
 
+    formData.set("signature", orderId as string);
     mutation.mutate(formData);
   };
   return (
