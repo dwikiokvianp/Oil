@@ -8,10 +8,12 @@ const userService = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
 });
 export const getUser = async (userData: {
-  page: number;
+  page?: number;
   queryName?: string;
+  role?: number;
 }): Promise<GetUser> => {
   userData.page = userData.page || 1;
+  const queryRole = userData.role ? `${userData.role}` : "4";
   if (userData.queryName) {
     const { data } = await userService.get(
       `/users?role=3&page=${userData.page}&username=${userData.queryName}`
@@ -19,7 +21,7 @@ export const getUser = async (userData: {
     return data;
   } else {
     const { data } = await userService.get(
-      `/users?role=4&page=${userData.page}`
+      `/users?role=${queryRole}&page=${userData.page}`
     );
     return data;
   }

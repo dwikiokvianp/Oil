@@ -8,8 +8,10 @@ export function AddPhoto({
   setOpen: (value: boolean) => void;
 }) {
   return (
-    <div className="w-full">
-      <h1 className="font-Montserrat text-xs mt-4 md:mt-0">{title}</h1>
+    <div className="w-full ">
+      <h1 className="font-Montserrat text-center text-xs mt-4 md:mt-0">
+        {title}
+      </h1>
       <div
         onClick={() => {
           setOpen(true);

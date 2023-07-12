@@ -24,11 +24,11 @@ export function CameraReact() {
   const [openPetugas, setOpenPetugas] = useState(false);
   const [openKtp, setOpenKtp] = useState(false);
   const [openTangki, setOpenTangki] = useState(false);
-  const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
   const queryClient = useQueryClient();
   const [isTransactionDone, setIsTransactionDone] = useState(false);
   const [signature, setSignature] = useState<SignatureCanvas>();
   const [signatureUrl, setSignatureUrl] = useState("");
+  const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
   const capture = useCallback(
     (id: number) => {
       const pictureSrc = webcamRef.current?.getScreenshot();

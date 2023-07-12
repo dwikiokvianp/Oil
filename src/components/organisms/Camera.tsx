@@ -21,7 +21,23 @@ export function CameraComponent({
   return (
     <div>
       <h2 className="mb-5 text-center font-bold">
-        {id === 1 ? "Photo Petugas" : id === 2 ? "Photo KTP" : "Photo Tangki"}
+        {(() => {
+          switch (id) {
+            case 1:
+              return "Photo Petugas";
+            case 2:
+              return "Photo KTP";
+            case 3:
+            case 5:
+              return "Photo Tangki";
+            case 4:
+              return "Photo Kebersihan";
+            case 6:
+              return "Photo Level Gauge";
+            default:
+              return "Photo Pompa";
+          }
+        })()}
       </h2>
       <div className="">
         <div className=" bg-slate-200 flex justify-center items-center">
