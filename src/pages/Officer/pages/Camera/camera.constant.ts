@@ -55,5 +55,7 @@ export const HandoverForm = [
 export const videoConstraints = {
   width: 400,
   height: 400,
-  facingMode: "user",
+  facingMode: {
+    exact: "environment",
+  },
 };
