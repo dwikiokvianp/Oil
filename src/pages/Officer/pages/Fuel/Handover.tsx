@@ -8,12 +8,22 @@ import { CameraDetail, HandoverForm } from "../Camera/camera.constant.ts";
 import { useQuery } from "react-query";
 import { getUser } from "../../../../api/users.service.api.ts";
 
+interface HandoverProps {
+  condition: string;
+  officer_id: string;
+  message: string;
+}
+
 export function Handover() {
   const [openTangki, setOpenTangki] = useState(false);
   const [openKebersihan, setOpenKebersihan] = useState(false);
   const [openLevelGauge, setOpenLevelGauge] = useState(false);
   const [openPhoto, setOpenPhoto] = useState(false);
+
   const [picture, setPicture] = useState<CameraDetail[]>(HandoverForm);
+
+  const [inputHandover, setInputHandover] = useState<HandoverProps>();
+
   const webcamRef: RefObject<Webcam> = useRef<Webcam>(null);
 
   const capture = useCallback(
@@ -57,6 +67,17 @@ export function Handover() {
                   id="first-name"
                   autoComplete="given-name"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    setInputHandover((prevInput) => ({
+                      ...prevInput,
+                      condition: e.target.value,
+                    }));
+                    console.log({
+                      ...inputHandover,
+                    });
+                  }}
                 />
               </div>
             </div>
@@ -71,10 +92,20 @@ export function Handover() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
-                  autoComplete="family-name"
+                  name="message"
+                  id="message"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    setInputHandover((prevInput) => ({
+                      ...prevInput,
+                      message: e.target.value,
+                    }));
+                    console.log({
+                      ...inputHandover,
+                    });
+                  }}
                 />
               </div>
             </div>
@@ -92,6 +123,17 @@ export function Handover() {
                   name="country"
                   autoComplete="country-name"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  onChange={(e) => {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    setInputHandover((prevInput) => ({
+                      ...prevInput,
+                      officer_id: e.target.value,
+                    }));
+                    console.log({
+                      ...inputHandover,
+                    });
+                  }}
                 >
                   {OfficerList?.data.map((item) => (
                     <option key={item.id} value={item.id}>
