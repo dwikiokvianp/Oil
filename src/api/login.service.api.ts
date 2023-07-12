@@ -2,16 +2,16 @@ import {
   LoginInput,
   LoginResponse,
 } from "../pages/Auth/pages/Login/login.type";
-import { fuelApiService } from "./axios.config.ts";
+import { fuelApiNoAuth } from "./axios.config.ts";
 
 export const submitLogin = async (
   userLogin: LoginInput
 ): Promise<LoginResponse> => {
-  const { data } = await fuelApiService.post("/auth/login", userLogin);
+  const { data } = await fuelApiNoAuth.post("/auth/login", userLogin);
   return data;
 };
 
 export const submitRegister = async (userRegister: LoginInput) => {
-  const { data } = await fuelApiService.post("/register", userRegister);
+  const { data } = await fuelApiNoAuth.post("/register", userRegister);
   return data;
 };

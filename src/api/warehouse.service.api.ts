@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const warehouseServiceApi = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 interface WarehouseData {
   id: number;
@@ -11,6 +7,6 @@ interface WarehouseData {
 }
 
 export const getWarehouses = async (): Promise<WarehouseData[]> => {
-  const { data } = await warehouseServiceApi.get("/warehouses");
+  const { data } = await fuelApiService.get("/warehouses");
   return data;
 };

@@ -7,12 +7,7 @@ import Webcam from "react-webcam";
 import { CameraDetail, HandoverForm } from "../Camera/camera.constant.ts";
 import { useQuery } from "react-query";
 import { getUser } from "../../../../api/users.service.api.ts";
-
-interface HandoverProps {
-  condition: string;
-  officer_id: string;
-  message: string;
-}
+import type { HandoverProps } from "../../../../api/handover.service.api.ts";
 
 export function Handover() {
   const [openTangki, setOpenTangki] = useState(false);
@@ -28,7 +23,6 @@ export function Handover() {
 
   const capture = useCallback(
     (id: number) => {
-      console.log("capture", id);
       const pictureSrc = webcamRef.current?.getScreenshot();
       setPicture((prevPicture) =>
         prevPicture.map((item) =>
@@ -74,9 +68,6 @@ export function Handover() {
                       ...prevInput,
                       condition: e.target.value,
                     }));
-                    console.log({
-                      ...inputHandover,
-                    });
                   }}
                 />
               </div>
@@ -102,9 +93,6 @@ export function Handover() {
                       ...prevInput,
                       message: e.target.value,
                     }));
-                    console.log({
-                      ...inputHandover,
-                    });
                   }}
                 />
               </div>
@@ -130,9 +118,6 @@ export function Handover() {
                       ...prevInput,
                       officer_id: e.target.value,
                     }));
-                    console.log({
-                      ...inputHandover,
-                    });
                   }}
                 >
                   {OfficerList?.data.map((item) => (

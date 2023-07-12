@@ -1,12 +1,9 @@
-import axios from "axios";
 import {
   GetOfficer,
   GetUser,
 } from "../pages/admin/pages/Order/constant/order.constant.ts";
+import { fuelApiNoAuth, fuelApiService } from "./axios.config.ts";
 
-const userService = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
 export const getUser = async (userData: {
   page?: number;
   queryName?: string;
@@ -15,12 +12,12 @@ export const getUser = async (userData: {
   userData.page = userData.page || 1;
   const queryRole = userData.role ? `${userData.role}` : "4";
   if (userData.queryName) {
-    const { data } = await userService.get(
+    const { data } = await fuelApiService.get(
       `/users?role=3&page=${userData.page}&username=${userData.queryName}`
     );
     return data;
   } else {
-    const { data } = await userService.get(
+    const { data } = await fuelApiService.get(
       `/users?role=${queryRole}&page=${userData.page}`
     );
     return data;
@@ -32,12 +29,12 @@ export const getUserById = async (
 ): Promise<{
   data: User;
 }> => {
-  const { data } = await userService.get(`/users/${id}`);
+  const { data } = await fuelApiService.get(`/users/${id}`);
   return data;
 };
 
 export const getOfficer = async (): Promise<GetOfficer> => {
-  const { data } = await userService.get(`/officer/`);
+  const { data } = await fuelApiService.get(`/officer/`);
   return data;
 };
 
@@ -92,7 +89,7 @@ export async function registerUser(
   registerForm: RegisterForm
 ): Promise<RegisterResponse> {
   registerForm.company_id = Number(registerForm.company_id);
-  const { data } = await userService.post("/auth/register", registerForm);
+  const { data } = await fuelApiNoAuth.post("/auth/register", registerForm);
   return data;
 }
 
@@ -107,7 +104,7 @@ interface Company {
 export const getCompany = async (): Promise<{
   data: Company[];
 }> => {
-  const { data } = await userService.get(`/company`);
+  const { data } = await fuelApiService.get(`/company`);
   return data;
 };
 
@@ -119,6 +116,6 @@ interface NoPaginateUser {
 export const getUserWithoutPagination = async (): Promise<{
   data: NoPaginateUser[];
 }> => {
-  const { data } = await userService.get(`/users/no-paginate`);
+  const { data } = await fuelApiService.get(`/users/no-paginate`);
   return data;
 };

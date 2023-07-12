@@ -1,12 +1,8 @@
-import axios from "axios";
 import { GetVehicle } from "../pages/admin/pages/Order/constant/order.constant.ts";
-
-export const vehicleService = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
-});
+import { fuelApiService } from "./axios.config.ts";
 
 export const getVehicle = async (): Promise<GetVehicle> => {
-  const { data } = await vehicleService.get("/vehicle/");
+  const { data } = await fuelApiService.get("/vehicle/");
   return data;
 };
 
@@ -14,6 +10,6 @@ export const createVehicle = async (vehicle: {
   name: string;
   vehicle_type_id: number;
 }): Promise<{ message: string }> => {
-  const { data } = await vehicleService.post(`/vehicle/`, vehicle);
+  const { data } = await fuelApiService.post(`/vehicle/`, vehicle);
   return data;
 };
